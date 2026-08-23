@@ -40,18 +40,18 @@ export default function LandingPage() {
   const [activePortalTab, setActivePortalTab] = useState<'hospitals' | 'government' | 'researchers'>('hospitals')
 
   return (
-    <div className="min-h-screen bg-[#0F2756] text-[#F1F5F9] flex flex-col selection:bg-portal-orange/20 selection:text-portal-orange antialiased overflow-x-hidden">
+    <div className="min-h-screen bg-nexora-bg-base text-nexora-text-primary flex flex-col selection:bg-nexora-orange-500/20 selection:text-nexora-orange-400 antialiased overflow-x-hidden">
       <Navbar />
 
-      {/* HERO SECTION — VIBRANT LIGHT BLUE HIGH-TRUST PORTAL */}
-      <section className="relative pt-36 pb-20 md:pt-40 md:pb-28 overflow-hidden bg-gradient-to-b from-[#2563EB] via-[#1D4ED8] to-[#0F2756]">
-        {/* Interactive React Bits DotGrid Background Canvas in Crisp Sky Blue */}
-        <div className="absolute inset-0 z-0 opacity-40 pointer-events-none">
+      {/* HERO SECTION — TRUST-FIRST HIGH-PRECISION PORTAL */}
+      <section className="relative pt-36 pb-20 md:pt-40 md:pb-28 overflow-hidden bg-nexora-bg-surface bg-nexora-hero">
+        {/* Interactive React Bits DotGrid Background Canvas in Dark Steel Blue & Orange Accent */}
+        <div className="absolute inset-0 z-0 opacity-25 pointer-events-none">
           <DotGrid 
             dotSize={3.5}
             gap={26}
-            baseColor="#93C5FD"
-            activeColor="#F5820D"
+            baseColor="#1E2740"
+            activeColor="#E0821F"
             proximity={140}
             shockRadius={220}
             shockStrength={4}
@@ -59,42 +59,42 @@ export default function LandingPage() {
           />
         </div>
 
-        {/* Radiant Ambient Light Blue Glow */}
-        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[750px] h-[450px] bg-gradient-to-tr from-sky-400/30 via-blue-300/20 to-transparent rounded-full blur-[140px] pointer-events-none"></div>
+        {/* Ambient Structural Steel Glow */}
+        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[750px] h-[450px] bg-gradient-to-tr from-nexora-steel-700/20 via-nexora-steel-500/10 to-transparent rounded-full blur-[160px] pointer-events-none"></div>
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 space-y-8">
           <div className="text-center max-w-4xl mx-auto space-y-6">
             {/* Two-Tone Headline */}
-            <h1 className="font-display font-black text-4xl sm:text-6xl md:text-7xl tracking-tight text-white leading-[1.12] drop-shadow-sm">
+            <h1 className="font-display font-black text-4xl sm:text-6xl md:text-7xl tracking-tight text-nexora-text-primary leading-[1.12] drop-shadow-sm">
               Healthcare access, <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#F5820D] via-[#FFA34D] to-[#FFD5A3]">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-nexora-orange-400 via-[#FFA34D] to-nexora-orange-500">
                 without giving up your privacy.
               </span>
             </h1>
 
             {/* Sub-headline */}
-            <p className="font-sans text-base sm:text-lg md:text-xl text-blue-50 max-w-3xl mx-auto leading-relaxed font-medium drop-shadow-sm">
+            <p className="font-sans text-base sm:text-lg md:text-xl text-nexora-text-secondary max-w-3xl mx-auto leading-relaxed font-medium drop-shadow-sm">
               Nexora is a privacy-first multi-agent healthcare network where patients, hospitals, and government services communicate and collaborate through AI agents while blockchain and zero-knowledge technology protect patient control and trust.
             </p>
 
             {/* Hero CTAs */}
             <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-4">
-              {/* Primary CTA */}
+              {/* Primary CTA (Green Status for Launch / Positive Action) */}
               <Link
                 href="/dashboard/agents"
-                className="w-full sm:w-auto px-8 py-4 rounded-xl bg-[#2E7D32] hover:bg-[#256629] text-white font-bold text-xs uppercase tracking-wider transition-all shadow-xl hover:shadow-green-950/40 flex items-center justify-center gap-2.5 group active:scale-[0.99]"
+                className="w-full sm:w-auto px-8 py-4 rounded-xl bg-nexora-green-status hover:bg-[#1b8552] text-white font-bold text-xs uppercase tracking-wider transition-all shadow-xl hover:shadow-emerald-950/40 flex items-center justify-center gap-2.5 group active:scale-[0.99]"
               >
                 <span>Launch Multi-Agent Enclave</span>
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </Link>
 
-              {/* Secondary CTA */}
+              {/* Secondary CTA (Steel-blue structural button) */}
               <Link
                 href="/architecture"
-                className="w-full sm:w-auto px-7 py-4 rounded-xl bg-[#152A63]/90 hover:bg-[#1C357A] text-white border-2 border-blue-300/40 hover:border-portal-orange text-xs font-mono font-bold transition-all flex items-center justify-center gap-2 tracking-wide shadow-lg backdrop-blur-md"
+                className="w-full sm:w-auto px-7 py-4 rounded-xl bg-nexora-bg-elevated hover:bg-nexora-bg-elevated-2 text-nexora-text-primary border border-nexora-border-strong hover:border-nexora-steel-400 text-xs font-mono font-bold transition-all flex items-center justify-center gap-2 tracking-wide shadow-lg backdrop-blur-md"
               >
                 <span>Technical Architecture</span>
-                <span className="text-portal-orange">→</span>
+                <span className="text-nexora-orange-400">→</span>
               </Link>
             </div>
           </div>
@@ -110,25 +110,25 @@ export default function LandingPage() {
       <HashSplitDemo />
 
       {/* PROBLEM / SOLUTION STRIP: FEDERATED LEARNING CONTRAST */}
-      <section className="py-20 bg-[#133266] border-y-2 border-blue-400/20 relative">
+      <section className="py-20 bg-nexora-bg-base border-y border-nexora-border-subtle relative">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
           <div className="text-center max-w-3xl mx-auto space-y-3">
-            <span className="font-mono text-xs text-portal-orange font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-portal-orange/15 border border-portal-orange/30">
+            <span className="font-mono text-xs text-nexora-orange-400 font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-[rgba(224,130,31,0.12)] border border-nexora-orange-500/30">
               Privacy Paradigm Shift
             </span>
-            <h2 className="font-display text-2xl sm:text-4xl font-black tracking-tight text-white">
+            <h2 className="font-display text-2xl sm:text-4xl font-black tracking-tight text-nexora-text-primary">
               Why Existing Healthcare AI Breaches Patient Trust
             </h2>
-            <p className="text-sm sm:text-base font-sans text-blue-100 leading-relaxed">
+            <p className="text-sm sm:text-base font-sans text-nexora-text-secondary leading-relaxed">
               Traditional healthcare AI hoards sensitive medical records in centralized cloud databases. Nexora flips the paradigm with edge compute and federated learning.
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch">
             {/* The Old Way */}
-            <div className="p-8 rounded-2xl bg-[#0F224D] border border-red-400/30 shadow-xl relative flex flex-col justify-between space-y-6 hover:border-red-400/50 transition-all">
+            <div className="p-8 rounded-2xl bg-nexora-bg-elevated border border-red-500/30 shadow-xl relative flex flex-col justify-between space-y-6 hover:border-red-500/50 transition-all">
               <div className="space-y-4">
-                <div className="flex items-center justify-between pb-4 border-b border-blue-900/60">
+                <div className="flex items-center justify-between pb-4 border-b border-nexora-border-subtle">
                   <div className="flex items-center gap-2.5 text-red-400 font-display font-bold text-lg">
                     <AlertTriangle className="w-5 h-5 shrink-0" />
                     <span>The Old Way (Centralized AI)</span>
@@ -139,71 +139,71 @@ export default function LandingPage() {
                 </div>
 
                 <div className="space-y-3.5 text-xs font-sans">
-                  <div className="p-4 rounded-xl bg-[#091838] border border-blue-900/60 space-y-1.5">
-                    <div className="flex items-center gap-2 text-white font-bold">
+                  <div className="p-4 rounded-xl bg-nexora-bg-elevated-2 border border-nexora-border-subtle space-y-1.5">
+                    <div className="flex items-center gap-2 text-nexora-text-primary font-bold">
                       <Building2 className="w-4 h-4 text-red-400 shrink-0" />
                       <span>Hospitals A, B, C transmit raw patient records</span>
                     </div>
-                    <p className="text-blue-200/80 leading-relaxed pl-6">
+                    <p className="text-nexora-text-secondary leading-relaxed pl-6">
                       Scans, clinical notes, and genomic sequences uploaded to third-party tech giants.
                     </p>
                   </div>
 
-                  <div className="p-4 rounded-xl bg-[#091838] border border-blue-900/60 space-y-1.5">
+                  <div className="p-4 rounded-xl bg-nexora-bg-elevated-2 border border-nexora-border-subtle space-y-1.5">
                     <div className="flex items-center gap-2 text-red-400 font-bold">
                       <Database className="w-4 h-4 shrink-0" />
                       <span>Honeypot Centralized Database</span>
                     </div>
-                    <p className="text-blue-200/80 leading-relaxed pl-6">
+                    <p className="text-nexora-text-secondary leading-relaxed pl-6">
                       Vulnerable to ransomware, catastrophic data leaks, and unauthorized commercial exploitation.
                     </p>
                   </div>
                 </div>
               </div>
 
-              <div className="pt-4 border-t border-blue-900/60 flex items-center gap-2 text-red-300 text-xs font-mono font-semibold">
+              <div className="pt-4 border-t border-nexora-border-subtle flex items-center gap-2 text-red-300 text-xs font-mono font-semibold">
                 <AlertTriangle className="w-3.5 h-3.5 shrink-0" />
                 <span>Patients lose all control, ownership, and visibility once uploaded.</span>
               </div>
             </div>
 
             {/* The Nexora Way */}
-            <div className="p-8 rounded-2xl bg-[#0F224D] border border-portal-green/50 shadow-xl relative flex flex-col justify-between space-y-6 hover:border-portal-green/70 transition-all">
+            <div className="p-8 rounded-2xl bg-nexora-bg-elevated border border-nexora-green-status/40 shadow-xl relative flex flex-col justify-between space-y-6 hover:border-nexora-green-status/60 transition-all">
               <div className="space-y-4">
-                <div className="flex items-center justify-between pb-4 border-b border-blue-900/60">
-                  <div className="flex items-center gap-2.5 text-portal-green font-display font-bold text-lg">
+                <div className="flex items-center justify-between pb-4 border-b border-nexora-border-subtle">
+                  <div className="flex items-center gap-2.5 text-nexora-green-status font-display font-bold text-lg">
                     <CheckCircle2 className="w-5 h-5 shrink-0" />
                     <span>The Nexora Way (Federated Learning)</span>
                   </div>
-                  <span className="px-2.5 py-1 rounded-full bg-portal-green/15 border border-portal-green/40 text-portal-green text-xs font-mono font-bold">
+                  <span className="px-2.5 py-1 rounded-full bg-nexora-green-status/15 border border-nexora-green-status/40 text-nexora-green-status text-xs font-mono font-bold">
                     Zero Trust ✓
                   </span>
                 </div>
 
                 <div className="space-y-3.5 text-xs font-sans">
-                  <div className="p-4 rounded-xl bg-[#091838] border border-blue-900/60 space-y-1.5">
-                    <div className="flex items-center gap-2 text-white font-bold">
-                      <Cpu className="w-4 h-4 text-portal-green shrink-0" />
+                  <div className="p-4 rounded-xl bg-nexora-bg-elevated-2 border border-nexora-border-subtle space-y-1.5">
+                    <div className="flex items-center gap-2 text-nexora-text-primary font-bold">
+                      <Cpu className="w-4 h-4 text-nexora-green-status shrink-0" />
                       <span>Local On-Premise Training Only</span>
                     </div>
-                    <p className="text-blue-100 leading-relaxed pl-6">
+                    <p className="text-nexora-text-secondary leading-relaxed pl-6">
                       Each hospital trains AI locally behind its firewall. Raw patient records never leave the hospital premise.
                     </p>
                   </div>
 
-                  <div className="p-4 rounded-xl bg-[#091838] border border-blue-900/60 space-y-1.5">
-                    <div className="flex items-center gap-2 text-portal-orange font-bold">
+                  <div className="p-4 rounded-xl bg-nexora-bg-elevated-2 border border-nexora-border-subtle space-y-1.5">
+                    <div className="flex items-center gap-2 text-nexora-orange-400 font-bold">
                       <ShieldCheck className="w-4 h-4 shrink-0" />
                       <span>Encrypted Weight Updates Only</span>
                     </div>
-                    <p className="text-blue-100 leading-relaxed pl-6">
+                    <p className="text-nexora-text-secondary leading-relaxed pl-6">
                       Only mathematical gradient parameters are shared to improve the global diagnostic model via secure multiparty computation.
                     </p>
                   </div>
                 </div>
               </div>
 
-              <div className="pt-4 border-t border-blue-900/60 flex items-center gap-2 text-portal-green text-xs font-mono font-semibold">
+              <div className="pt-4 border-t border-nexora-border-subtle flex items-center gap-2 text-nexora-green-status text-xs font-mono font-semibold">
                 <CheckCircle2 className="w-3.5 h-3.5 shrink-0" />
                 <span>Patient consent cryptographically enforced via smart contracts.</span>
               </div>
@@ -213,95 +213,95 @@ export default function LandingPage() {
       </section>
 
       {/* THREE PILLARS SECTION */}
-      <section className="py-20 relative bg-[#0F2756]">
+      <section className="py-20 relative bg-nexora-bg-surface">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
           <div className="text-center max-w-3xl mx-auto space-y-3">
-            <span className="font-mono text-xs text-portal-orange font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-portal-orange/15 border border-portal-orange/30">
+            <span className="font-mono text-xs text-nexora-orange-400 font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-[rgba(224,130,31,0.12)] border border-nexora-orange-500/30">
               Architecture Core
             </span>
-            <h2 className="font-display text-3xl sm:text-4xl font-black tracking-tight text-white">
+            <h2 className="font-display text-3xl sm:text-4xl font-black tracking-tight text-nexora-text-primary">
               The Three Pillars of Nexora
             </h2>
-            <p className="text-sm sm:text-base font-sans text-blue-100">
+            <p className="text-sm sm:text-base font-sans text-nexora-text-secondary">
               AI is the interface, not the trust layer. Trust is guaranteed through cryptography.
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
             {/* Pillar 1: Healthcare Access */}
-            <div className="p-7 rounded-2xl bg-[#132A5E] border border-blue-400/20 hover:border-portal-orange/50 shadow-xl space-y-6 flex flex-col justify-between transition-all group">
+            <div className="p-7 rounded-2xl bg-nexora-bg-elevated border border-nexora-border-subtle hover:border-nexora-border-strong shadow-xl space-y-6 flex flex-col justify-between transition-all group">
               <div className="space-y-3.5">
-                <div className="w-12 h-12 rounded-xl bg-portal-orange/20 border border-portal-orange/40 flex items-center justify-center text-portal-orange group-hover:scale-105 transition-transform">
+                <div className="w-12 h-12 rounded-xl bg-nexora-steel-700/40 border border-nexora-steel-500/40 flex items-center justify-center text-nexora-steel-300 group-hover:scale-105 transition-transform">
                   <Activity className="w-6 h-6 stroke-[2.2]" />
                 </div>
-                <h3 className="font-display text-xl font-bold text-white">
+                <h3 className="font-display text-xl font-bold text-nexora-text-primary">
                   1. Healthcare Access
                 </h3>
-                <p className="text-xs sm:text-sm font-sans text-blue-100 leading-relaxed">
+                <p className="text-xs sm:text-sm font-sans text-nexora-text-secondary leading-relaxed">
                   Discover and book certified cardiologists, endocrinologists, diagnostic labs, and hospitals with verified credentials and transparent pricing.
                 </p>
               </div>
 
-              <div className="p-3.5 rounded-xl bg-[#0B1A3B] border border-blue-900/60 font-mono text-xs space-y-2">
-                <div className="flex justify-between text-blue-200">
+              <div className="p-3.5 rounded-xl bg-nexora-bg-elevated-2 border border-nexora-border-subtle font-mono text-xs space-y-2">
+                <div className="flex justify-between text-nexora-text-secondary">
                   <span>Provider Search:</span>
-                  <span className="text-portal-orange font-bold">DID-Verified</span>
+                  <span className="text-nexora-orange-400 font-bold">DID-Verified</span>
                 </div>
-                <div className="flex justify-between text-blue-200">
+                <div className="flex justify-between text-nexora-text-secondary">
                   <span>Booking Event:</span>
-                  <span className="text-white font-bold">Consent Tx Created</span>
+                  <span className="text-nexora-text-primary font-bold">Consent Tx Created</span>
                 </div>
               </div>
             </div>
 
             {/* Pillar 2: Multi-Agent Layer */}
-            <div className="p-7 rounded-2xl bg-[#132A5E] border border-blue-400/20 hover:border-portal-orange/50 shadow-xl space-y-6 flex flex-col justify-between transition-all group">
+            <div className="p-7 rounded-2xl bg-nexora-bg-elevated border border-nexora-border-subtle hover:border-nexora-border-strong shadow-xl space-y-6 flex flex-col justify-between transition-all group">
               <div className="space-y-3.5">
-                <div className="w-12 h-12 rounded-xl bg-portal-orange/20 border border-portal-orange/40 flex items-center justify-center text-portal-orange group-hover:scale-105 transition-transform">
+                <div className="w-12 h-12 rounded-xl bg-[rgba(224,130,31,0.15)] border border-nexora-orange-500/30 flex items-center justify-center text-nexora-orange-400 group-hover:scale-105 transition-transform">
                   <Bot className="w-6 h-6 stroke-[2.2]" />
                 </div>
-                <h3 className="font-display text-xl font-bold text-portal-orange">
+                <h3 className="font-display text-xl font-bold text-nexora-orange-400">
                   2. Multi-Agent Layer
                 </h3>
-                <p className="text-xs sm:text-sm font-sans text-blue-100 leading-relaxed">
+                <p className="text-xs sm:text-sm font-sans text-nexora-text-secondary leading-relaxed">
                   Patient Agent, Hospital Agents, and Government Agents autonomously communicate to route requests, check slots, and verify subsidies.
                 </p>
               </div>
 
-              <div className="p-3.5 rounded-xl bg-[#0B1A3B] border border-blue-900/60 font-mono text-xs space-y-2">
-                <div className="flex items-center justify-between text-blue-200">
+              <div className="p-3.5 rounded-xl bg-nexora-bg-elevated-2 border border-nexora-border-subtle font-mono text-xs space-y-2">
+                <div className="flex items-center justify-between text-nexora-text-secondary">
                   <span>Patient ⇄ Hosp ⇄ Gov:</span>
-                  <span className="text-portal-orange font-bold">Agentic P2P</span>
+                  <span className="text-nexora-orange-400 font-bold">Agentic P2P</span>
                 </div>
-                <div className="flex items-center justify-between text-blue-200">
+                <div className="flex items-center justify-between text-nexora-text-secondary">
                   <span>Privacy Buffer:</span>
-                  <span className="text-portal-green font-bold">Zero Data Leak ✓</span>
+                  <span className="text-nexora-green-status font-bold">Zero Data Leak ✓</span>
                 </div>
               </div>
             </div>
 
             {/* Pillar 3: Privacy & Trust */}
-            <div className="p-7 rounded-2xl bg-[#132A5E] border border-blue-400/20 hover:border-portal-green/50 shadow-xl space-y-6 flex flex-col justify-between transition-all group">
+            <div className="p-7 rounded-2xl bg-nexora-bg-elevated border border-nexora-border-subtle hover:border-nexora-border-strong shadow-xl space-y-6 flex flex-col justify-between transition-all group">
               <div className="space-y-3.5">
-                <div className="w-12 h-12 rounded-xl bg-portal-green/20 border border-portal-green/40 flex items-center justify-center text-portal-green group-hover:scale-105 transition-transform">
+                <div className="w-12 h-12 rounded-xl bg-nexora-green-status/15 border border-nexora-green-status/30 flex items-center justify-center text-nexora-green-status group-hover:scale-105 transition-transform">
                   <ShieldCheck className="w-6 h-6 stroke-[2.2]" />
                 </div>
-                <h3 className="font-display text-xl font-bold text-white">
+                <h3 className="font-display text-xl font-bold text-nexora-text-primary">
                   3. Privacy & Trust Layer
                 </h3>
-                <p className="text-xs sm:text-sm font-sans text-blue-100 leading-relaxed">
+                <p className="text-xs sm:text-sm font-sans text-nexora-text-secondary leading-relaxed">
                   W3C DIDs, Verifiable Credentials, Smart Consent Contracts, Zero-Knowledge Proofs, and an immutable audit trail guarantee patient sovereignty.
                 </p>
               </div>
 
-              <div className="p-3.5 rounded-xl bg-[#0B1A3B] border border-blue-900/60 font-mono text-xs space-y-2">
-                <div className="flex justify-between text-blue-200">
+              <div className="p-3.5 rounded-xl bg-nexora-bg-elevated-2 border border-nexora-border-subtle font-mono text-xs space-y-2">
+                <div className="flex justify-between text-nexora-text-secondary">
                   <span>Medical Records:</span>
-                  <span className="text-portal-green font-bold">Off-Chain IPFS</span>
+                  <span className="text-nexora-green-status font-bold">Off-Chain IPFS</span>
                 </div>
-                <div className="flex justify-between text-blue-200">
+                <div className="flex justify-between text-nexora-text-secondary">
                   <span>On-Chain Layer:</span>
-                  <span className="text-white font-bold">Proofs & Consents</span>
+                  <span className="text-nexora-text-primary font-bold">Proofs & Consents</span>
                 </div>
               </div>
             </div>
@@ -310,16 +310,16 @@ export default function LandingPage() {
       </section>
 
       {/* HOW CONSENT WORKS: 4-STEP FLOW */}
-      <section className="py-20 bg-[#133266] border-y-2 border-blue-400/20">
+      <section className="py-20 bg-nexora-bg-base border-y border-nexora-border-subtle">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
           <div className="text-center max-w-2xl mx-auto space-y-3">
-            <span className="font-mono text-xs text-portal-orange font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-portal-orange/15 border border-portal-orange/30">
+            <span className="font-mono text-xs text-nexora-orange-400 font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-[rgba(224,130,31,0.12)] border border-nexora-orange-500/30">
               Cryptographic Protocol
             </span>
-            <h2 className="font-display text-3xl sm:text-4xl font-black tracking-tight text-white">
+            <h2 className="font-display text-3xl sm:text-4xl font-black tracking-tight text-nexora-text-primary">
               How Smart Consent Works
             </h2>
-            <p className="text-sm sm:text-base font-sans text-blue-100">
+            <p className="text-sm sm:text-base font-sans text-nexora-text-secondary">
               Every data access request is gated by an immutable, time-limited smart contract.
             </p>
           </div>
@@ -359,32 +359,32 @@ export default function LandingPage() {
               return (
                 <div
                   key={index}
-                  className="p-6 rounded-2xl bg-[#0F224D] border border-blue-400/20 hover:border-portal-orange/50 shadow-lg flex flex-col justify-between space-y-5 transition-all group"
+                  className="p-6 rounded-2xl bg-nexora-bg-elevated border border-nexora-border-subtle hover:border-nexora-border-strong shadow-lg flex flex-col justify-between space-y-5 transition-all group"
                 >
                   <div className="space-y-4">
                     <div className="flex items-center justify-between">
-                      <span className="font-mono text-xs font-bold text-portal-orange px-2 py-0.5 rounded bg-portal-orange/15 border border-portal-orange/40">
+                      <span className="font-mono text-xs font-bold text-nexora-orange-400 px-2 py-0.5 rounded bg-[rgba(224,130,31,0.12)] border border-nexora-orange-500/30">
                         STEP {flow.step}
                       </span>
-                      <span className="px-2 py-0.5 rounded bg-[#091838] text-[10px] font-mono text-blue-200 border border-blue-900/60 font-bold">
+                      <span className="px-2 py-0.5 rounded bg-nexora-bg-elevated-2 text-[10px] font-mono text-nexora-steel-300 border border-nexora-border-subtle font-bold">
                         {flow.badge}
                       </span>
                     </div>
 
-                    <div className="p-2.5 rounded-xl bg-portal-orange/20 text-portal-orange w-fit">
+                    <div className="p-2.5 rounded-xl bg-nexora-steel-700/40 text-nexora-steel-300 border border-nexora-steel-500/40 w-fit">
                       <Icon className="w-5 h-5" />
                     </div>
 
-                    <h4 className="font-sans font-bold text-base text-white">
+                    <h4 className="font-sans font-bold text-base text-nexora-text-primary">
                       {flow.title}
                     </h4>
 
-                    <p className="text-xs font-sans text-blue-100 leading-relaxed">
+                    <p className="text-xs font-sans text-nexora-text-secondary leading-relaxed">
                       {flow.desc}
                     </p>
                   </div>
 
-                  <div className="pt-3 border-t border-blue-900/60 text-[11px] font-mono text-portal-green font-bold flex items-center gap-1.5">
+                  <div className="pt-3 border-t border-nexora-border-subtle text-[11px] font-mono text-nexora-green-status font-bold flex items-center gap-1.5">
                     <CheckCircle2 className="w-3.5 h-3.5" />
                     <span>Cryptographically Enforced ✓</span>
                   </div>
@@ -396,25 +396,25 @@ export default function LandingPage() {
       </section>
 
       {/* FOR HOSPITALS / GOVERNMENT / RESEARCHERS PORTALS */}
-      <section className="py-20 bg-[#0F2756]">
+      <section className="py-20 bg-nexora-bg-surface">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
           <div className="text-center max-w-2xl mx-auto space-y-3">
-            <span className="font-mono text-xs text-portal-orange font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-portal-orange/15 border border-portal-orange/30">
+            <span className="font-mono text-xs text-nexora-orange-400 font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-[rgba(224,130,31,0.12)] border border-nexora-orange-500/30">
               Ecosystem Interfaces
             </span>
-            <h2 className="font-display text-3xl sm:text-4xl font-black tracking-tight text-white">
+            <h2 className="font-display text-3xl sm:text-4xl font-black tracking-tight text-nexora-text-primary">
               Built for Every Healthcare Stakeholder
             </h2>
           </div>
 
           {/* Tabs */}
-          <div className="flex justify-center gap-2 sm:gap-4 border-b border-blue-400/20 pb-5">
+          <div className="flex justify-center gap-2 sm:gap-4 border-b border-nexora-border-subtle pb-5">
             <button
               onClick={() => setActivePortalTab('hospitals')}
               className={`px-5 py-3 rounded-xl text-xs font-mono font-bold transition-all flex items-center gap-2 ${
                 activePortalTab === 'hospitals'
-                  ? 'bg-portal-orange text-white shadow-lg shadow-orange-950/40'
-                  : 'bg-[#132A5E] text-blue-100 hover:text-white border border-blue-400/20'
+                  ? 'bg-nexora-orange-500 text-nexora-text-on-orange shadow-lg shadow-orange-950/40'
+                  : 'bg-nexora-bg-elevated text-nexora-text-secondary hover:text-nexora-text-primary border border-nexora-border-subtle'
               }`}
             >
               <Building2 className="w-4 h-4" />
@@ -425,8 +425,8 @@ export default function LandingPage() {
               onClick={() => setActivePortalTab('government')}
               className={`px-5 py-3 rounded-xl text-xs font-mono font-bold transition-all flex items-center gap-2 ${
                 activePortalTab === 'government'
-                  ? 'bg-portal-orange text-white shadow-lg shadow-orange-950/40'
-                  : 'bg-[#132A5E] text-blue-100 hover:text-white border border-blue-400/20'
+                  ? 'bg-nexora-orange-500 text-nexora-text-on-orange shadow-lg shadow-orange-950/40'
+                  : 'bg-nexora-bg-elevated text-nexora-text-secondary hover:text-nexora-text-primary border border-nexora-border-subtle'
               }`}
             >
               <Landmark className="w-4 h-4" />
@@ -437,8 +437,8 @@ export default function LandingPage() {
               onClick={() => setActivePortalTab('researchers')}
               className={`px-5 py-3 rounded-xl text-xs font-mono font-bold transition-all flex items-center gap-2 ${
                 activePortalTab === 'researchers'
-                  ? 'bg-portal-orange text-white shadow-lg shadow-orange-950/40'
-                  : 'bg-[#132A5E] text-blue-100 hover:text-white border border-blue-400/20'
+                  ? 'bg-nexora-orange-500 text-nexora-text-on-orange shadow-lg shadow-orange-950/40'
+                  : 'bg-nexora-bg-elevated text-nexora-text-secondary hover:text-nexora-text-primary border border-nexora-border-subtle'
               }`}
             >
               <Microscope className="w-4 h-4" />
@@ -447,34 +447,34 @@ export default function LandingPage() {
           </div>
 
           {/* Tab Content Panels */}
-          <div className="p-8 sm:p-10 rounded-2xl bg-[#132A5E] border border-blue-400/30 shadow-2xl">
+          <div className="p-8 sm:p-10 rounded-2xl bg-nexora-bg-elevated border border-nexora-border-strong shadow-2xl">
             {activePortalTab === 'hospitals' && (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
                 <div className="space-y-5">
-                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-blue-500/20 text-blue-200 text-xs font-mono font-bold border border-blue-400/40">
+                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-nexora-steel-700/30 text-nexora-steel-300 text-xs font-mono font-bold border border-nexora-steel-500/40">
                     <Building2 className="w-3.5 h-3.5" />
                     <span>Hospital Portal</span>
                   </div>
-                  <h3 className="font-display text-2xl sm:text-3xl font-bold text-white leading-snug">
+                  <h3 className="font-display text-2xl sm:text-3xl font-bold text-nexora-text-primary leading-snug">
                     Federated AI Training & Clinical Scheduling
                   </h3>
-                  <p className="text-sm font-sans text-blue-100 leading-relaxed">
+                  <p className="text-sm font-sans text-nexora-text-secondary leading-relaxed">
                     Deploy local agent nodes behind your hospital firewall. Train diagnostic AI models without exposing patient health information (PHI), and receive autonomous booking requests directly via DID-verified channels.
                   </p>
-                  <ul className="space-y-2.5 text-xs font-sans text-blue-100">
-                    <li className="flex items-center gap-2 text-white font-medium">
-                      <CheckCircle2 className="w-4 h-4 text-portal-green shrink-0" />
+                  <ul className="space-y-2.5 text-xs font-sans text-nexora-text-secondary">
+                    <li className="flex items-center gap-2 text-nexora-text-primary font-medium">
+                      <CheckCircle2 className="w-4 h-4 text-nexora-green-status shrink-0" />
                       <span>On-premises federated learning node controls</span>
                     </li>
-                    <li className="flex items-center gap-2 text-white font-medium">
-                      <CheckCircle2 className="w-4 h-4 text-portal-green shrink-0" />
+                    <li className="flex items-center gap-2 text-nexora-text-primary font-medium">
+                      <CheckCircle2 className="w-4 h-4 text-nexora-green-status shrink-0" />
                       <span>Verifiable Credential issuance for hospital medical staff</span>
                     </li>
                   </ul>
                   <div className="pt-2">
                     <Link
                       href="/hospital-portal/ai-training"
-                      className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl bg-[#2E7D32] hover:bg-[#256629] text-white font-bold text-xs uppercase tracking-wider transition-all shadow-md active:scale-[0.99]"
+                      className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl bg-nexora-green-status hover:bg-[#1b8552] text-white font-bold text-xs uppercase tracking-wider transition-all shadow-md active:scale-[0.99]"
                     >
                       <span>Open Hospital Portal</span>
                       <ArrowRight className="w-4 h-4" />
@@ -482,19 +482,19 @@ export default function LandingPage() {
                   </div>
                 </div>
 
-                <div className="p-6 rounded-xl bg-[#0B1A3B] border border-blue-900/70 border-l-4 border-l-portal-blue shadow-inner">
+                <div className="p-6 rounded-xl bg-nexora-bg-elevated-2 border border-nexora-border-strong border-l-4 border-l-nexora-steel-500 shadow-inner">
                   <div className="flex items-center justify-between mb-4 text-xs font-mono">
-                    <span className="text-blue-100 font-bold">Node Status: Apex Heart Node #01</span>
-                    <span className="text-portal-green font-bold">Connected (Round #142) ✓</span>
+                    <span className="text-nexora-text-primary font-bold">Node Status: Apex Heart Node #01</span>
+                    <span className="text-nexora-green-status font-bold">Connected (Round #142) ✓</span>
                   </div>
                   <div className="space-y-2.5 font-mono text-xs">
-                    <div className="p-3.5 rounded-lg bg-[#132A5E] border border-blue-900/60 flex justify-between">
-                      <span className="text-blue-200">Local PHI Records:</span>
-                      <span className="text-portal-orange font-bold">100% In-Hospital Boundary</span>
+                    <div className="p-3.5 rounded-lg bg-nexora-bg-surface border border-nexora-border-subtle flex justify-between">
+                      <span className="text-nexora-text-secondary">Local PHI Records:</span>
+                      <span className="text-nexora-orange-400 font-bold">100% In-Hospital Boundary</span>
                     </div>
-                    <div className="p-3.5 rounded-lg bg-[#132A5E] border border-blue-900/60 flex justify-between">
-                      <span className="text-blue-200">Model Shared:</span>
-                      <span className="text-portal-green font-bold">Gradients Only (zk-Aggregated)</span>
+                    <div className="p-3.5 rounded-lg bg-nexora-bg-surface border border-nexora-border-subtle flex justify-between">
+                      <span className="text-nexora-text-secondary">Model Shared:</span>
+                      <span className="text-nexora-green-status font-bold">Gradients Only (zk-Aggregated)</span>
                     </div>
                   </div>
                 </div>
@@ -504,20 +504,20 @@ export default function LandingPage() {
             {activePortalTab === 'government' && (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
                 <div className="space-y-5">
-                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-portal-green/20 text-portal-green text-xs font-mono font-bold border border-portal-green/40">
+                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-nexora-green-status/20 text-nexora-green-status text-xs font-mono font-bold border border-nexora-green-status/40">
                     <Landmark className="w-3.5 h-3.5" />
                     <span>Government Portal</span>
                   </div>
-                  <h3 className="font-display text-2xl sm:text-3xl font-bold text-white leading-snug">
+                  <h3 className="font-display text-2xl sm:text-3xl font-bold text-nexora-text-primary leading-snug">
                     Zero-Knowledge Subsidy & Scheme Administration
                   </h3>
-                  <p className="text-sm font-sans text-blue-100 leading-relaxed">
+                  <p className="text-sm font-sans text-nexora-text-secondary leading-relaxed">
                     Verify citizen eligibility for specialized subsidies and healthcare grants in milliseconds using zero-knowledge proofs without collecting or storing citizens' private tax documents.
                   </p>
                   <div className="pt-2">
                     <Link
                       href="/gov-portal"
-                      className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl bg-[#2E7D32] hover:bg-[#256629] text-white font-bold text-xs uppercase tracking-wider transition-all shadow-md active:scale-[0.99]"
+                      className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl bg-nexora-green-status hover:bg-[#1b8552] text-white font-bold text-xs uppercase tracking-wider transition-all shadow-md active:scale-[0.99]"
                     >
                       <span>Open Government Portal</span>
                       <ArrowRight className="w-4 h-4" />
@@ -525,14 +525,14 @@ export default function LandingPage() {
                   </div>
                 </div>
 
-                <div className="p-6 rounded-xl bg-[#0B1A3B] border border-blue-900/70 border-l-4 border-l-portal-green font-mono text-xs space-y-3 shadow-inner">
-                  <div className="text-blue-100 font-bold">ZK-Verification Queue:</div>
-                  <div className="p-3.5 rounded-lg bg-[#132A5E] border border-blue-900/60 flex justify-between items-center">
+                <div className="p-6 rounded-xl bg-nexora-bg-elevated-2 border border-nexora-border-strong border-l-4 border-l-nexora-green-status font-mono text-xs space-y-3 shadow-inner">
+                  <div className="text-nexora-text-primary font-bold">ZK-Verification Queue:</div>
+                  <div className="p-3.5 rounded-lg bg-nexora-bg-surface border border-nexora-border-subtle flex justify-between items-center">
                     <div>
-                      <span className="text-white block font-sans font-bold">Scheme #CARDIO-2026</span>
-                      <span className="text-[11px] text-blue-200">Citizen: did:nexora:pat:8f9a...</span>
+                      <span className="text-nexora-text-primary block font-sans font-bold">Scheme #CARDIO-2026</span>
+                      <span className="text-[11px] text-nexora-text-muted">Citizen: did:nexora:pat:8f9a...</span>
                     </div>
-                    <span className="px-3 py-1 rounded-md bg-portal-green/20 text-portal-green text-xs font-bold">
+                    <span className="px-3 py-1 rounded-md bg-nexora-green-status/20 text-nexora-green-status text-xs font-bold">
                       Proof Valid ✓
                     </span>
                   </div>
@@ -543,20 +543,20 @@ export default function LandingPage() {
             {activePortalTab === 'researchers' && (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
                 <div className="space-y-5">
-                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-purple-500/20 text-purple-200 text-xs font-mono font-bold border border-purple-400/40">
+                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-nexora-steel-700/30 text-nexora-steel-300 text-xs font-mono font-bold border border-nexora-steel-500/40">
                     <Microscope className="w-3.5 h-3.5" />
                     <span>Researcher Portal</span>
                   </div>
-                  <h3 className="font-display text-2xl sm:text-3xl font-bold text-white leading-snug">
+                  <h3 className="font-display text-2xl sm:text-3xl font-bold text-nexora-text-primary leading-snug">
                     Anonymized Research & ZK-Gated Cohort Queries
                   </h3>
-                  <p className="text-sm font-sans text-blue-100 leading-relaxed">
+                  <p className="text-sm font-sans text-nexora-text-secondary leading-relaxed">
                     Query epidemiologic trends, rare variant correlations, and treatment outcomes across participating hospitals with differential privacy guarantees (k-anonymity=50).
                   </p>
                   <div className="pt-2">
                     <Link
                       href="/research"
-                      className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl bg-[#2E7D32] hover:bg-[#256629] text-white font-bold text-xs uppercase tracking-wider transition-all shadow-md active:scale-[0.99]"
+                      className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl bg-nexora-green-status hover:bg-[#1b8552] text-white font-bold text-xs uppercase tracking-wider transition-all shadow-md active:scale-[0.99]"
                     >
                       <span>Open Research Portal</span>
                       <ArrowRight className="w-4 h-4" />
@@ -564,11 +564,11 @@ export default function LandingPage() {
                   </div>
                 </div>
 
-                <div className="p-6 rounded-xl bg-[#0B1A3B] border border-blue-900/70 border-l-4 border-l-purple-500 font-mono text-xs space-y-3 shadow-inner">
-                  <div className="text-blue-100 font-bold">Research Request Matrix:</div>
-                  <div className="p-3.5 rounded-lg bg-[#132A5E] border border-blue-900/60 space-y-1">
-                    <span className="text-white block font-sans font-bold">Cardiovascular Cohort 2026</span>
-                    <span className="text-[11px] text-portal-green font-bold block">ZK-Differential Privacy Protocol Active ✓</span>
+                <div className="p-6 rounded-xl bg-nexora-bg-elevated-2 border border-nexora-border-strong border-l-4 border-l-nexora-steel-500 font-mono text-xs space-y-3 shadow-inner">
+                  <div className="text-nexora-text-primary font-bold">Research Request Matrix:</div>
+                  <div className="p-3.5 rounded-lg bg-nexora-bg-surface border border-nexora-border-subtle space-y-1">
+                    <span className="text-nexora-text-primary block font-sans font-bold">Cardiovascular Cohort 2026</span>
+                    <span className="text-[11px] text-nexora-green-status font-bold block">ZK-Differential Privacy Protocol Active ✓</span>
                   </div>
                 </div>
               </div>
@@ -578,10 +578,10 @@ export default function LandingPage() {
       </section>
 
       {/* TRUST & TECHNICAL CREDIBILITY STRIP */}
-      <section className="py-16 bg-[#133266] border-t-2 border-blue-400/20">
+      <section className="py-16 bg-nexora-bg-base border-t border-nexora-border-subtle">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
           <div className="text-center">
-            <span className="font-mono text-xs text-portal-orange font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-portal-orange/15 border border-portal-orange/30">
+            <span className="font-mono text-xs text-nexora-orange-400 font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-[rgba(224,130,31,0.12)] border border-nexora-orange-500/30">
               Cryptographic & Security Foundation
             </span>
           </div>
@@ -597,13 +597,13 @@ export default function LandingPage() {
               return (
                 <div
                   key={idx}
-                  className="p-5 rounded-2xl bg-[#0F224D] border border-blue-400/20 hover:border-blue-400/40 transition-all text-center flex flex-col items-center justify-center space-y-2 shadow-md group"
+                  className="p-5 rounded-2xl bg-nexora-bg-elevated border border-nexora-border-subtle hover:border-nexora-border-strong transition-all text-center flex flex-col items-center justify-center space-y-2 shadow-md group"
                 >
-                  <div className="p-2.5 rounded-xl bg-portal-orange/20 text-portal-orange mb-1 group-hover:scale-110 transition-transform">
+                  <div className="p-2.5 rounded-xl bg-nexora-steel-700/40 border border-nexora-steel-500/40 text-nexora-steel-300 mb-1 group-hover:scale-110 transition-transform">
                     <Icon className="w-5 h-5" />
                   </div>
-                  <span className="font-mono font-bold text-xs text-white">{badge.title}</span>
-                  <span className="font-sans text-xs text-blue-200">{badge.desc}</span>
+                  <span className="font-mono font-bold text-xs text-nexora-text-primary">{badge.title}</span>
+                  <span className="font-sans text-xs text-nexora-text-secondary">{badge.desc}</span>
                 </div>
               )
             })}

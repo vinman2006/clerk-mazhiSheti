@@ -172,21 +172,21 @@ export function HashSplitDemo() {
   }
 
   return (
-    <section className="py-16 md:py-20 bg-[#0B1E45] border-y-2 border-blue-400/20 relative overflow-hidden">
+    <section className="py-16 md:py-20 bg-nexora-bg-surface border-y border-nexora-border-subtle relative overflow-hidden">
       {/* Background Accent Grid / Glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[350px] bg-gradient-to-r from-blue-500/10 via-amber-500/10 to-emerald-500/10 rounded-full blur-[130px] pointer-events-none"></div>
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[350px] bg-gradient-to-r from-nexora-steel-700/15 via-nexora-amber-status/10 to-nexora-green-status/10 rounded-full blur-[130px] pointer-events-none"></div>
 
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 space-y-10">
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto space-y-3">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-blue-500/15 border border-blue-400/30 text-blue-200 font-mono text-xs font-semibold">
-            <Sparkles className="w-3.5 h-3.5 text-portal-orange" />
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-nexora-bg-elevated border border-nexora-border-strong text-nexora-steel-300 font-mono text-xs font-semibold">
+            <Sparkles className="w-3.5 h-3.5 text-nexora-orange-400" />
             <span>Interactive Zero-Trust Demonstration</span>
           </div>
-          <h2 className="font-display font-black text-2xl sm:text-4xl text-white tracking-tight">
+          <h2 className="font-display font-black text-2xl sm:text-4xl text-nexora-text-primary tracking-tight">
             See How Nexora Splits & Shields Your Data
           </h2>
-          <p className="font-sans text-sm sm:text-base text-blue-100/90 leading-relaxed">
+          <p className="font-sans text-sm sm:text-base text-nexora-text-secondary leading-relaxed">
             Witness how demographic identity and clinical records separate into two independent, un-linkable cryptographic hashes. No raw personal data is ever combined or exposed.
           </p>
         </div>
@@ -206,117 +206,117 @@ export function HashSplitDemo() {
                 {/* TWO INPUT PANELS */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-stretch">
                   {/* LEFT: IDENTITY DETAILS PANEL */}
-                  <div className="p-6 rounded-2xl bg-[#0F224D] border-2 border-portal-orange/40 shadow-xl space-y-4 relative flex flex-col justify-between">
+                  <div className="p-6 rounded-2xl bg-nexora-bg-elevated border border-nexora-border-strong shadow-xl space-y-4 relative flex flex-col justify-between">
                     <div className="space-y-4">
-                      <div className="flex items-center justify-between pb-3 border-b border-blue-900/60">
-                        <div className="flex items-center gap-2 text-portal-orange font-display font-bold text-base">
+                      <div className="flex items-center justify-between pb-3 border-b border-nexora-border-subtle">
+                        <div className="flex items-center gap-2 text-nexora-orange-400 font-display font-bold text-base">
                           <User className="w-4 h-4" />
                           <span>Identity Details</span>
                         </div>
-                        <span className="text-[10px] font-mono text-portal-orange font-bold px-2 py-0.5 rounded bg-portal-orange/10 border border-portal-orange/30">
+                        <span className="text-[10px] font-mono text-nexora-orange-400 font-bold px-2 py-0.5 rounded bg-[rgba(224,130,31,0.12)] border border-nexora-orange-500/30">
                           Panel A
                         </span>
                       </div>
 
                       <div className="space-y-3 text-xs font-sans">
                         <div className="space-y-1">
-                          <label className="text-[11px] font-mono text-blue-200 font-semibold block">Full Legal Name:</label>
+                          <label className="text-[11px] font-mono text-nexora-text-secondary font-semibold block">Full Legal Name:</label>
                           <input
                             type="text"
                             value={state === 'hiding' ? scrambledName : name}
                             disabled={state === 'hiding'}
                             onChange={(e) => handleInputChange(setName, e.target.value)}
-                            className="w-full px-3.5 py-2.5 rounded-lg bg-[#091838] border border-blue-900/80 text-white placeholder-blue-300/40 text-xs font-mono focus:outline-none focus:border-portal-orange transition-all"
+                            className="w-full px-3.5 py-2.5 rounded-lg bg-nexora-bg-elevated-2 border border-nexora-border-subtle text-nexora-text-primary placeholder-nexora-text-muted text-xs font-mono focus:outline-none focus:border-nexora-orange-500 transition-all"
                             placeholder="e.g. Aditi Sharma"
                           />
                         </div>
 
                         <div className="space-y-1">
-                          <label className="text-[11px] font-mono text-blue-200 font-semibold block">Date of Birth:</label>
+                          <label className="text-[11px] font-mono text-nexora-text-secondary font-semibold block">Date of Birth:</label>
                           <input
                             type="text"
                             value={state === 'hiding' ? scrambledDob : dob}
                             disabled={state === 'hiding'}
                             onChange={(e) => handleInputChange(setDob, e.target.value)}
-                            className="w-full px-3.5 py-2.5 rounded-lg bg-[#091838] border border-blue-900/80 text-white placeholder-blue-300/40 text-xs font-mono focus:outline-none focus:border-portal-orange transition-all"
+                            className="w-full px-3.5 py-2.5 rounded-lg bg-nexora-bg-elevated-2 border border-nexora-border-subtle text-nexora-text-primary placeholder-nexora-text-muted text-xs font-mono focus:outline-none focus:border-nexora-orange-500 transition-all"
                             placeholder="YYYY-MM-DD"
                           />
                         </div>
 
                         <div className="space-y-1">
-                          <label className="text-[11px] font-mono text-blue-200 font-semibold block">Email Address:</label>
+                          <label className="text-[11px] font-mono text-nexora-text-secondary font-semibold block">Email Address:</label>
                           <input
                             type="email"
                             value={state === 'hiding' ? scrambledEmail : email}
                             disabled={state === 'hiding'}
                             onChange={(e) => handleInputChange(setEmail, e.target.value)}
-                            className="w-full px-3.5 py-2.5 rounded-lg bg-[#091838] border border-blue-900/80 text-white placeholder-blue-300/40 text-xs font-mono focus:outline-none focus:border-portal-orange transition-all"
+                            className="w-full px-3.5 py-2.5 rounded-lg bg-nexora-bg-elevated-2 border border-nexora-border-subtle text-nexora-text-primary placeholder-nexora-text-muted text-xs font-mono focus:outline-none focus:border-nexora-orange-500 transition-all"
                             placeholder="demo@example.com"
                           />
                         </div>
                       </div>
                     </div>
 
-                    <div className="pt-2 text-[10px] font-mono text-blue-300/80 flex items-center gap-1.5">
-                      <Lock className="w-3 h-3 text-portal-orange" />
+                    <div className="pt-2 text-[10px] font-mono text-nexora-text-muted flex items-center gap-1.5">
+                      <Lock className="w-3 h-3 text-nexora-orange-400" />
                       <span>Stored strictly in sovereign person enclave</span>
                     </div>
                   </div>
 
                   {/* RIGHT: MEDICAL DETAILS PANEL */}
-                  <div className="p-6 rounded-2xl bg-[#0F224D] border-2 border-portal-green/40 shadow-xl space-y-4 relative flex flex-col justify-between">
+                  <div className="p-6 rounded-2xl bg-nexora-bg-elevated border border-nexora-border-strong shadow-xl space-y-4 relative flex flex-col justify-between">
                     <div className="space-y-4">
-                      <div className="flex items-center justify-between pb-3 border-b border-blue-900/60">
-                        <div className="flex items-center gap-2 text-portal-green font-display font-bold text-base">
+                      <div className="flex items-center justify-between pb-3 border-b border-nexora-border-subtle">
+                        <div className="flex items-center gap-2 text-nexora-green-status font-display font-bold text-base">
                           <HeartPulse className="w-4 h-4" />
                           <span>Medical Details</span>
                         </div>
-                        <span className="text-[10px] font-mono text-portal-green font-bold px-2 py-0.5 rounded bg-portal-green/10 border border-portal-green/30">
+                        <span className="text-[10px] font-mono text-nexora-green-status font-bold px-2 py-0.5 rounded bg-nexora-green-status/10 border border-nexora-green-status/30">
                           Panel B
                         </span>
                       </div>
 
                       <div className="space-y-3 text-xs font-sans">
                         <div className="space-y-1">
-                          <label className="text-[11px] font-mono text-blue-200 font-semibold block">Clinical Condition / Observation:</label>
+                          <label className="text-[11px] font-mono text-nexora-text-secondary font-semibold block">Clinical Condition / Observation:</label>
                           <input
                             type="text"
                             value={state === 'hiding' ? scrambledCondition : condition}
                             disabled={state === 'hiding'}
                             onChange={(e) => handleInputChange(setCondition, e.target.value)}
-                            className="w-full px-3.5 py-2.5 rounded-lg bg-[#091838] border border-blue-900/80 text-white placeholder-blue-300/40 text-xs font-mono focus:outline-none focus:border-portal-green transition-all"
+                            className="w-full px-3.5 py-2.5 rounded-lg bg-nexora-bg-elevated-2 border border-nexora-border-subtle text-nexora-text-primary placeholder-nexora-text-muted text-xs font-mono focus:outline-none focus:border-nexora-green-status transition-all"
                             placeholder="e.g. Seasonal allergy"
                           />
                         </div>
 
                         <div className="space-y-1">
-                          <label className="text-[11px] font-mono text-blue-200 font-semibold block">Attending Physician:</label>
+                          <label className="text-[11px] font-mono text-nexora-text-secondary font-semibold block">Attending Physician:</label>
                           <input
                             type="text"
                             value={state === 'hiding' ? scrambledDoctor : doctorName}
                             disabled={state === 'hiding'}
                             onChange={(e) => handleInputChange(setDoctorName, e.target.value)}
-                            className="w-full px-3.5 py-2.5 rounded-lg bg-[#091838] border border-blue-900/80 text-white placeholder-blue-300/40 text-xs font-mono focus:outline-none focus:border-portal-green transition-all"
+                            className="w-full px-3.5 py-2.5 rounded-lg bg-nexora-bg-elevated-2 border border-nexora-border-subtle text-nexora-text-primary placeholder-nexora-text-muted text-xs font-mono focus:outline-none focus:border-nexora-green-status transition-all"
                             placeholder="e.g. Dr. R. Verma"
                           />
                         </div>
 
                         <div className="space-y-1">
-                          <label className="text-[11px] font-mono text-blue-200 font-semibold block">Diagnostic Clinical Notes:</label>
+                          <label className="text-[11px] font-mono text-nexora-text-secondary font-semibold block">Diagnostic Clinical Notes:</label>
                           <input
                             type="text"
                             value={state === 'hiding' ? scrambledNotes : notes}
                             disabled={state === 'hiding'}
                             onChange={(e) => handleInputChange(setNotes, e.target.value)}
-                            className="w-full px-3.5 py-2.5 rounded-lg bg-[#091838] border border-blue-900/80 text-white placeholder-blue-300/40 text-xs font-mono focus:outline-none focus:border-portal-green transition-all"
+                            className="w-full px-3.5 py-2.5 rounded-lg bg-nexora-bg-elevated-2 border border-nexora-border-subtle text-nexora-text-primary placeholder-nexora-text-muted text-xs font-mono focus:outline-none focus:border-nexora-green-status transition-all"
                             placeholder="e.g. Mild, recurring"
                           />
                         </div>
                       </div>
                     </div>
 
-                    <div className="pt-2 text-[10px] font-mono text-blue-300/80 flex items-center gap-1.5">
-                      <ShieldCheck className="w-3 h-3 text-portal-green" />
+                    <div className="pt-2 text-[10px] font-mono text-nexora-text-muted flex items-center gap-1.5">
+                      <ShieldCheck className="w-3 h-3 text-nexora-green-status" />
                       <span>Zero personal identifiers stored in clinical record</span>
                     </div>
                   </div>
@@ -327,13 +327,13 @@ export function HashSplitDemo() {
                   <button
                     onClick={handleHideData}
                     disabled={state === 'hiding'}
-                    className="px-10 py-4 rounded-xl bg-gradient-to-r from-[#2E7D32] to-[#1E6B23] hover:from-[#256629] hover:to-[#17521B] text-white font-bold text-xs uppercase tracking-wider transition-all shadow-xl hover:shadow-green-950/50 flex items-center justify-center gap-2.5 mx-auto active:scale-[0.99] disabled:opacity-75"
+                    className="px-10 py-4 rounded-xl bg-nexora-green-status hover:bg-[#1b8552] text-white font-bold text-xs uppercase tracking-wider transition-all shadow-xl hover:shadow-emerald-950/50 flex items-center justify-center gap-2.5 mx-auto active:scale-[0.99] disabled:opacity-75"
                   >
                     <Lock className={`w-4 h-4 ${state === 'hiding' ? 'animate-pulse' : ''}`} />
                     <span>{state === 'hiding' ? 'Scrambling & Hiding Data...' : 'Hide My Data'}</span>
                   </button>
 
-                  <p className="text-xs font-sans text-blue-200/70">
+                  <p className="text-xs font-sans text-nexora-text-muted">
                     Demo only — nothing you type here is stored. Computed live, discarded on refresh.
                   </p>
                 </div>
@@ -350,85 +350,85 @@ export function HashSplitDemo() {
               >
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 relative items-stretch">
                   {/* LEFT: PERSON HASH CARD */}
-                  <div className="p-6 rounded-2xl bg-[#0F224D] border-2 border-portal-orange shadow-2xl space-y-4 flex flex-col justify-between relative">
+                  <div className="p-6 rounded-2xl bg-nexora-bg-elevated border border-nexora-border-strong border-l-4 border-l-nexora-orange-500 shadow-2xl space-y-4 flex flex-col justify-between relative">
                     <div className="space-y-3">
-                      <div className="flex items-center justify-between pb-3 border-b border-blue-900/60">
-                        <div className="flex items-center gap-2 text-portal-orange font-display font-bold text-base">
+                      <div className="flex items-center justify-between pb-3 border-b border-nexora-border-subtle">
+                        <div className="flex items-center gap-2 text-nexora-orange-400 font-display font-bold text-base">
                           <KeyRound className="w-4 h-4" />
                           <span>Person Hash</span>
                         </div>
-                        <span className="text-[10px] font-mono text-portal-orange font-bold px-2 py-0.5 rounded bg-portal-orange/10 border border-portal-orange/30">
+                        <span className="text-[10px] font-mono text-nexora-orange-400 font-bold px-2 py-0.5 rounded bg-[rgba(224,130,31,0.12)] border border-nexora-orange-500/30">
                           Identity Fields Only
                         </span>
                       </div>
 
-                      <p className="text-xs font-sans text-blue-100">
+                      <p className="text-xs font-sans text-nexora-text-secondary">
                         Deterministic cryptographic hash derived exclusively from identity demographics:
                       </p>
 
-                      <div className="p-3.5 rounded-xl bg-[#091838] border border-blue-900/80 flex items-center justify-between gap-2">
-                        <span className="font-mono text-xs text-portal-orange font-bold select-all truncate">
+                      <div className="p-3.5 rounded-xl bg-nexora-bg-elevated-2 border border-nexora-border-subtle flex items-center justify-between gap-2">
+                        <span className="font-mono text-xs text-nexora-orange-400 font-bold select-all truncate">
                           {personHash?.display}
                         </span>
                         <button
                           type="button"
                           onClick={() => copyToClipboard(personHash?.full || '', true)}
-                          className="px-2.5 py-1.5 rounded-md bg-[#132A5E] hover:bg-[#1A377B] text-blue-200 hover:text-white text-[11px] font-mono transition-all flex items-center gap-1 shrink-0 border border-blue-900"
+                          className="px-2.5 py-1.5 rounded-md bg-nexora-bg-surface hover:bg-nexora-bg-elevated text-nexora-text-secondary hover:text-white text-[11px] font-mono transition-all flex items-center gap-1 shrink-0 border border-nexora-border-subtle"
                           title="Copy Full Hash"
                         >
-                          {copiedPerson ? <Check className="w-3.5 h-3.5 text-portal-green" /> : <Copy className="w-3.5 h-3.5" />}
+                          {copiedPerson ? <Check className="w-3.5 h-3.5 text-nexora-green-status" /> : <Copy className="w-3.5 h-3.5" />}
                           <span>{copiedPerson ? 'Copied' : 'Copy'}</span>
                         </button>
                       </div>
                     </div>
 
-                    <div className="text-[11px] font-mono text-blue-300/80 pt-2 border-t border-blue-900/60">
-                      Input mapped: <span className="text-white font-semibold">{name}</span> (DOB: {dob})
+                    <div className="text-[11px] font-mono text-nexora-text-muted pt-2 border-t border-nexora-border-subtle">
+                      Input mapped: <span className="text-nexora-text-primary font-semibold">{name}</span> (DOB: {dob})
                     </div>
                   </div>
 
                   {/* RIGHT: MEDICAL DATA HASH CARD */}
-                  <div className="p-6 rounded-2xl bg-[#0F224D] border-2 border-portal-green shadow-2xl space-y-4 flex flex-col justify-between relative">
+                  <div className="p-6 rounded-2xl bg-nexora-bg-elevated border border-nexora-border-strong border-l-4 border-l-nexora-green-status shadow-2xl space-y-4 flex flex-col justify-between relative">
                     <div className="space-y-3">
-                      <div className="flex items-center justify-between pb-3 border-b border-blue-900/60">
-                        <div className="flex items-center gap-2 text-portal-green font-display font-bold text-base">
+                      <div className="flex items-center justify-between pb-3 border-b border-nexora-border-subtle">
+                        <div className="flex items-center gap-2 text-nexora-green-status font-display font-bold text-base">
                           <Activity className="w-4 h-4" />
                           <span>Medical Data Hash</span>
                         </div>
-                        <span className="text-[10px] font-mono text-portal-green font-bold px-2 py-0.5 rounded bg-portal-green/10 border border-portal-green/30">
+                        <span className="text-[10px] font-mono text-nexora-green-status font-bold px-2 py-0.5 rounded bg-nexora-green-status/10 border border-nexora-green-status/30">
                           Medical Fields Only
                         </span>
                       </div>
 
-                      <p className="text-xs font-sans text-blue-100">
+                      <p className="text-xs font-sans text-nexora-text-secondary">
                         Cryptographic hash generated strictly from clinical parameters without names:
                       </p>
 
-                      <div className="p-3.5 rounded-xl bg-[#091838] border border-blue-900/80 flex items-center justify-between gap-2">
-                        <span className="font-mono text-xs text-portal-green font-bold select-all truncate">
+                      <div className="p-3.5 rounded-xl bg-nexora-bg-elevated-2 border border-nexora-border-subtle flex items-center justify-between gap-2">
+                        <span className="font-mono text-xs text-nexora-green-status font-bold select-all truncate">
                           {medicalHash?.display}
                         </span>
                         <button
                           type="button"
                           onClick={() => copyToClipboard(medicalHash?.full || '', false)}
-                          className="px-2.5 py-1.5 rounded-md bg-[#132A5E] hover:bg-[#1A377B] text-blue-200 hover:text-white text-[11px] font-mono transition-all flex items-center gap-1 shrink-0 border border-blue-900"
+                          className="px-2.5 py-1.5 rounded-md bg-nexora-bg-surface hover:bg-nexora-bg-elevated text-nexora-text-secondary hover:text-white text-[11px] font-mono transition-all flex items-center gap-1 shrink-0 border border-nexora-border-subtle"
                           title="Copy Full Hash"
                         >
-                          {copiedMedical ? <Check className="w-3.5 h-3.5 text-portal-green" /> : <Copy className="w-3.5 h-3.5" />}
+                          {copiedMedical ? <Check className="w-3.5 h-3.5 text-nexora-green-status" /> : <Copy className="w-3.5 h-3.5" />}
                           <span>{copiedMedical ? 'Copied' : 'Copy'}</span>
                         </button>
                       </div>
                     </div>
 
-                    <div className="text-[11px] font-mono text-blue-300/80 pt-2 border-t border-blue-900/60">
-                      Input mapped: <span className="text-white font-semibold">{condition}</span> (Doc: {doctorName})
+                    <div className="text-[11px] font-mono text-nexora-text-muted pt-2 border-t border-nexora-border-subtle">
+                      Input mapped: <span className="text-nexora-text-primary font-semibold">{condition}</span> (Doc: {doctorName})
                     </div>
                   </div>
                 </div>
 
                 {/* CONNECTOR STRIP */}
-                <div className="p-3.5 rounded-xl bg-[#091838] border border-dashed border-blue-400/40 text-center text-xs font-mono text-blue-100 flex items-center justify-center gap-2 shadow-inner">
-                  <Split className="w-4 h-4 text-portal-orange shrink-0" />
+                <div className="p-3.5 rounded-xl bg-nexora-bg-elevated border border-dashed border-nexora-border-strong text-center text-xs font-mono text-nexora-text-secondary flex items-center justify-center gap-2 shadow-inner">
+                  <Split className="w-4 h-4 text-nexora-orange-400 shrink-0" />
                   <span>Linked only by a hash — never by name or email.</span>
                 </div>
 
@@ -436,9 +436,9 @@ export function HashSplitDemo() {
                 <div className="text-center pt-2">
                   <button
                     onClick={handleReset}
-                    className="px-7 py-3 rounded-xl bg-[#132A5E] hover:bg-[#1A377B] text-white border border-blue-400/30 text-xs font-mono font-bold transition-all shadow-md inline-flex items-center gap-2"
+                    className="px-7 py-3 rounded-xl bg-nexora-bg-elevated hover:bg-nexora-bg-elevated-2 text-nexora-text-primary border border-nexora-border-strong text-xs font-mono font-bold transition-all shadow-md inline-flex items-center gap-2"
                   >
-                    <RotateCcw className="w-3.5 h-3.5" />
+                    <RotateCcw className="w-3.5 h-3.5 text-nexora-orange-400" />
                     <span>Try Again with New Values</span>
                   </button>
                 </div>

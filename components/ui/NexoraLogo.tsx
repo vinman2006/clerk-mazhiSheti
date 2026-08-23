@@ -89,7 +89,7 @@ export function NexoraLogo({
       {/* Clean Minimalist Icon Container */}
       <div 
         style={{ width: size, height: size }}
-        className="rounded-xl bg-[#101935] border border-portal-orange/40 flex items-center justify-center p-1.5 shadow-sm shrink-0 transition-transform duration-200 hover:scale-105"
+        className="rounded-xl bg-nexora-bg-elevated border border-nexora-border-strong flex items-center justify-center p-1.5 shadow-sm shrink-0 transition-transform duration-200 hover:scale-105"
       >
         <NexoraLogoIcon className="w-full h-full" />
       </div>
@@ -97,16 +97,16 @@ export function NexoraLogo({
       {showText && (
         <div className="flex flex-col">
           <div className="flex items-center gap-2">
-            <span className="font-display font-black text-xl tracking-tight text-white">
+            <span className="font-display font-black text-xl tracking-tight text-nexora-text-primary">
               NEXORA
             </span>
             {showBadge && (
-              <span className="font-sans font-bold text-[10px] px-1.5 py-0.5 rounded bg-portal-orange text-white leading-none shadow-sm">
+              <span className="font-sans font-bold text-[10px] px-1.5 py-0.5 rounded bg-[rgba(224,130,31,0.12)] text-nexora-orange-400 border border-nexora-orange-500/30 leading-none shadow-sm">
                 नेक्सोरा
               </span>
             )}
           </div>
-          <span className="font-sans font-bold text-[10px] text-neutral-300 tracking-wider uppercase -mt-0.5">
+          <span className="font-sans font-bold text-[10px] text-nexora-text-muted tracking-wider uppercase -mt-0.5">
             {subtitle}
           </span>
         </div>

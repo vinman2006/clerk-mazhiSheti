@@ -49,7 +49,42 @@ const config: Config = {
           'text-sub': '#4B5563',
           'border-light': '#E2E8F0',
           'input-bg': '#F8FAFC'
+        },
+        // Nexora — Trust-First Color Palette Tokens
+        nexora: {
+          'bg-base': '#0A0F1E',
+          'bg-surface': '#0F1526',
+          'bg-elevated': '#151C30',
+          'bg-elevated-2': '#1B2438',
+          'bg-header': '#0B1220',
+
+          'steel-700': '#1E3A5F',
+          'steel-500': '#2C5282',
+          'steel-400': '#4A7FB5',
+          'steel-300': '#7CA3CE',
+
+          'orange-600': '#C2660A',
+          'orange-500': '#E0821F',
+          'orange-400': '#F0A24D',
+          'orange-subtle': 'rgba(224,130,31,0.12)',
+
+          'green-status': '#22A567',
+          'green-subtle': 'rgba(34,165,103,0.12)',
+          'amber-status': '#D9A441',
+          'info-status': '#5B8DEF',
+          'neutral-status': '#64748B',
+
+          'text-primary': '#F1F5F9',
+          'text-secondary': '#A8B3C7',
+          'text-muted': '#6B7794',
+          'text-on-orange': '#1A1004',
+
+          'border-subtle': '#1E2740',
+          'border-strong': '#2C3A57',
         }
+      },
+      backgroundImage: {
+        'nexora-hero': 'radial-gradient(ellipse at top, #111B33 0%, #0A0F1E 60%)',
       },
       fontFamily: {
         sans: ['Inter', 'Segoe UI', 'system-ui', '-apple-system', 'sans-serif'],
