@@ -39,40 +39,32 @@ export default function LandingPage() {
   const [activePortalTab, setActivePortalTab] = useState<'hospitals' | 'government' | 'researchers'>('hospitals')
 
   return (
-    <div className="min-h-screen bg-[#070A12] text-[#F1F5F9] flex flex-col selection:bg-portal-orange/20 selection:text-portal-orange antialiased overflow-x-hidden">
+    <div className="min-h-screen bg-[#0F2756] text-[#F1F5F9] flex flex-col selection:bg-portal-orange/20 selection:text-portal-orange antialiased overflow-x-hidden">
       <Navbar />
 
-      {/* HERO SECTION — CLEAN HIGH-TRUST SOVEREIGN PORTAL */}
-      <section className="relative pt-36 pb-24 md:pt-44 md:pb-32 overflow-hidden bg-gradient-to-b from-[#0D152F] via-[#090E1D] to-[#070A12]">
-        {/* Interactive React Bits DotGrid Background Canvas */}
-        <div className="absolute inset-0 z-0 opacity-30 pointer-events-none">
+      {/* HERO SECTION — VIBRANT LIGHT BLUE HIGH-TRUST PORTAL */}
+      <section className="relative pt-36 pb-20 md:pt-40 md:pb-28 overflow-hidden bg-gradient-to-b from-[#2563EB] via-[#1D4ED8] to-[#0F2756]">
+        {/* Interactive React Bits DotGrid Background Canvas in Crisp Sky Blue */}
+        <div className="absolute inset-0 z-0 opacity-40 pointer-events-none">
           <DotGrid 
-            dotSize={3}
-            gap={28}
-            baseColor="#1E3A8A"
+            dotSize={3.5}
+            gap={26}
+            baseColor="#93C5FD"
             activeColor="#F5820D"
-            proximity={130}
+            proximity={140}
             shockRadius={220}
             shockStrength={4}
             returnDuration={1.2}
           />
         </div>
 
-        {/* Ambient Radial Soft Glows */}
-        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[400px] bg-gradient-to-tr from-[#1E3A8A]/25 via-[#F5820D]/10 to-transparent rounded-full blur-[150px] pointer-events-none"></div>
+        {/* Radiant Ambient Light Blue Glow */}
+        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[750px] h-[450px] bg-gradient-to-tr from-sky-400/30 via-blue-300/20 to-transparent rounded-full blur-[140px] pointer-events-none"></div>
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 space-y-10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 space-y-8">
           <div className="text-center max-w-4xl mx-auto space-y-6">
-            {/* Pill Badge */}
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#111936]/80 border border-[#1E3A8A]/60 shadow-inner backdrop-blur-md">
-              <span className="w-2 h-2 rounded-full bg-portal-green animate-pulse"></span>
-              <span className="font-mono text-xs font-semibold text-slate-200 tracking-wide">
-                W3C DID & ZK-SNARK Enabled Multi-Agent Network
-              </span>
-            </div>
-
             {/* Two-Tone Headline */}
-            <h1 className="font-display font-black text-4xl sm:text-6xl md:text-7xl tracking-tight text-white leading-[1.12]">
+            <h1 className="font-display font-black text-4xl sm:text-6xl md:text-7xl tracking-tight text-white leading-[1.12] drop-shadow-sm">
               Healthcare access, <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#F5820D] via-[#FFA34D] to-[#FFD5A3]">
                 without giving up your privacy.
@@ -80,16 +72,16 @@ export default function LandingPage() {
             </h1>
 
             {/* Sub-headline */}
-            <p className="font-sans text-base sm:text-lg md:text-xl text-slate-300 max-w-3xl mx-auto leading-relaxed font-normal">
+            <p className="font-sans text-base sm:text-lg md:text-xl text-blue-50 max-w-3xl mx-auto leading-relaxed font-medium drop-shadow-sm">
               Nexora is a privacy-first multi-agent healthcare network where patients, hospitals, and government services communicate and collaborate through AI agents while blockchain and zero-knowledge technology protect patient control and trust.
             </p>
 
             {/* Hero CTAs */}
-            <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
+            <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-4">
               {/* Primary CTA */}
               <Link
                 href="/dashboard/agents"
-                className="w-full sm:w-auto px-8 py-4 rounded-xl bg-[#2E7D32] hover:bg-[#256629] text-white font-bold text-xs uppercase tracking-wider transition-all shadow-lg hover:shadow-green-900/30 flex items-center justify-center gap-2.5 group active:scale-[0.99]"
+                className="w-full sm:w-auto px-8 py-4 rounded-xl bg-[#2E7D32] hover:bg-[#256629] text-white font-bold text-xs uppercase tracking-wider transition-all shadow-xl hover:shadow-green-950/40 flex items-center justify-center gap-2.5 group active:scale-[0.99]"
               >
                 <span>Launch Multi-Agent Enclave</span>
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -98,7 +90,7 @@ export default function LandingPage() {
               {/* Secondary CTA */}
               <Link
                 href="/architecture"
-                className="w-full sm:w-auto px-7 py-4 rounded-xl bg-[#11182C]/90 hover:bg-[#18223E] text-slate-200 hover:text-white border border-slate-700 hover:border-portal-orange/60 text-xs font-mono font-bold transition-all flex items-center justify-center gap-2 tracking-wide shadow-md backdrop-blur-md"
+                className="w-full sm:w-auto px-7 py-4 rounded-xl bg-[#152A63]/90 hover:bg-[#1C357A] text-white border-2 border-blue-300/40 hover:border-portal-orange text-xs font-mono font-bold transition-all flex items-center justify-center gap-2 tracking-wide shadow-lg backdrop-blur-md"
               >
                 <span>Technical Architecture</span>
                 <span className="text-portal-orange">→</span>
@@ -106,128 +98,108 @@ export default function LandingPage() {
             </div>
           </div>
 
-          {/* Core Visual Metaphor: Interactive Node Diagram */}
-          <div className="mt-12 max-w-5xl mx-auto">
-            <div className="p-1 rounded-2xl bg-gradient-to-b from-[#1E3A8A]/50 via-slate-800/30 to-transparent shadow-2xl backdrop-blur-md">
-              <div className="bg-[#0B1020]/95 rounded-[14px] p-4 sm:p-6 border border-slate-800">
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-4 mb-4 border-b border-slate-800/80">
-                  <span className="font-mono text-xs text-slate-200 font-bold flex items-center gap-2">
-                    <Sparkles className="w-3.5 h-3.5 text-portal-orange" />
-                    Live Network Orchestration Visualizer
-                  </span>
-                  <div className="flex items-center gap-3 text-[11px] font-mono text-slate-400">
-                    <span className="inline-flex items-center gap-1 text-portal-green">
-                      <span className="w-1.5 h-1.5 rounded-full bg-portal-green"></span>
-                      Decentralized
-                    </span>
-                    <span>•</span>
-                    <span>Zero-Knowledge</span>
-                    <span>•</span>
-                    <span>Off-Chain IPFS</span>
-                  </div>
-                </div>
-                <NodeDiagram mode="hero" />
-              </div>
-            </div>
+          {/* Core Visual Metaphor: Interactive Node Diagram (Clean single render without wrapper duplicate) */}
+          <div className="mt-8 max-w-5xl mx-auto">
+            <NodeDiagram mode="hero" />
           </div>
         </div>
       </section>
 
       {/* PROBLEM / SOLUTION STRIP: FEDERATED LEARNING CONTRAST */}
-      <section className="py-24 bg-[#0A0F1E] border-y border-slate-800/80 relative">
+      <section className="py-20 bg-[#133266] border-y-2 border-blue-400/20 relative">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
           <div className="text-center max-w-3xl mx-auto space-y-3">
-            <span className="font-mono text-xs text-portal-orange font-bold uppercase tracking-wider">
+            <span className="font-mono text-xs text-portal-orange font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-portal-orange/15 border border-portal-orange/30">
               Privacy Paradigm Shift
             </span>
             <h2 className="font-display text-2xl sm:text-4xl font-black tracking-tight text-white">
               Why Existing Healthcare AI Breaches Patient Trust
             </h2>
-            <p className="text-sm sm:text-base font-sans text-slate-300 leading-relaxed">
+            <p className="text-sm sm:text-base font-sans text-blue-100 leading-relaxed">
               Traditional healthcare AI hoards sensitive medical records in centralized cloud databases. Nexora flips the paradigm with edge compute and federated learning.
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch">
             {/* The Old Way */}
-            <div className="p-8 rounded-2xl bg-[#0F1528] border border-red-500/30 shadow-xl relative flex flex-col justify-between space-y-6 hover:border-red-500/50 transition-all">
+            <div className="p-8 rounded-2xl bg-[#0F224D] border border-red-400/30 shadow-xl relative flex flex-col justify-between space-y-6 hover:border-red-400/50 transition-all">
               <div className="space-y-4">
-                <div className="flex items-center justify-between pb-4 border-b border-slate-800">
+                <div className="flex items-center justify-between pb-4 border-b border-blue-900/60">
                   <div className="flex items-center gap-2.5 text-red-400 font-display font-bold text-lg">
                     <AlertTriangle className="w-5 h-5 shrink-0" />
                     <span>The Old Way (Centralized AI)</span>
                   </div>
-                  <span className="px-2.5 py-1 rounded-full bg-red-500/10 border border-red-500/30 text-red-400 text-xs font-mono font-bold">
+                  <span className="px-2.5 py-1 rounded-full bg-red-500/15 border border-red-500/30 text-red-300 text-xs font-mono font-bold">
                     High Risk
                   </span>
                 </div>
 
                 <div className="space-y-3.5 text-xs font-sans">
-                  <div className="p-4 rounded-xl bg-[#0B1020] border border-slate-800 space-y-1.5">
-                    <div className="flex items-center gap-2 text-slate-100 font-bold">
+                  <div className="p-4 rounded-xl bg-[#091838] border border-blue-900/60 space-y-1.5">
+                    <div className="flex items-center gap-2 text-white font-bold">
                       <Building2 className="w-4 h-4 text-red-400 shrink-0" />
                       <span>Hospitals A, B, C transmit raw patient records</span>
                     </div>
-                    <p className="text-slate-400 leading-relaxed pl-6">
+                    <p className="text-blue-200/80 leading-relaxed pl-6">
                       Scans, clinical notes, and genomic sequences uploaded to third-party tech giants.
                     </p>
                   </div>
 
-                  <div className="p-4 rounded-xl bg-[#0B1020] border border-slate-800 space-y-1.5">
+                  <div className="p-4 rounded-xl bg-[#091838] border border-blue-900/60 space-y-1.5">
                     <div className="flex items-center gap-2 text-red-400 font-bold">
                       <Database className="w-4 h-4 shrink-0" />
                       <span>Honeypot Centralized Database</span>
                     </div>
-                    <p className="text-slate-400 leading-relaxed pl-6">
+                    <p className="text-blue-200/80 leading-relaxed pl-6">
                       Vulnerable to ransomware, catastrophic data leaks, and unauthorized commercial exploitation.
                     </p>
                   </div>
                 </div>
               </div>
 
-              <div className="pt-4 border-t border-slate-800/80 flex items-center gap-2 text-red-400 text-xs font-mono font-semibold">
+              <div className="pt-4 border-t border-blue-900/60 flex items-center gap-2 text-red-300 text-xs font-mono font-semibold">
                 <AlertTriangle className="w-3.5 h-3.5 shrink-0" />
                 <span>Patients lose all control, ownership, and visibility once uploaded.</span>
               </div>
             </div>
 
             {/* The Nexora Way */}
-            <div className="p-8 rounded-2xl bg-[#0F1528] border border-portal-green/40 shadow-xl relative flex flex-col justify-between space-y-6 hover:border-portal-green/60 transition-all">
+            <div className="p-8 rounded-2xl bg-[#0F224D] border border-portal-green/50 shadow-xl relative flex flex-col justify-between space-y-6 hover:border-portal-green/70 transition-all">
               <div className="space-y-4">
-                <div className="flex items-center justify-between pb-4 border-b border-slate-800">
+                <div className="flex items-center justify-between pb-4 border-b border-blue-900/60">
                   <div className="flex items-center gap-2.5 text-portal-green font-display font-bold text-lg">
                     <CheckCircle2 className="w-5 h-5 shrink-0" />
                     <span>The Nexora Way (Federated Learning)</span>
                   </div>
-                  <span className="px-2.5 py-1 rounded-full bg-portal-green/10 border border-portal-green/30 text-portal-green text-xs font-mono font-bold">
+                  <span className="px-2.5 py-1 rounded-full bg-portal-green/15 border border-portal-green/40 text-portal-green text-xs font-mono font-bold">
                     Zero Trust ✓
                   </span>
                 </div>
 
                 <div className="space-y-3.5 text-xs font-sans">
-                  <div className="p-4 rounded-xl bg-[#0B1020] border border-slate-800 space-y-1.5">
-                    <div className="flex items-center gap-2 text-slate-100 font-bold">
+                  <div className="p-4 rounded-xl bg-[#091838] border border-blue-900/60 space-y-1.5">
+                    <div className="flex items-center gap-2 text-white font-bold">
                       <Cpu className="w-4 h-4 text-portal-green shrink-0" />
                       <span>Local On-Premise Training Only</span>
                     </div>
-                    <p className="text-slate-300 leading-relaxed pl-6">
+                    <p className="text-blue-100 leading-relaxed pl-6">
                       Each hospital trains AI locally behind its firewall. Raw patient records never leave the hospital premise.
                     </p>
                   </div>
 
-                  <div className="p-4 rounded-xl bg-[#0B1020] border border-slate-800 space-y-1.5">
+                  <div className="p-4 rounded-xl bg-[#091838] border border-blue-900/60 space-y-1.5">
                     <div className="flex items-center gap-2 text-portal-orange font-bold">
                       <ShieldCheck className="w-4 h-4 shrink-0" />
                       <span>Encrypted Weight Updates Only</span>
                     </div>
-                    <p className="text-slate-300 leading-relaxed pl-6">
+                    <p className="text-blue-100 leading-relaxed pl-6">
                       Only mathematical gradient parameters are shared to improve the global diagnostic model via secure multiparty computation.
                     </p>
                   </div>
                 </div>
               </div>
 
-              <div className="pt-4 border-t border-slate-800/80 flex items-center gap-2 text-portal-green text-xs font-mono font-semibold">
+              <div className="pt-4 border-t border-blue-900/60 flex items-center gap-2 text-portal-green text-xs font-mono font-semibold">
                 <CheckCircle2 className="w-3.5 h-3.5 shrink-0" />
                 <span>Patient consent cryptographically enforced via smart contracts.</span>
               </div>
@@ -237,67 +209,67 @@ export default function LandingPage() {
       </section>
 
       {/* THREE PILLARS SECTION */}
-      <section className="py-24 relative bg-[#070A12]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-14">
+      <section className="py-20 relative bg-[#0F2756]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
           <div className="text-center max-w-3xl mx-auto space-y-3">
-            <span className="font-mono text-xs text-portal-orange font-bold uppercase tracking-wider">
+            <span className="font-mono text-xs text-portal-orange font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-portal-orange/15 border border-portal-orange/30">
               Architecture Core
             </span>
             <h2 className="font-display text-3xl sm:text-4xl font-black tracking-tight text-white">
               The Three Pillars of Nexora
             </h2>
-            <p className="text-sm sm:text-base font-sans text-slate-300">
+            <p className="text-sm sm:text-base font-sans text-blue-100">
               AI is the interface, not the trust layer. Trust is guaranteed through cryptography.
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
             {/* Pillar 1: Healthcare Access */}
-            <div className="p-7 rounded-2xl bg-[#0F1528] border border-slate-800 hover:border-portal-orange/40 shadow-lg space-y-6 flex flex-col justify-between transition-all group">
+            <div className="p-7 rounded-2xl bg-[#132A5E] border border-blue-400/20 hover:border-portal-orange/50 shadow-xl space-y-6 flex flex-col justify-between transition-all group">
               <div className="space-y-3.5">
-                <div className="w-12 h-12 rounded-xl bg-portal-orange/15 border border-portal-orange/30 flex items-center justify-center text-portal-orange group-hover:scale-105 transition-transform">
+                <div className="w-12 h-12 rounded-xl bg-portal-orange/20 border border-portal-orange/40 flex items-center justify-center text-portal-orange group-hover:scale-105 transition-transform">
                   <Activity className="w-6 h-6 stroke-[2.2]" />
                 </div>
                 <h3 className="font-display text-xl font-bold text-white">
                   1. Healthcare Access
                 </h3>
-                <p className="text-xs sm:text-sm font-sans text-slate-300 leading-relaxed">
+                <p className="text-xs sm:text-sm font-sans text-blue-100 leading-relaxed">
                   Discover and book certified cardiologists, endocrinologists, diagnostic labs, and hospitals with verified credentials and transparent pricing.
                 </p>
               </div>
 
-              <div className="p-3.5 rounded-xl bg-[#0B1020] border border-slate-800 font-mono text-xs space-y-2">
-                <div className="flex justify-between text-slate-400">
+              <div className="p-3.5 rounded-xl bg-[#0B1A3B] border border-blue-900/60 font-mono text-xs space-y-2">
+                <div className="flex justify-between text-blue-200">
                   <span>Provider Search:</span>
                   <span className="text-portal-orange font-bold">DID-Verified</span>
                 </div>
-                <div className="flex justify-between text-slate-400">
+                <div className="flex justify-between text-blue-200">
                   <span>Booking Event:</span>
-                  <span className="text-slate-200 font-bold">Consent Tx Created</span>
+                  <span className="text-white font-bold">Consent Tx Created</span>
                 </div>
               </div>
             </div>
 
             {/* Pillar 2: Multi-Agent Layer */}
-            <div className="p-7 rounded-2xl bg-[#0F1528] border border-slate-800 hover:border-portal-orange/40 shadow-lg space-y-6 flex flex-col justify-between transition-all group">
+            <div className="p-7 rounded-2xl bg-[#132A5E] border border-blue-400/20 hover:border-portal-orange/50 shadow-xl space-y-6 flex flex-col justify-between transition-all group">
               <div className="space-y-3.5">
-                <div className="w-12 h-12 rounded-xl bg-portal-orange/15 border border-portal-orange/30 flex items-center justify-center text-portal-orange group-hover:scale-105 transition-transform">
+                <div className="w-12 h-12 rounded-xl bg-portal-orange/20 border border-portal-orange/40 flex items-center justify-center text-portal-orange group-hover:scale-105 transition-transform">
                   <Bot className="w-6 h-6 stroke-[2.2]" />
                 </div>
                 <h3 className="font-display text-xl font-bold text-portal-orange">
                   2. Multi-Agent Layer
                 </h3>
-                <p className="text-xs sm:text-sm font-sans text-slate-300 leading-relaxed">
+                <p className="text-xs sm:text-sm font-sans text-blue-100 leading-relaxed">
                   Patient Agent, Hospital Agents, and Government Agents autonomously communicate to route requests, check slots, and verify subsidies.
                 </p>
               </div>
 
-              <div className="p-3.5 rounded-xl bg-[#0B1020] border border-slate-800 font-mono text-xs space-y-2">
-                <div className="flex items-center justify-between text-slate-400">
+              <div className="p-3.5 rounded-xl bg-[#0B1A3B] border border-blue-900/60 font-mono text-xs space-y-2">
+                <div className="flex items-center justify-between text-blue-200">
                   <span>Patient ⇄ Hosp ⇄ Gov:</span>
                   <span className="text-portal-orange font-bold">Agentic P2P</span>
                 </div>
-                <div className="flex items-center justify-between text-slate-400">
+                <div className="flex items-center justify-between text-blue-200">
                   <span>Privacy Buffer:</span>
                   <span className="text-portal-green font-bold">Zero Data Leak ✓</span>
                 </div>
@@ -305,27 +277,27 @@ export default function LandingPage() {
             </div>
 
             {/* Pillar 3: Privacy & Trust */}
-            <div className="p-7 rounded-2xl bg-[#0F1528] border border-slate-800 hover:border-portal-green/40 shadow-lg space-y-6 flex flex-col justify-between transition-all group">
+            <div className="p-7 rounded-2xl bg-[#132A5E] border border-blue-400/20 hover:border-portal-green/50 shadow-xl space-y-6 flex flex-col justify-between transition-all group">
               <div className="space-y-3.5">
-                <div className="w-12 h-12 rounded-xl bg-portal-green/15 border border-portal-green/30 flex items-center justify-center text-portal-green group-hover:scale-105 transition-transform">
+                <div className="w-12 h-12 rounded-xl bg-portal-green/20 border border-portal-green/40 flex items-center justify-center text-portal-green group-hover:scale-105 transition-transform">
                   <ShieldCheck className="w-6 h-6 stroke-[2.2]" />
                 </div>
                 <h3 className="font-display text-xl font-bold text-white">
                   3. Privacy & Trust Layer
                 </h3>
-                <p className="text-xs sm:text-sm font-sans text-slate-300 leading-relaxed">
+                <p className="text-xs sm:text-sm font-sans text-blue-100 leading-relaxed">
                   W3C DIDs, Verifiable Credentials, Smart Consent Contracts, Zero-Knowledge Proofs, and an immutable audit trail guarantee patient sovereignty.
                 </p>
               </div>
 
-              <div className="p-3.5 rounded-xl bg-[#0B1020] border border-slate-800 font-mono text-xs space-y-2">
-                <div className="flex justify-between text-slate-400">
+              <div className="p-3.5 rounded-xl bg-[#0B1A3B] border border-blue-900/60 font-mono text-xs space-y-2">
+                <div className="flex justify-between text-blue-200">
                   <span>Medical Records:</span>
                   <span className="text-portal-green font-bold">Off-Chain IPFS</span>
                 </div>
-                <div className="flex justify-between text-slate-400">
+                <div className="flex justify-between text-blue-200">
                   <span>On-Chain Layer:</span>
-                  <span className="text-slate-200 font-bold">Proofs & Consents</span>
+                  <span className="text-white font-bold">Proofs & Consents</span>
                 </div>
               </div>
             </div>
@@ -334,16 +306,16 @@ export default function LandingPage() {
       </section>
 
       {/* HOW CONSENT WORKS: 4-STEP FLOW */}
-      <section className="py-24 bg-[#0A0F1E] border-y border-slate-800/80">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-14">
+      <section className="py-20 bg-[#133266] border-y-2 border-blue-400/20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
           <div className="text-center max-w-2xl mx-auto space-y-3">
-            <span className="font-mono text-xs text-portal-orange font-bold uppercase tracking-wider">
+            <span className="font-mono text-xs text-portal-orange font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-portal-orange/15 border border-portal-orange/30">
               Cryptographic Protocol
             </span>
             <h2 className="font-display text-3xl sm:text-4xl font-black tracking-tight text-white">
               How Smart Consent Works
             </h2>
-            <p className="text-sm sm:text-base font-sans text-slate-300">
+            <p className="text-sm sm:text-base font-sans text-blue-100">
               Every data access request is gated by an immutable, time-limited smart contract.
             </p>
           </div>
@@ -383,19 +355,19 @@ export default function LandingPage() {
               return (
                 <div
                   key={index}
-                  className="p-6 rounded-2xl bg-[#0F1528] border border-slate-800 hover:border-portal-orange/40 shadow-md flex flex-col justify-between space-y-5 transition-all group"
+                  className="p-6 rounded-2xl bg-[#0F224D] border border-blue-400/20 hover:border-portal-orange/50 shadow-lg flex flex-col justify-between space-y-5 transition-all group"
                 >
                   <div className="space-y-4">
                     <div className="flex items-center justify-between">
-                      <span className="font-mono text-xs font-bold text-portal-orange px-2 py-0.5 rounded bg-portal-orange/10 border border-portal-orange/30">
+                      <span className="font-mono text-xs font-bold text-portal-orange px-2 py-0.5 rounded bg-portal-orange/15 border border-portal-orange/40">
                         STEP {flow.step}
                       </span>
-                      <span className="px-2 py-0.5 rounded bg-[#0B1020] text-[10px] font-mono text-slate-300 border border-slate-800 font-bold">
+                      <span className="px-2 py-0.5 rounded bg-[#091838] text-[10px] font-mono text-blue-200 border border-blue-900/60 font-bold">
                         {flow.badge}
                       </span>
                     </div>
 
-                    <div className="p-2.5 rounded-xl bg-portal-orange/15 text-portal-orange w-fit">
+                    <div className="p-2.5 rounded-xl bg-portal-orange/20 text-portal-orange w-fit">
                       <Icon className="w-5 h-5" />
                     </div>
 
@@ -403,12 +375,12 @@ export default function LandingPage() {
                       {flow.title}
                     </h4>
 
-                    <p className="text-xs font-sans text-slate-300 leading-relaxed">
+                    <p className="text-xs font-sans text-blue-100 leading-relaxed">
                       {flow.desc}
                     </p>
                   </div>
 
-                  <div className="pt-3 border-t border-slate-800/80 text-[11px] font-mono text-portal-green font-bold flex items-center gap-1.5">
+                  <div className="pt-3 border-t border-blue-900/60 text-[11px] font-mono text-portal-green font-bold flex items-center gap-1.5">
                     <CheckCircle2 className="w-3.5 h-3.5" />
                     <span>Cryptographically Enforced ✓</span>
                   </div>
@@ -420,10 +392,10 @@ export default function LandingPage() {
       </section>
 
       {/* FOR HOSPITALS / GOVERNMENT / RESEARCHERS PORTALS */}
-      <section className="py-24 bg-[#070A12]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+      <section className="py-20 bg-[#0F2756]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
           <div className="text-center max-w-2xl mx-auto space-y-3">
-            <span className="font-mono text-xs text-portal-orange font-bold uppercase tracking-wider">
+            <span className="font-mono text-xs text-portal-orange font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-portal-orange/15 border border-portal-orange/30">
               Ecosystem Interfaces
             </span>
             <h2 className="font-display text-3xl sm:text-4xl font-black tracking-tight text-white">
@@ -432,13 +404,13 @@ export default function LandingPage() {
           </div>
 
           {/* Tabs */}
-          <div className="flex justify-center gap-2 sm:gap-4 border-b border-slate-800 pb-5">
+          <div className="flex justify-center gap-2 sm:gap-4 border-b border-blue-400/20 pb-5">
             <button
               onClick={() => setActivePortalTab('hospitals')}
               className={`px-5 py-3 rounded-xl text-xs font-mono font-bold transition-all flex items-center gap-2 ${
                 activePortalTab === 'hospitals'
                   ? 'bg-portal-orange text-white shadow-lg shadow-orange-950/40'
-                  : 'bg-[#0F1528] text-slate-300 hover:text-white border border-slate-800'
+                  : 'bg-[#132A5E] text-blue-100 hover:text-white border border-blue-400/20'
               }`}
             >
               <Building2 className="w-4 h-4" />
@@ -450,7 +422,7 @@ export default function LandingPage() {
               className={`px-5 py-3 rounded-xl text-xs font-mono font-bold transition-all flex items-center gap-2 ${
                 activePortalTab === 'government'
                   ? 'bg-portal-orange text-white shadow-lg shadow-orange-950/40'
-                  : 'bg-[#0F1528] text-slate-300 hover:text-white border border-slate-800'
+                  : 'bg-[#132A5E] text-blue-100 hover:text-white border border-blue-400/20'
               }`}
             >
               <Landmark className="w-4 h-4" />
@@ -462,7 +434,7 @@ export default function LandingPage() {
               className={`px-5 py-3 rounded-xl text-xs font-mono font-bold transition-all flex items-center gap-2 ${
                 activePortalTab === 'researchers'
                   ? 'bg-portal-orange text-white shadow-lg shadow-orange-950/40'
-                  : 'bg-[#0F1528] text-slate-300 hover:text-white border border-slate-800'
+                  : 'bg-[#132A5E] text-blue-100 hover:text-white border border-blue-400/20'
               }`}
             >
               <Microscope className="w-4 h-4" />
@@ -471,26 +443,26 @@ export default function LandingPage() {
           </div>
 
           {/* Tab Content Panels */}
-          <div className="p-8 sm:p-10 rounded-2xl bg-[#0F1528] border border-slate-800 shadow-2xl">
+          <div className="p-8 sm:p-10 rounded-2xl bg-[#132A5E] border border-blue-400/30 shadow-2xl">
             {activePortalTab === 'hospitals' && (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
                 <div className="space-y-5">
-                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-blue-500/15 text-blue-300 text-xs font-mono font-bold border border-blue-500/30">
+                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-blue-500/20 text-blue-200 text-xs font-mono font-bold border border-blue-400/40">
                     <Building2 className="w-3.5 h-3.5" />
                     <span>Hospital Portal</span>
                   </div>
                   <h3 className="font-display text-2xl sm:text-3xl font-bold text-white leading-snug">
                     Federated AI Training & Clinical Scheduling
                   </h3>
-                  <p className="text-sm font-sans text-slate-300 leading-relaxed">
+                  <p className="text-sm font-sans text-blue-100 leading-relaxed">
                     Deploy local agent nodes behind your hospital firewall. Train diagnostic AI models without exposing patient health information (PHI), and receive autonomous booking requests directly via DID-verified channels.
                   </p>
-                  <ul className="space-y-2.5 text-xs font-sans text-slate-300">
-                    <li className="flex items-center gap-2 text-slate-100 font-medium">
+                  <ul className="space-y-2.5 text-xs font-sans text-blue-100">
+                    <li className="flex items-center gap-2 text-white font-medium">
                       <CheckCircle2 className="w-4 h-4 text-portal-green shrink-0" />
                       <span>On-premises federated learning node controls</span>
                     </li>
-                    <li className="flex items-center gap-2 text-slate-100 font-medium">
+                    <li className="flex items-center gap-2 text-white font-medium">
                       <CheckCircle2 className="w-4 h-4 text-portal-green shrink-0" />
                       <span>Verifiable Credential issuance for hospital medical staff</span>
                     </li>
@@ -506,18 +478,18 @@ export default function LandingPage() {
                   </div>
                 </div>
 
-                <div className="p-6 rounded-xl bg-[#0B1020] border border-slate-800 border-l-4 border-l-portal-blue shadow-inner">
+                <div className="p-6 rounded-xl bg-[#0B1A3B] border border-blue-900/70 border-l-4 border-l-portal-blue shadow-inner">
                   <div className="flex items-center justify-between mb-4 text-xs font-mono">
-                    <span className="text-slate-300 font-bold">Node Status: Apex Heart Node #01</span>
+                    <span className="text-blue-100 font-bold">Node Status: Apex Heart Node #01</span>
                     <span className="text-portal-green font-bold">Connected (Round #142) ✓</span>
                   </div>
                   <div className="space-y-2.5 font-mono text-xs">
-                    <div className="p-3.5 rounded-lg bg-[#0F1528] border border-slate-800 flex justify-between">
-                      <span className="text-slate-400">Local PHI Records:</span>
+                    <div className="p-3.5 rounded-lg bg-[#132A5E] border border-blue-900/60 flex justify-between">
+                      <span className="text-blue-200">Local PHI Records:</span>
                       <span className="text-portal-orange font-bold">100% In-Hospital Boundary</span>
                     </div>
-                    <div className="p-3.5 rounded-lg bg-[#0F1528] border border-slate-800 flex justify-between">
-                      <span className="text-slate-400">Model Shared:</span>
+                    <div className="p-3.5 rounded-lg bg-[#132A5E] border border-blue-900/60 flex justify-between">
+                      <span className="text-blue-200">Model Shared:</span>
                       <span className="text-portal-green font-bold">Gradients Only (zk-Aggregated)</span>
                     </div>
                   </div>
@@ -528,14 +500,14 @@ export default function LandingPage() {
             {activePortalTab === 'government' && (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
                 <div className="space-y-5">
-                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-portal-green/15 text-portal-green text-xs font-mono font-bold border border-portal-green/30">
+                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-portal-green/20 text-portal-green text-xs font-mono font-bold border border-portal-green/40">
                     <Landmark className="w-3.5 h-3.5" />
                     <span>Government Portal</span>
                   </div>
                   <h3 className="font-display text-2xl sm:text-3xl font-bold text-white leading-snug">
                     Zero-Knowledge Subsidy & Scheme Administration
                   </h3>
-                  <p className="text-sm font-sans text-slate-300 leading-relaxed">
+                  <p className="text-sm font-sans text-blue-100 leading-relaxed">
                     Verify citizen eligibility for specialized subsidies and healthcare grants in milliseconds using zero-knowledge proofs without collecting or storing citizens' private tax documents.
                   </p>
                   <div className="pt-2">
@@ -549,12 +521,12 @@ export default function LandingPage() {
                   </div>
                 </div>
 
-                <div className="p-6 rounded-xl bg-[#0B1020] border border-slate-800 border-l-4 border-l-portal-green font-mono text-xs space-y-3 shadow-inner">
-                  <div className="text-slate-300 font-bold">ZK-Verification Queue:</div>
-                  <div className="p-3.5 rounded-lg bg-[#0F1528] border border-slate-800 flex justify-between items-center">
+                <div className="p-6 rounded-xl bg-[#0B1A3B] border border-blue-900/70 border-l-4 border-l-portal-green font-mono text-xs space-y-3 shadow-inner">
+                  <div className="text-blue-100 font-bold">ZK-Verification Queue:</div>
+                  <div className="p-3.5 rounded-lg bg-[#132A5E] border border-blue-900/60 flex justify-between items-center">
                     <div>
                       <span className="text-white block font-sans font-bold">Scheme #CARDIO-2026</span>
-                      <span className="text-[11px] text-slate-400">Citizen: did:nexora:pat:8f9a...</span>
+                      <span className="text-[11px] text-blue-200">Citizen: did:nexora:pat:8f9a...</span>
                     </div>
                     <span className="px-3 py-1 rounded-md bg-portal-green/20 text-portal-green text-xs font-bold">
                       Proof Valid ✓
@@ -567,14 +539,14 @@ export default function LandingPage() {
             {activePortalTab === 'researchers' && (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
                 <div className="space-y-5">
-                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-purple-500/15 text-purple-300 text-xs font-mono font-bold border border-purple-500/30">
+                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-purple-500/20 text-purple-200 text-xs font-mono font-bold border border-purple-400/40">
                     <Microscope className="w-3.5 h-3.5" />
                     <span>Researcher Portal</span>
                   </div>
                   <h3 className="font-display text-2xl sm:text-3xl font-bold text-white leading-snug">
                     Anonymized Research & ZK-Gated Cohort Queries
                   </h3>
-                  <p className="text-sm font-sans text-slate-300 leading-relaxed">
+                  <p className="text-sm font-sans text-blue-100 leading-relaxed">
                     Query epidemiologic trends, rare variant correlations, and treatment outcomes across participating hospitals with differential privacy guarantees (k-anonymity=50).
                   </p>
                   <div className="pt-2">
@@ -588,9 +560,9 @@ export default function LandingPage() {
                   </div>
                 </div>
 
-                <div className="p-6 rounded-xl bg-[#0B1020] border border-slate-800 border-l-4 border-l-purple-500 font-mono text-xs space-y-3 shadow-inner">
-                  <div className="text-slate-300 font-bold">Research Request Matrix:</div>
-                  <div className="p-3.5 rounded-lg bg-[#0F1528] border border-slate-800 space-y-1">
+                <div className="p-6 rounded-xl bg-[#0B1A3B] border border-blue-900/70 border-l-4 border-l-purple-500 font-mono text-xs space-y-3 shadow-inner">
+                  <div className="text-blue-100 font-bold">Research Request Matrix:</div>
+                  <div className="p-3.5 rounded-lg bg-[#132A5E] border border-blue-900/60 space-y-1">
                     <span className="text-white block font-sans font-bold">Cardiovascular Cohort 2026</span>
                     <span className="text-[11px] text-portal-green font-bold block">ZK-Differential Privacy Protocol Active ✓</span>
                   </div>
@@ -602,10 +574,10 @@ export default function LandingPage() {
       </section>
 
       {/* TRUST & TECHNICAL CREDIBILITY STRIP */}
-      <section className="py-20 bg-[#0A0F1E] border-t border-slate-800/80">
+      <section className="py-16 bg-[#133266] border-t-2 border-blue-400/20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
           <div className="text-center">
-            <span className="font-mono text-xs text-portal-orange font-bold uppercase tracking-wider">
+            <span className="font-mono text-xs text-portal-orange font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-portal-orange/15 border border-portal-orange/30">
               Cryptographic & Security Foundation
             </span>
           </div>
@@ -621,13 +593,13 @@ export default function LandingPage() {
               return (
                 <div
                   key={idx}
-                  className="p-5 rounded-2xl bg-[#0F1528] border border-slate-800 hover:border-slate-700 transition-all text-center flex flex-col items-center justify-center space-y-2 shadow-md group"
+                  className="p-5 rounded-2xl bg-[#0F224D] border border-blue-400/20 hover:border-blue-400/40 transition-all text-center flex flex-col items-center justify-center space-y-2 shadow-md group"
                 >
-                  <div className="p-2.5 rounded-xl bg-portal-orange/15 text-portal-orange mb-1 group-hover:scale-110 transition-transform">
+                  <div className="p-2.5 rounded-xl bg-portal-orange/20 text-portal-orange mb-1 group-hover:scale-110 transition-transform">
                     <Icon className="w-5 h-5" />
                   </div>
                   <span className="font-mono font-bold text-xs text-white">{badge.title}</span>
-                  <span className="font-sans text-xs text-slate-400">{badge.desc}</span>
+                  <span className="font-sans text-xs text-blue-200">{badge.desc}</span>
                 </div>
               )
             })}
