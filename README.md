@@ -9,13 +9,25 @@
 [![MongoDB Atlas](https://img.shields.io/badge/MongoDB_Atlas-Database-47A248?style=for-the-badge&logo=mongodb)](https://www.mongodb.com/atlas)
 [![Firebase Auth](https://img.shields.io/badge/Firebase-Authentication-FFCA28?style=for-the-badge&logo=firebase)](https://firebase.google.com/)
 [![Zero Knowledge](https://img.shields.io/badge/Zero--Knowledge-Groth16_Proofs-orange?style=for-the-badge&logo=shield)](https://z.cash/technology/zksnarks/)
+[![Live Demo](https://img.shields.io/badge/Vercel_Deployment-Live_App-0070F3?style=for-the-badge&logo=vercel)](https://nexora-nine-self.vercel.app/)
 [![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](LICENSE)
 
 <p align="center">
   <b>A unified sovereign health enclave empowering citizens to own, encrypt, and selectively disclose medical records to verified hospitals, researchers, and government subsidy programs with Zero-Knowledge verification and multi-agent AI orchestration.</b>
 </p>
 
-[Live Demo](#deployment) • [Architecture](#system-architecture) • [Features](#key-features) • [Tech Stack](#technology-stack) • [Setup Guide](#getting-started) • [Deployment](#deploying-to-vercel)
+### 🌐 Live Production Application
+**[https://nexora-nine-self.vercel.app/](https://nexora-nine-self.vercel.app/)**
+
+<br/>
+
+<a href="https://nexora-nine-self.vercel.app/" target="_blank" rel="noopener noreferrer">
+  <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=https%3A%2F%2Fnexora-nine-self.vercel.app%2F" alt="Scan QR Code to Open Nexora" width="160" height="160" style="border-radius: 8px; border: 2px solid #e2e8f0; padding: 6px; background: white;" />
+</a>
+
+<p align="center"><i>📱 Scan to access Nexora on mobile or desktop</i></p>
+
+[Live Demo](https://nexora-nine-self.vercel.app/) • [Architecture](#system-architecture) • [Features](#key-features) • [Tech Stack](#technology-stack) • [Setup Guide](#getting-started) • [Deployment](#deploying-to-vercel)
 
 </div>
 
@@ -256,6 +268,8 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 ---
 
 ## 🚀 Deploying to Vercel
+
+> **Live Instance:** [https://nexora-nine-self.vercel.app/](https://nexora-nine-self.vercel.app/)
 
 The project is pre-configured with zero build warnings and optimized serverless routes:
 
