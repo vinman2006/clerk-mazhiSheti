@@ -82,7 +82,7 @@ export default function LandingPage() {
                 href="/dashboard/agents"
                 className="w-full sm:w-auto px-7 py-3.5 rounded-lg bg-[#2E7D32] hover:bg-[#256629] text-white font-bold text-sm transition-all shadow-md flex items-center justify-center gap-2 uppercase tracking-wider group"
               >
-                <span>Launch Multi-Agent Demo</span>
+                <span>Launch Multi-Agent Enclave</span>
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
               </Link>
 
@@ -476,7 +476,7 @@ export default function LandingPage() {
                       href="/hospital-portal/ai-training"
                       className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-[#2E7D32] hover:bg-[#256629] text-white font-bold text-xs uppercase tracking-wider transition-all shadow-md"
                     >
-                      <span>Open Hospital Portal Demo</span>
+                      <span>Open Hospital Portal</span>
                       <ArrowRight className="w-4 h-4" />
                     </Link>
                   </div>
@@ -519,7 +519,7 @@ export default function LandingPage() {
                       href="/gov-portal"
                       className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-[#2E7D32] hover:bg-[#256629] text-white font-bold text-xs uppercase tracking-wider transition-all shadow-md"
                     >
-                      <span>Open Government Portal Demo</span>
+                      <span>Open Government Portal</span>
                       <ArrowRight className="w-4 h-4" />
                     </Link>
                   </div>
@@ -558,7 +558,7 @@ export default function LandingPage() {
                       href="/research"
                       className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-[#2E7D32] hover:bg-[#256629] text-white font-bold text-xs uppercase tracking-wider transition-all shadow-md"
                     >
-                      <span>Open Research Portal Demo</span>
+                      <span>Open Research Portal</span>
                       <ArrowRight className="w-4 h-4" />
                     </Link>
                   </div>

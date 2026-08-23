@@ -81,7 +81,35 @@ export default function HospitalAiTrainingPage() {
           </p>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3 flex-wrap">
+          <button
+            type="button"
+            onClick={() => {
+              const weightsMeta = {
+                modelArchitecture: 'DenseNet-121-CardiacEvent',
+                modelVersion: '3.2.0',
+                trainingProtocol: 'Federated Averaging (FedAvg) + ZK-SMPC',
+                roundNumber: 142,
+                convergedAccuracy: 0.967,
+                loss: 0.112,
+                participatingNodes: 26,
+                aggregationProof: '0xzk_fedavg_grad_agg_9941a8b',
+                exportedAt: new Date().toISOString()
+              }
+              const blob = new Blob([JSON.stringify(weightsMeta, null, 2)], { type: 'application/json' })
+              const url = URL.createObjectURL(blob)
+              const a = document.createElement('a')
+              a.href = url
+              a.download = 'cardiac-event-v3.2-global-weights.json'
+              a.click()
+              URL.revokeObjectURL(url)
+            }}
+            className="px-3.5 py-2 rounded-lg bg-[#101420] hover:bg-[#182033] border border-neutral-700 text-portal-orange text-xs font-mono font-bold transition-all shadow-sm flex items-center gap-1.5"
+          >
+            <Sparkles className="w-3.5 h-3.5" />
+            <span>Export Model Weights</span>
+          </button>
+
           {/* Participate Toggle */}
           <div className="flex items-center gap-3 p-3 rounded-lg bg-[#101420] border border-neutral-700 relative">
             <div className="text-left">

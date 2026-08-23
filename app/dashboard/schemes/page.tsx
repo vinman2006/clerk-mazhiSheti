@@ -96,9 +96,40 @@ export default function PatientSchemesPage() {
                 </div>
 
                 {isEnrolled ? (
-                  <div className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-portal-green/20 text-portal-green border-2 border-portal-green text-xs font-mono font-bold shrink-0 shadow-sm">
-                    <CheckCircle2 className="w-4 h-4 stroke-[2.5]" />
-                    <span>ZK Verified & Enrolled ✓</span>
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <div className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-portal-green/20 text-portal-green border-2 border-portal-green text-xs font-mono font-bold shrink-0 shadow-sm">
+                      <CheckCircle2 className="w-4 h-4 stroke-[2.5]" />
+                      <span>ZK Verified & Enrolled ✓</span>
+                    </div>
+
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const cert = {
+                          schemeId: scheme.id,
+                          schemeCode: scheme.code,
+                          schemeTitle: scheme.title,
+                          beneficiaryName: profile.name,
+                          beneficiaryDid: profile.did,
+                          district: profile.district,
+                          zkProofSystem: scheme.zkProofType,
+                          zkSnarkVerificationHash: `0xzk_${scheme.id.slice(-6)}_${profile.did.slice(-8)}`,
+                          coverageBenefit: scheme.coverage,
+                          issuedAt: new Date().toISOString(),
+                          issuerAuthority: 'National Health Directorate ZK Gateway'
+                        }
+                        const blob = new Blob([JSON.stringify(cert, null, 2)], { type: 'application/json' })
+                        const url = URL.createObjectURL(blob)
+                        const a = document.createElement('a')
+                        a.href = url
+                        a.download = `zk-subsidy-proof-${scheme.code.toLowerCase()}.json`
+                        a.click()
+                        URL.revokeObjectURL(url)
+                      }}
+                      className="px-3 py-2 rounded-lg bg-[#101420] hover:bg-[#182033] border border-neutral-700 text-portal-orange text-xs font-mono font-bold transition-all shadow-sm flex items-center gap-1.5"
+                    >
+                      <span>Proof Receipt</span>
+                    </button>
                   </div>
                 ) : (
                   <button

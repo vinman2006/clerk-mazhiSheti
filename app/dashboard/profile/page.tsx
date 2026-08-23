@@ -142,6 +142,50 @@ export default function ProfilePage() {
               />
             </div>
           </div>
+
+          <div className="pt-2 flex flex-wrap items-center gap-3">
+            <button
+              type="button"
+              onClick={() => {
+                const newDid = `did:nexora:pat:${Math.random().toString(36).substring(2, 10)}${Math.random().toString(36).substring(2, 6)}`
+                updateProfile({
+                  did: newDid,
+                  encryptionKeyFingerprint: `SHA256:${Math.random().toString(36).substring(2, 10)}...${Math.random().toString(36).substring(2, 6)}`
+                })
+                setSaved(true)
+                setTimeout(() => setSaved(false), 2500)
+              }}
+              className="px-4 py-2 rounded-lg bg-[#101420] hover:bg-[#182033] border border-neutral-700 text-portal-orange text-xs font-mono font-bold transition-all flex items-center gap-1.5"
+            >
+              <RefreshCw className="w-3.5 h-3.5" />
+              <span>Rotate Enclave Keys & DID</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => {
+                const backupData = {
+                  enclaveVersion: 'Nexora-v1.0.4',
+                  did: profile.did,
+                  fingerprint: profile.encryptionKeyFingerprint,
+                  wallet: profile.walletAddress,
+                  exportDate: new Date().toISOString(),
+                  custody: 'Client-Side Self-Sovereign AES-GCM-256'
+                }
+                const blob = new Blob([JSON.stringify(backupData, null, 2)], { type: 'application/json' })
+                const url = URL.createObjectURL(blob)
+                const a = document.createElement('a')
+                a.href = url
+                a.download = `nexora-vault-backup-${profile.did.slice(-8)}.json`
+                a.click()
+                URL.revokeObjectURL(url)
+              }}
+              className="px-4 py-2 rounded-lg bg-[#101420] hover:bg-[#182033] border border-neutral-700 text-neutral-200 hover:text-white text-xs font-mono font-bold transition-all flex items-center gap-1.5"
+            >
+              <Lock className="w-3.5 h-3.5 text-portal-green" />
+              <span>Export Encrypted Vault Backup</span>
+            </button>
+          </div>
         </div>
 
         {/* SECTION 2: PERSONAL DEMOGRAPHICS */}

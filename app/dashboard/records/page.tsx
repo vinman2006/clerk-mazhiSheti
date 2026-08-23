@@ -178,7 +178,7 @@ export default function MedicalRecordsPage() {
 
               {/* Decrypted Payload Preview */}
               {isDecrypted && (
-                <div className="p-4 rounded-lg bg-[#101420] border border-neutral-700 border-l-4 border-l-portal-green space-y-2 text-xs font-sans animate-in fade-in duration-200">
+                <div className="p-4 rounded-lg bg-[#101420] border border-neutral-700 border-l-4 border-l-portal-green space-y-3 text-xs font-sans animate-in fade-in duration-200">
                   <div className="flex items-center justify-between font-mono text-[11px] text-portal-green font-bold border-b border-neutral-700 pb-2">
                     <span className="flex items-center gap-1.5">
                       <ShieldCheck className="w-4 h-4" />
@@ -189,6 +189,44 @@ export default function MedicalRecordsPage() {
                   <p className="text-neutral-200 leading-relaxed font-mono text-xs pt-1">
                     {rec.summary}
                   </p>
+                  <div className="pt-2 flex flex-wrap items-center gap-3">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const payload = {
+                          recordId: rec.id,
+                          title: rec.title,
+                          category: rec.category,
+                          ipfsCid: rec.ipfsCid,
+                          keyFingerprint: rec.encryptionKeyFingerprint,
+                          summary: rec.summary,
+                          facility: rec.hospital,
+                          doctor: rec.doctor,
+                          date: rec.date,
+                          custodySignature: `ED25519_SIG_${rec.ipfsCid.slice(0, 16)}`
+                        }
+                        const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' })
+                        const url = URL.createObjectURL(blob)
+                        const a = document.createElement('a')
+                        a.href = url
+                        a.download = `medical-record-${rec.category.toLowerCase()}-${rec.id}.json`
+                        a.click()
+                        URL.revokeObjectURL(url)
+                      }}
+                      className="px-3 py-1.5 rounded bg-[#141826] hover:bg-[#182033] border border-neutral-700 text-portal-orange text-[11px] font-mono font-bold transition-all flex items-center gap-1.5"
+                    >
+                      <FileText className="w-3.5 h-3.5" />
+                      <span>Download Encrypted JSON</span>
+                    </button>
+
+                    <a
+                      href="/dashboard/audit"
+                      className="px-3 py-1.5 rounded bg-[#141826] hover:bg-[#182033] border border-neutral-700 text-portal-green text-[11px] font-mono font-bold transition-all flex items-center gap-1.5"
+                    >
+                      <ExternalLink className="w-3.5 h-3.5" />
+                      <span>Verify Hash in Audit Trail</span>
+                    </a>
+                  </div>
                 </div>
               )}
             </div>

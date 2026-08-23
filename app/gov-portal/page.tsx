@@ -106,13 +106,46 @@ export default function GovernmentPortalPage() {
           </p>
         </div>
 
-        <button
-          onClick={() => setShowAddModal(true)}
-          className="inline-flex items-center gap-2 px-5 py-3 rounded-lg bg-[#2E7D32] hover:bg-[#256629] text-white font-bold text-xs uppercase tracking-wider transition-all shadow-md font-mono"
-        >
-          <Plus className="w-4 h-4" />
-          <span>Create New Scheme</span>
-        </button>
+        <div className="flex items-center gap-3 flex-wrap">
+          <button
+            type="button"
+            onClick={() => {
+              const exportData = {
+                issuer: 'National Health Directorate ZK Gateway',
+                jurisdiction: 'Maharashtra National Health Authority',
+                timestamp: new Date().toISOString(),
+                activeSchemesCount: schemes.length,
+                totalZkProofsProcessed: 48920,
+                verificationSuccessRate: '99.8%',
+                schemes: schemes.map(s => ({
+                  code: s.code,
+                  title: s.title,
+                  coverage: s.coverage,
+                  zkCircuit: s.zkProofType,
+                  enrolledPatients: s.enrolledPatientsCount
+                }))
+              }
+              const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' })
+              const url = URL.createObjectURL(blob)
+              const a = document.createElement('a')
+              a.href = url
+              a.download = 'national-health-subsidy-report.json'
+              a.click()
+              URL.revokeObjectURL(url)
+            }}
+            className="px-4 py-3 rounded-lg bg-[#101420] hover:bg-[#182033] border border-neutral-700 text-portal-orange font-mono text-xs font-bold transition-all shadow-sm"
+          >
+            <span>Export Subsidy Report</span>
+          </button>
+
+          <button
+            onClick={() => setShowAddModal(true)}
+            className="inline-flex items-center gap-2 px-5 py-3 rounded-lg bg-[#2E7D32] hover:bg-[#256629] text-white font-bold text-xs uppercase tracking-wider transition-all shadow-md font-mono"
+          >
+            <Plus className="w-4 h-4" />
+            <span>Create New Scheme</span>
+          </button>
+        </div>
       </div>
 
       {/* ZK ELIGIBILITY VERIFICATION REQUESTS QUEUE */}

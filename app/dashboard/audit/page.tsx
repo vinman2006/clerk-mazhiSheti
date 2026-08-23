@@ -51,7 +51,27 @@ export default function AuditTrailPage() {
             </p>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 flex-wrap">
+            <button
+              type="button"
+              onClick={() => {
+                const header = 'Timestamp,Entity,EntityDID,Action,Purpose,DataAccessed,TxHash,BlockNumber,ZKVerified\n'
+                const rows = filteredEntries.map(e => 
+                  `"${e.timestamp}","${e.entity}","${e.entityDid}","${e.action}","${e.purpose}","${e.dataAccessed}","${e.txHash}","${e.blockNumber}","${e.zkVerified}"`
+                ).join('\n')
+                const blob = new Blob([header + rows], { type: 'text/csv' })
+                const url = URL.createObjectURL(blob)
+                const a = document.createElement('a')
+                a.href = url
+                a.download = `nexora-audit-ledger-${new Date().toISOString().split('T')[0]}.csv`
+                a.click()
+                URL.revokeObjectURL(url)
+              }}
+              className="px-3.5 py-1.5 rounded-md bg-[#101420] hover:bg-[#182033] border border-neutral-700 text-portal-orange font-mono text-xs font-bold transition-all flex items-center gap-1.5 shadow-sm"
+            >
+              <Download className="w-3.5 h-3.5" />
+              <span>Export Audit CSV</span>
+            </button>
             <span className="px-3.5 py-1.5 rounded-md bg-[#101420] border-2 border-portal-green text-portal-green font-mono text-xs font-bold shadow-sm">
               Ledger State: SYNCED ✓ ({auditTrail.length} Entries)
             </span>

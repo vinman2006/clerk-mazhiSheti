@@ -109,7 +109,34 @@ export default function ArchitecturePage() {
               </h1>
             </div>
 
-            <div className="flex items-center gap-2 font-mono text-xs text-neutral-300">
+            <div className="flex items-center gap-2 font-mono text-xs text-neutral-300 flex-wrap">
+              <button
+                type="button"
+                onClick={() => {
+                  const specData = {
+                    title: 'Nexora Sovereign Health Platform Specification',
+                    version: '2.4-EVM',
+                    standards: ['W3C DID v1.0', 'W3C Verifiable Credentials', 'zk-SNARK Groth16 / Plonk', 'AES-GCM-256 IPFS'],
+                    publishedDate: new Date().toISOString(),
+                    layers: [
+                      'Layer 1: Sovereign Multi-Agent Coordination Enclave',
+                      'Layer 2: On-Chain Cryptographic Consensus & Smart Consent Engine',
+                      'Layer 3: Off-Chain Zero-Knowledge Decentralized IPFS Storage'
+                    ],
+                    compliance: ['HIPAA Compliant (Zero Raw PHI On-Chain)', 'GDPR Article 9 Compliant', 'ABDM M3 Compatible']
+                  }
+                  const blob = new Blob([JSON.stringify(specData, null, 2)], { type: 'application/json' })
+                  const url = URL.createObjectURL(blob)
+                  const a = document.createElement('a')
+                  a.href = url
+                  a.download = 'nexora-technical-architecture-spec.json'
+                  a.click()
+                  URL.revokeObjectURL(url)
+                }}
+                className="px-3.5 py-1.5 rounded-lg bg-[#141826] hover:bg-[#182033] border border-neutral-700 text-portal-orange font-bold flex items-center gap-1.5 shadow-sm"
+              >
+                <span>Download Spec</span>
+              </button>
               <span className="px-3 py-1.5 rounded-lg bg-[#141826] border border-neutral-700">
                 Spec Version: <span className="text-portal-orange font-bold">v2.4-EVM</span>
               </span>

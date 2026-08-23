@@ -147,6 +147,31 @@ export default function ResearchPortalPage() {
                 <span>Tx: <span className="text-portal-green font-bold">{req.txProof}</span></span>
               </div>
             </div>
+
+            {req.status === 'Approved' && (
+              <div className="pt-1 flex justify-end">
+                <button
+                  type="button"
+                  onClick={() => {
+                    const header = 'Cohort_ID,Age_Bracket,Gender_Code,Cardiac_Telemetry_Avg_BPM,Systolic_BP,HbA1c_Percentage,Diff_Privacy_Noise_Epsilon\n'
+                    const sampleRows = Array.from({ length: 15 }, (_, i) => 
+                      `"COHORT_${1000 + i}","55-65","${i % 2 === 0 ? 'F' : 'M'}",${72 + (i % 10)},${120 + (i % 20)},${5.6 + (i * 0.1).toFixed(1)},0.5`
+                    ).join('\n')
+                    const blob = new Blob([header + sampleRows], { type: 'text/csv' })
+                    const url = URL.createObjectURL(blob)
+                    const a = document.createElement('a')
+                    a.href = url
+                    a.download = `de-identified-cohort-${req.id}.csv`
+                    a.click()
+                    URL.revokeObjectURL(url)
+                  }}
+                  className="px-4 py-2 rounded-lg bg-[#101420] hover:bg-[#182033] border border-neutral-700 text-purple-300 hover:text-white text-xs font-mono font-bold transition-all flex items-center gap-1.5 shadow-sm"
+                >
+                  <Download className="w-3.5 h-3.5" />
+                  <span>Download De-Identified Dataset (.csv)</span>
+                </button>
+              </div>
+            )}
           </div>
         ))}
       </div>
