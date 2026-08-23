@@ -28,6 +28,7 @@ import {
 import { Navbar } from '@/components/layout/Navbar'
 import { Footer } from '@/components/layout/Footer'
 import { NodeDiagram } from '@/components/diagrams/NodeDiagram'
+import { HashSplitDemo } from '@/components/landing/HashSplitDemo'
 import { SimulatedBadge } from '@/components/ui/SimulatedBadge'
 import { useAuth } from '@/lib/authContext'
 import dynamic from 'next/dynamic'
@@ -104,6 +105,9 @@ export default function LandingPage() {
           </div>
         </div>
       </section>
+
+      {/* INTERACTIVE HASH SPLIT DEMO ANIMATION */}
+      <HashSplitDemo />
 
       {/* PROBLEM / SOLUTION STRIP: FEDERATED LEARNING CONTRAST */}
       <section className="py-20 bg-[#133266] border-y-2 border-blue-400/20 relative">
