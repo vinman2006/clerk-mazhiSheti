@@ -204,11 +204,11 @@ export default function ProfilePage() {
                 ) : (
                   <button
                     type="button"
-                    onClick={() => connect('preprod')}
+                    onClick={() => connect('localnet')}
                     disabled={isConnecting}
-                    className="px-4 py-2 rounded bg-portal-orange hover:bg-[#e07507] text-white text-xs font-mono font-bold whitespace-nowrap shadow-sm"
+                    className="px-4 py-2 rounded bg-nexora-orange-500 hover:bg-nexora-orange-600 text-nexora-text-on-orange text-xs font-mono font-bold whitespace-nowrap shadow-sm"
                   >
-                    {isConnecting ? 'Connecting...' : 'Connect 1AM'}
+                    {isConnecting ? 'Connecting...' : 'Connect 1AM (Localnet)'}
                   </button>
                 )}
               </div>

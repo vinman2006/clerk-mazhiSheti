@@ -2,9 +2,48 @@
 
 import React, { createContext, useContext, useState, useEffect, useCallback, useRef } from 'react'
 
-export type MidnightNetwork = 'preprod' | 'preview' | 'mainnet'
+export type MidnightNetwork = 'localnet' | 'preprod' | 'preview' | 'mainnet'
 export type WalletType = '1am' | 'lace' | 'simulated' | null
 export type WalletDetectionStatus = 'checking' | 'detected' | 'not-found'
+
+export interface NetworkConfig {
+  label: string
+  indexerUri: string
+  nodeRpc: string
+  proofServerUri: string
+  isLocal: boolean
+}
+
+export const MIDNIGHT_NETWORKS: Record<MidnightNetwork, NetworkConfig> = {
+  localnet: {
+    label: 'Localnet (Devnet)',
+    indexerUri: 'http://localhost:8088/api/v1/graphql',
+    nodeRpc: 'http://localhost:9944',
+    proofServerUri: 'http://localhost:6300',
+    isLocal: true
+  },
+  preprod: {
+    label: 'Preprod Testnet',
+    indexerUri: 'https://indexer.preprod.midnight.network/api/v1/graphql',
+    nodeRpc: 'https://rpc.preprod.midnight.network',
+    proofServerUri: 'https://proof.preprod.midnight.network',
+    isLocal: false
+  },
+  preview: {
+    label: 'Preview Testnet',
+    indexerUri: 'https://indexer.preview.midnight.network/api/v1/graphql',
+    nodeRpc: 'https://rpc.preview.midnight.network',
+    proofServerUri: 'https://proof.preview.midnight.network',
+    isLocal: false
+  },
+  mainnet: {
+    label: 'Mainnet',
+    indexerUri: 'https://indexer.midnight.network/api/v1/graphql',
+    nodeRpc: 'https://rpc.midnight.network',
+    proofServerUri: 'https://proof.midnight.network',
+    isLocal: false
+  }
+}
 
 export interface OneAmWalletSession {
   api: any
@@ -13,6 +52,8 @@ export interface OneAmWalletSession {
   shieldedCoinPublicKey: string | null
   shieldedEncryptionPublicKey: string | null
   indexerUri?: string
+  nodeRpc?: string
+  proofServerUri?: string
   dustSponsored: boolean
   isSimulated: boolean
 }
@@ -26,6 +67,7 @@ export interface WalletContextType {
   walletType: WalletType
   walletStatus: WalletDetectionStatus
   network: MidnightNetwork
+  networkConfig: NetworkConfig
   isDustSponsored: boolean
   isSimulated: boolean
   error: string | null
@@ -51,7 +93,7 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
   const [isConnecting, setIsConnecting] = useState<boolean>(false)
   const [walletType, setWalletType] = useState<WalletType>(null)
   const [walletStatus, setWalletStatus] = useState<WalletDetectionStatus>('checking')
-  const [network, setNetwork] = useState<MidnightNetwork>('preprod')
+  const [network, setNetwork] = useState<MidnightNetwork>('localnet')
   const [isDustSponsored, setIsDustSponsored] = useState<boolean>(true)
   const [isSimulated, setIsSimulated] = useState<boolean>(false)
   const [error, setError] = useState<string | null>(null)
@@ -101,7 +143,7 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
 
     try {
       const wasConnected = localStorage.getItem(STORAGE_WALLET_CONNECTED) === 'true'
-      const savedNetwork = (localStorage.getItem(STORAGE_WALLET_NETWORK) as MidnightNetwork) || 'preprod'
+      const savedNetwork = (localStorage.getItem(STORAGE_WALLET_NETWORK) as MidnightNetwork) || 'localnet'
       const savedAddr = localStorage.getItem(STORAGE_WALLET_ADDR)
       const savedSim = localStorage.getItem(STORAGE_WALLET_SIM) === 'true'
 
@@ -122,11 +164,13 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
   }, [])
 
   // Connect handler
-  const connect = useCallback(async (targetNetwork: MidnightNetwork = 'preprod', forceSimulate = false): Promise<OneAmWalletSession | undefined> => {
+  const connect = useCallback(async (targetNetwork: MidnightNetwork = 'localnet', forceSimulate = false): Promise<OneAmWalletSession | undefined> => {
     if (connectingRef.current) return
     connectingRef.current = true
     setIsConnecting(true)
     setError(null)
+
+    const netCfg = MIDNIGHT_NETWORKS[targetNetwork] || MIDNIGHT_NETWORKS.localnet
 
     try {
       setNetwork(targetNetwork)
@@ -136,8 +180,9 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
         const realWallet = midnight?.['1am'] ?? midnight?.mnLace
 
         if (realWallet) {
-          // Real Midnight 1AM Wallet Extension Connected
-          const api = await realWallet.connect(targetNetwork)
+          // Pass 'undeployed' or 'localnet' to DApp connector if localnet
+          const connectorNetworkArg = targetNetwork === 'localnet' ? 'undeployed' : targetNetwork
+          const api = await realWallet.connect(connectorNetworkArg).catch(() => realWallet.connect(targetNetwork))
           
           let unshieldedAddr = ''
           let shieldedCoinKey = ''
@@ -159,7 +204,7 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
           }
 
           if (!unshieldedAddr) {
-            unshieldedAddr = `0x1am_${Math.random().toString(36).substring(2, 10)}${Math.random().toString(36).substring(2, 6)}`
+            unshieldedAddr = `0x1am_local_${Math.random().toString(36).substring(2, 10)}${Math.random().toString(36).substring(2, 6)}`
           }
 
           const newSession: OneAmWalletSession = {
@@ -168,6 +213,9 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
             unshieldedAddress: unshieldedAddr,
             shieldedCoinPublicKey: shieldedCoinKey || `0xshield_${Math.random().toString(36).substring(2, 8)}`,
             shieldedEncryptionPublicKey: shieldedEncKey || `0xenc_${Math.random().toString(36).substring(2, 8)}`,
+            indexerUri: netCfg.indexerUri,
+            nodeRpc: netCfg.nodeRpc,
+            proofServerUri: netCfg.proofServerUri,
             dustSponsored: true,
             isSimulated: false
           }
@@ -190,12 +238,17 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
         }
       }
 
-      // Simulated 1AM Midnight Enclave Fallback
-      const simulatedAddr = `0xmn1am_${Math.random().toString(36).substring(2, 8)}...${Math.random().toString(36).substring(2, 6)}`
+      // Simulated 1AM Midnight Enclave Fallback on Localnet
+      const simulatedAddr = `0xmn_loc_${Math.random().toString(36).substring(2, 8)}...${Math.random().toString(36).substring(2, 6)}`
       const simSession: OneAmWalletSession = {
         api: {
-          signData: async (msg: string) => `sig_1am_${Buffer.from(msg).toString('hex').slice(0, 32)}`,
-          getConfiguration: async () => ({ networkId: targetNetwork, indexerUri: 'https://indexer.preprod.midnight.network' }),
+          signData: async (msg: string) => `sig_1am_local_${Buffer.from(msg).toString('hex').slice(0, 32)}`,
+          getConfiguration: async () => ({
+            networkId: targetNetwork,
+            indexerUri: netCfg.indexerUri,
+            nodeRpc: netCfg.nodeRpc,
+            proofServerUri: netCfg.proofServerUri
+          }),
           getUnshieldedAddress: async () => ({ unshieldedAddress: simulatedAddr }),
           getShieldedAddresses: async () => ({
             shieldedCoinPublicKey: `0xcoin_${Math.random().toString(36).substring(2, 10)}`,
@@ -206,6 +259,9 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
         unshieldedAddress: simulatedAddr,
         shieldedCoinPublicKey: `0xcoin_${Math.random().toString(36).substring(2, 10)}`,
         shieldedEncryptionPublicKey: `0xenc_${Math.random().toString(36).substring(2, 10)}`,
+        indexerUri: netCfg.indexerUri,
+        nodeRpc: netCfg.nodeRpc,
+        proofServerUri: netCfg.proofServerUri,
         dustSponsored: true,
         isSimulated: true
       }
@@ -262,8 +318,10 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
     if (session?.api?.signData) {
       return session.api.signData(message, { encoding: 'text' })
     }
-    return `0x1am_sig_${Array.from({ length: 64 }, () => Math.floor(Math.random() * 16).toString(16)).join('')}`
+    return `0x1am_local_sig_${Array.from({ length: 64 }, () => Math.floor(Math.random() * 16).toString(16)).join('')}`
   }, [isConnected, session])
+
+  const currentConfig = MIDNIGHT_NETWORKS[network] || MIDNIGHT_NETWORKS.localnet
 
   return (
     <WalletContext.Provider
@@ -276,6 +334,7 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
         walletType,
         walletStatus,
         network,
+        networkConfig: currentConfig,
         isDustSponsored,
         isSimulated,
         error,
