@@ -26,10 +26,12 @@ import {
 } from 'lucide-react'
 import { useAuth } from '@/lib/authContext'
 import { useUserData } from '@/lib/userDataContext'
+import { useWallet } from '@/lib/walletContext'
 import { SimulatedBadge } from '@/components/ui/SimulatedBadge'
 import { NexoraLogo } from '@/components/ui/NexoraLogo'
 import { User } from 'lucide-react'
 import { OnboardingModal } from '@/components/onboarding/OnboardingModal'
+import { WalletConnectButton } from '@/components/wallet/WalletConnectButton'
 
 export default function DashboardLayout({
   children,
@@ -80,7 +82,7 @@ export default function DashboardLayout({
         </Link>
 
         <div className="flex items-center gap-2">
-          <SimulatedBadge variant="inline" />
+          <WalletConnectButton />
           <button
             onClick={() => setMobileOpen(!mobileOpen)}
             className="p-1.5 rounded-md bg-white/10 border border-white/20 text-white"
@@ -138,6 +140,15 @@ export default function DashboardLayout({
                   <span className="truncate">{profile.did || user.did}</span>
                 </div>
                 {copiedDid ? <Check className="w-3.5 h-3.5 text-portal-green shrink-0" /> : <Copy className="w-3.5 h-3.5 text-neutral-400 shrink-0" />}
+              </div>
+
+              {/* 1AM Midnight Wallet mini-badge */}
+              <div className="flex items-center justify-between px-2 py-1 rounded bg-[#141826] border border-neutral-800 text-[9px] font-mono text-neutral-400">
+                <span className="flex items-center gap-1 text-portal-orange font-bold">
+                  <Shield className="w-3 h-3 text-portal-orange" />
+                  1AM Midnight:
+                </span>
+                <span className="text-portal-green font-semibold">Dust-Free (0 NIGHT)</span>
               </div>
             </div>
           </Link>
@@ -228,6 +239,25 @@ export default function DashboardLayout({
 
       {/* MAIN CONTENT AREA */}
       <div className="flex-1 flex flex-col min-w-0 overflow-y-auto bg-gradient-to-b from-[#0D1B4C] via-[#101525] to-[#0B0E17]">
+        {/* Desktop Top Status Utility Bar */}
+        <header className="hidden md:flex items-center justify-between px-6 py-3 bg-[#101420]/80 backdrop-blur-md border-b border-white/10 sticky top-0 z-30">
+          <div className="flex items-center gap-3 text-xs font-mono">
+            <span className="flex items-center gap-1.5 text-portal-green font-semibold">
+              <span className="w-2 h-2 rounded-full bg-portal-green animate-pulse"></span>
+              Sovereign Patient Enclave Active
+            </span>
+            <span className="text-neutral-500">•</span>
+            <span className="text-neutral-400">
+              Midnight Network Partnerchain
+            </span>
+          </div>
+
+          <div className="flex items-center gap-3">
+            <SimulatedBadge variant="inline" />
+            <WalletConnectButton />
+          </div>
+        </header>
+
         <main className="p-4 sm:p-6 lg:p-8 max-w-7xl w-full mx-auto space-y-6">
           {children}
         </main>

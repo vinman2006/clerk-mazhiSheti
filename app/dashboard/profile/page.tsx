@@ -13,14 +13,28 @@ import {
   CheckCircle2, 
   AlertCircle,
   Copy,
-  RefreshCw
+  RefreshCw,
+  Shield,
+  Zap,
+  Sparkles
 } from 'lucide-react'
 import { useUserData } from '@/lib/userDataContext'
+import { useWallet } from '@/lib/walletContext'
 import { SimulatedBadge } from '@/components/ui/SimulatedBadge'
 import { VerifiedBadge } from '@/components/ui/VerifiedBadge'
 
 export default function ProfilePage() {
   const { profile, updateProfile, resetToDefaults } = useUserData()
+  const { 
+    isConnected, 
+    isConnecting, 
+    address, 
+    shieldedCoinPublicKey, 
+    network, 
+    isDustSponsored, 
+    connect, 
+    disconnect 
+  } = useWallet()
 
   const [name, setName] = useState(profile.name)
   const [dob, setDob] = useState(profile.dob)
@@ -35,6 +49,7 @@ export default function ProfilePage() {
   
   const [saved, setSaved] = useState(false)
   const [copiedDid, setCopiedDid] = useState(false)
+  const [copiedWallet, setCopiedWallet] = useState(false)
 
   const handleSave = (e: React.FormEvent) => {
     e.preventDefault()
@@ -78,6 +93,14 @@ export default function ProfilePage() {
     navigator.clipboard.writeText(profile.did)
     setCopiedDid(true)
     setTimeout(() => setCopiedDid(false), 2000)
+  }
+
+  const handleCopyWallet = () => {
+    if (address || profile.walletAddress) {
+      navigator.clipboard.writeText(address || profile.walletAddress)
+      setCopiedWallet(true)
+      setTimeout(() => setCopiedWallet(false), 2000)
+    }
   }
 
   return (
@@ -141,6 +164,55 @@ export default function ProfilePage() {
                 className="w-full px-3.5 py-2.5 rounded-lg bg-[#101420] border border-neutral-700 text-portal-green font-mono text-xs focus:outline-none"
               />
             </div>
+
+            {/* 1AM Midnight Wallet Address */}
+            <div className="space-y-1.5 sm:col-span-2 p-3.5 rounded-lg bg-[#101420] border border-portal-orange/40">
+              <div className="flex items-center justify-between">
+                <label className="font-mono text-[11px] text-portal-orange font-bold uppercase flex items-center gap-1.5">
+                  <Shield className="w-3.5 h-3.5" />
+                  <span>1AM Midnight Blockchain Wallet:</span>
+                </label>
+                <span className="text-[10px] font-mono text-portal-green font-bold">
+                  {isConnected ? `Connected (${network} - Dust-Free)` : 'Not Connected'}
+                </span>
+              </div>
+              <div className="flex items-center gap-2 mt-1">
+                <input
+                  type="text"
+                  readOnly
+                  value={isConnected ? address || '' : 'No 1AM Wallet connected. Click connect below to link.'}
+                  className="w-full px-3.5 py-2 rounded bg-[#141826] border border-neutral-700 text-white font-mono text-xs focus:outline-none"
+                />
+                {isConnected ? (
+                  <>
+                    <button
+                      type="button"
+                      onClick={handleCopyWallet}
+                      className="px-3 py-2 rounded bg-[#141826] border border-neutral-700 text-neutral-300 hover:text-white"
+                      title="Copy Address"
+                    >
+                      {copiedWallet ? <Check className="w-4 h-4 text-portal-green" /> : <Copy className="w-4 h-4" />}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={disconnect}
+                      className="px-3 py-2 rounded bg-red-500/10 hover:bg-red-500/20 text-red-300 border border-red-500/30 text-xs font-mono font-bold"
+                    >
+                      Disconnect
+                    </button>
+                  </>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={() => connect('preprod')}
+                    disabled={isConnecting}
+                    className="px-4 py-2 rounded bg-portal-orange hover:bg-[#e07507] text-white text-xs font-mono font-bold whitespace-nowrap shadow-sm"
+                  >
+                    {isConnecting ? 'Connecting...' : 'Connect 1AM'}
+                  </button>
+                )}
+              </div>
+            </div>
           </div>
 
           <div className="pt-2 flex flex-wrap items-center gap-3">
@@ -168,7 +240,9 @@ export default function ProfilePage() {
                   enclaveVersion: 'Nexora-v1.0.4',
                   did: profile.did,
                   fingerprint: profile.encryptionKeyFingerprint,
-                  wallet: profile.walletAddress,
+                  wallet: address || profile.walletAddress,
+                  shieldedCoinPublicKey: shieldedCoinPublicKey || '0x3a9f8c...39b2',
+                  network: network,
                   exportDate: new Date().toISOString(),
                   custody: 'Client-Side Self-Sovereign AES-GCM-256'
                 }

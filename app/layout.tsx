@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import './globals.css'
 import { AuthProvider } from '@/lib/authContext'
 import { UserDataProvider } from '@/lib/userDataContext'
+import { WalletProvider } from '@/lib/walletContext'
 import { DevRoleSwitcher } from '@/components/ui/DevRoleSwitcher'
 import { OnboardingModal } from '@/components/onboarding/OnboardingModal'
 
@@ -20,9 +21,11 @@ export default function RootLayout({
       <body className="bg-background text-text-primary min-h-screen antialiased selection:bg-portal-orange/20 selection:text-portal-orange">
         <AuthProvider>
           <UserDataProvider>
-            {children}
-            <OnboardingModal />
-            <DevRoleSwitcher />
+            <WalletProvider>
+              {children}
+              <OnboardingModal />
+              <DevRoleSwitcher />
+            </WalletProvider>
           </UserDataProvider>
         </AuthProvider>
       </body>

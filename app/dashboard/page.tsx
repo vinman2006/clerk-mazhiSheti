@@ -24,6 +24,7 @@ import { useAuth } from '@/lib/authContext'
 import { useUserData } from '@/lib/userDataContext'
 import { VerifiedBadge } from '@/components/ui/VerifiedBadge'
 import { SimulatedBadge } from '@/components/ui/SimulatedBadge'
+import { OneAmWalletCard } from '@/components/wallet/OneAmWalletCard'
 import { formatTimestamp, truncateHash } from '@/lib/utils'
 
 export default function PatientDashboardPage() {
@@ -73,6 +74,9 @@ export default function PatientDashboardPage() {
           <SimulatedBadge />
         </div>
       </div>
+
+      {/* 1AM WALLET & MIDNIGHT BLOCKCHAIN ENCLAVE */}
+      <OneAmWalletCard />
 
       {/* QUICK ACTIONS ROW */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
