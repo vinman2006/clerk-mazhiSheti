@@ -43,7 +43,23 @@ export function KiloWaveCanvas({ className = '' }: KiloWaveCanvasProps) {
       mouse.targetY = e.clientY - rect.top
     }
 
+    const handleTouchMove = (e: TouchEvent) => {
+      if (e.touches.length > 0) {
+        const rect = canvas.getBoundingClientRect()
+        mouse.targetX = e.touches[0].clientX - rect.left
+        mouse.targetY = e.touches[0].clientY - rect.top
+      }
+    }
+
+    const handleTouchEnd = () => {
+      mouse.targetX = -1000
+      mouse.targetY = -1000
+    }
+
     window.addEventListener('mousemove', handleMouseMove)
+    window.addEventListener('touchstart', handleTouchMove, { passive: true })
+    window.addEventListener('touchmove', handleTouchMove, { passive: true })
+    window.addEventListener('touchend', handleTouchEnd, { passive: true })
 
     // Render loop: Generative Stipple Halftone Wave Terrain
     const render = () => {
@@ -52,14 +68,17 @@ export function KiloWaveCanvas({ className = '' }: KiloWaveCanvasProps) {
       const width = rect.width
       const height = rect.height
 
-      // Smooth mouse interpolation
+      // Smooth mouse/touch interpolation
       mouse.x += (mouse.targetX - mouse.x) * 0.08
       mouse.y += (mouse.targetY - mouse.y) * 0.08
 
       ctx.clearRect(0, 0, width, height)
 
-      const cols = Math.floor(width / 18)
-      const rows = Math.floor(height / 18)
+      // Mobile adaptive density
+      const isMobile = width < 768
+      const cellSize = isMobile ? 22 : 18
+      const cols = Math.floor(width / cellSize)
+      const rows = Math.floor(height / cellSize)
       const stepX = width / cols
       const stepY = height / rows
 
@@ -73,7 +92,7 @@ export function KiloWaveCanvas({ className = '' }: KiloWaveCanvasProps) {
           const angle2 = (x * 0.03) - (y * 0.07) + (time * 0.8)
           const waveVal = Math.sin(angle1) * Math.cos(angle2)
 
-          // Distance from mouse for interactive ripple
+          // Distance from touch/mouse for interactive ripple
           const dx = posX - mouse.x
           const dy = posY - mouse.y
           const dist = Math.sqrt(dx * dx + dy * dy)
@@ -84,7 +103,7 @@ export function KiloWaveCanvas({ className = '' }: KiloWaveCanvasProps) {
           const intensity = Math.pow(normalized, 1.8) + mouseEffect
 
           if (intensity > 0.15) {
-            const radius = Math.max(0.6, intensity * 2.2)
+            const radius = Math.max(0.6, intensity * (isMobile ? 1.8 : 2.2))
             
             // Color grading: Crisp monochrome stipple with subtle warm gold/orange and cyan highlights
             if (mouseEffect > 0.3) {
@@ -112,6 +131,9 @@ export function KiloWaveCanvas({ className = '' }: KiloWaveCanvasProps) {
     return () => {
       window.removeEventListener('resize', resize)
       window.removeEventListener('mousemove', handleMouseMove)
+      window.removeEventListener('touchstart', handleTouchMove)
+      window.removeEventListener('touchmove', handleTouchMove)
+      window.removeEventListener('touchend', handleTouchEnd)
       cancelAnimationFrame(animationFrameId)
     }
   }, [])

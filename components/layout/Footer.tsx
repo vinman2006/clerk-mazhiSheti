@@ -4,8 +4,11 @@ import React from 'react'
 import Link from 'next/link'
 import { Shield, Lock, Cpu, Globe, CheckCircle2 } from 'lucide-react'
 import { NexoraLogo } from '@/components/ui/NexoraLogo'
+import { useLanguage } from '@/lib/languageContext'
 
 export function Footer() {
+  const { t } = useLanguage()
+
   return (
     <footer className="bg-nexora-bg-surface border-t border-nexora-border-subtle text-xs font-mono text-nexora-text-secondary">
       {/* Top Footer Banner */}
@@ -13,7 +16,7 @@ export function Footer() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
           <div className="flex items-center gap-2 text-nexora-text-primary font-bold">
             <span className="w-2 h-2 rounded-full bg-nexora-green-status"></span>
-            <span>Nexora National Sovereign Health Network</span>
+            <span>{t('footer_tagline')}</span>
           </div>
           <div className="flex items-center gap-4 text-nexora-steel-300 font-semibold">
             <span>• W3C Verifiable Credentials</span>
@@ -29,11 +32,11 @@ export function Footer() {
           <div className="space-y-3">
             <NexoraLogo size={36} showText={true} showBadge={false} subtitle="Zero-Trust Health Net" />
             <p className="font-sans text-xs text-nexora-text-secondary leading-relaxed">
-              Privacy-first multi-agent healthcare network combining decentralized identity, verifiable credentials, zero-knowledge proofs, and federated learning.
+              {t('hero_subtitle')}
             </p>
             <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-nexora-bg-elevated-2 border-l-4 border-l-nexora-green-status border border-nexora-border-subtle text-[11px] text-nexora-green-status font-semibold">
               <CheckCircle2 className="w-3.5 h-3.5" />
-              <span>Zero Medical Data Stored On-Chain</span>
+              <span>{t('footer_copy')}</span>
             </div>
           </div>
 

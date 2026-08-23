@@ -31,12 +31,14 @@ import { NodeDiagram } from '@/components/diagrams/NodeDiagram'
 import { HashSplitDemo } from '@/components/landing/HashSplitDemo'
 import { SimulatedBadge } from '@/components/ui/SimulatedBadge'
 import { useAuth } from '@/lib/authContext'
+import { useLanguage } from '@/lib/languageContext'
 import dynamic from 'next/dynamic'
 
 const DotGrid = dynamic(() => import('@/components/ui/DotGrid'), { ssr: false })
 
 export default function LandingPage() {
   const { loginWithGoogle } = useAuth()
+  const { t } = useLanguage()
   const [activePortalTab, setActivePortalTab] = useState<'hospitals' | 'government' | 'researchers'>('hospitals')
 
   return (
@@ -66,15 +68,15 @@ export default function LandingPage() {
           <div className="text-center max-w-4xl mx-auto space-y-6">
             {/* Two-Tone Headline */}
             <h1 className="font-display font-black text-4xl sm:text-6xl md:text-7xl tracking-tight text-white leading-[1.12] drop-shadow-md">
-              Healthcare access, <br />
+              {t('hero_title_line1')} <br />
               <span className="text-nexora-orange-500 drop-shadow-sm">
-                without giving up your privacy.
+                {t('hero_title_line2')}
               </span>
             </h1>
 
             {/* Sub-headline */}
             <p className="font-sans text-base sm:text-lg md:text-xl text-blue-100/90 max-w-3xl mx-auto leading-relaxed font-normal drop-shadow-sm">
-              Nexora is a privacy-first multi-agent healthcare network where patients, hospitals, and government services communicate and collaborate through AI agents while blockchain and zero-knowledge technology protect patient control and trust.
+              {t('hero_subtitle')}
             </p>
 
             {/* Hero CTAs */}
@@ -84,7 +86,7 @@ export default function LandingPage() {
                 href="/dashboard/agents"
                 className="w-full sm:w-auto px-8 py-4 rounded-xl bg-nexora-green-status hover:bg-[#1b8552] text-white font-black text-xs uppercase tracking-wider transition-all shadow-xl hover:shadow-emerald-950/40 flex items-center justify-center gap-2.5 group active:scale-[0.99]"
               >
-                <span>LAUNCH MULTI-AGENT DEMO</span>
+                <span>{t('hero_cta_primary')}</span>
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </Link>
 
@@ -93,7 +95,7 @@ export default function LandingPage() {
                 href="/architecture"
                 className="w-full sm:w-auto px-7 py-4 rounded-xl bg-[#081228]/85 hover:bg-[#0E1F4B] text-nexora-orange-400 border-2 border-nexora-orange-500/70 hover:border-nexora-orange-400 text-xs font-mono font-bold transition-all flex items-center justify-center gap-2 tracking-wide shadow-lg"
               >
-                <span>Technical Architecture</span>
+                <span>{t('hero_cta_secondary')}</span>
                 <span className="text-nexora-orange-400">→</span>
               </Link>
             </div>
@@ -114,13 +116,13 @@ export default function LandingPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
           <div className="text-center max-w-3xl mx-auto space-y-3">
             <span className="font-mono text-xs text-nexora-orange-400 font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-[rgba(224,130,31,0.12)] border border-nexora-orange-500/30">
-              Privacy Paradigm Shift
+              {t('paradigm_badge')}
             </span>
             <h2 className="font-display text-2xl sm:text-4xl font-black tracking-tight text-nexora-text-primary">
-              Why Existing Healthcare AI Breaches Patient Trust
+              {t('paradigm_title')}
             </h2>
             <p className="text-sm sm:text-base font-sans text-nexora-text-secondary leading-relaxed">
-              Traditional healthcare AI hoards sensitive medical records in centralized cloud databases. Nexora flips the paradigm with edge compute and federated learning.
+              {t('paradigm_desc')}
             </p>
           </div>
 
@@ -131,10 +133,10 @@ export default function LandingPage() {
                 <div className="flex items-center justify-between pb-4 border-b border-nexora-border-subtle">
                   <div className="flex items-center gap-2.5 text-red-400 font-display font-bold text-lg">
                     <AlertTriangle className="w-5 h-5 shrink-0" />
-                    <span>The Old Way (Centralized AI)</span>
+                    <span>{t('old_way_title')}</span>
                   </div>
                   <span className="px-2.5 py-1 rounded-full bg-red-500/15 border border-red-500/30 text-red-300 text-xs font-mono font-bold">
-                    High Risk
+                    {t('old_way_risk')}
                   </span>
                 </div>
 
@@ -142,20 +144,20 @@ export default function LandingPage() {
                   <div className="p-4 rounded-xl bg-nexora-bg-elevated-2 border border-nexora-border-subtle space-y-1.5">
                     <div className="flex items-center gap-2 text-nexora-text-primary font-bold">
                       <Building2 className="w-4 h-4 text-red-400 shrink-0" />
-                      <span>Hospitals A, B, C transmit raw patient records</span>
+                      <span>{t('old_way_hosp_transmit')}</span>
                     </div>
                     <p className="text-nexora-text-secondary leading-relaxed pl-6">
-                      Scans, clinical notes, and genomic sequences uploaded to third-party tech giants.
+                      {t('old_way_hosp_desc')}
                     </p>
                   </div>
 
                   <div className="p-4 rounded-xl bg-nexora-bg-elevated-2 border border-nexora-border-subtle space-y-1.5">
                     <div className="flex items-center gap-2 text-red-400 font-bold">
                       <Database className="w-4 h-4 shrink-0" />
-                      <span>Honeypot Centralized Database</span>
+                      <span>{t('old_way_honeypot')}</span>
                     </div>
                     <p className="text-nexora-text-secondary leading-relaxed pl-6">
-                      Vulnerable to ransomware, catastrophic data leaks, and unauthorized commercial exploitation.
+                      {t('old_way_honeypot_desc')}
                     </p>
                   </div>
                 </div>
@@ -163,7 +165,7 @@ export default function LandingPage() {
 
               <div className="pt-4 border-t border-nexora-border-subtle flex items-center gap-2 text-red-300 text-xs font-mono font-semibold">
                 <AlertTriangle className="w-3.5 h-3.5 shrink-0" />
-                <span>Patients lose all control, ownership, and visibility once uploaded.</span>
+                <span>{t('old_way_footer')}</span>
               </div>
             </div>
 
@@ -173,10 +175,10 @@ export default function LandingPage() {
                 <div className="flex items-center justify-between pb-4 border-b border-nexora-border-subtle">
                   <div className="flex items-center gap-2.5 text-nexora-green-status font-display font-bold text-lg">
                     <CheckCircle2 className="w-5 h-5 shrink-0" />
-                    <span>The Nexora Way (Federated Learning)</span>
+                    <span>{t('nexora_way_title')}</span>
                   </div>
                   <span className="px-2.5 py-1 rounded-full bg-nexora-green-status/15 border border-nexora-green-status/40 text-nexora-green-status text-xs font-mono font-bold">
-                    Zero Trust ✓
+                    {t('nexora_way_badge')}
                   </span>
                 </div>
 
@@ -184,20 +186,20 @@ export default function LandingPage() {
                   <div className="p-4 rounded-xl bg-nexora-bg-elevated-2 border border-nexora-border-subtle space-y-1.5">
                     <div className="flex items-center gap-2 text-nexora-text-primary font-bold">
                       <Cpu className="w-4 h-4 text-nexora-green-status shrink-0" />
-                      <span>Local On-Premise Training Only</span>
+                      <span>{t('nexora_way_local')}</span>
                     </div>
                     <p className="text-nexora-text-secondary leading-relaxed pl-6">
-                      Each hospital trains AI locally behind its firewall. Raw patient records never leave the hospital premise.
+                      {t('nexora_way_local_desc')}
                     </p>
                   </div>
 
                   <div className="p-4 rounded-xl bg-nexora-bg-elevated-2 border border-nexora-border-subtle space-y-1.5">
                     <div className="flex items-center gap-2 text-nexora-orange-400 font-bold">
                       <ShieldCheck className="w-4 h-4 shrink-0" />
-                      <span>Encrypted Weight Updates Only</span>
+                      <span>{t('nexora_way_weights')}</span>
                     </div>
                     <p className="text-nexora-text-secondary leading-relaxed pl-6">
-                      Only mathematical gradient parameters are shared to improve the global diagnostic model via secure multiparty computation.
+                      {t('nexora_way_weights_desc')}
                     </p>
                   </div>
                 </div>
@@ -205,7 +207,7 @@ export default function LandingPage() {
 
               <div className="pt-4 border-t border-nexora-border-subtle flex items-center gap-2 text-nexora-green-status text-xs font-mono font-semibold">
                 <CheckCircle2 className="w-3.5 h-3.5 shrink-0" />
-                <span>Patient consent cryptographically enforced via smart contracts.</span>
+                <span>{t('nexora_way_footer')}</span>
               </div>
             </div>
           </div>
@@ -217,13 +219,13 @@ export default function LandingPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
           <div className="text-center max-w-3xl mx-auto space-y-3">
             <span className="font-mono text-xs text-nexora-orange-400 font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-[rgba(224,130,31,0.12)] border border-nexora-orange-500/30">
-              Architecture Core
+              {t('pillars_core')}
             </span>
             <h2 className="font-display text-3xl sm:text-4xl font-black tracking-tight text-nexora-text-primary">
-              The Three Pillars of Nexora
+              {t('pillars_title')}
             </h2>
             <p className="text-sm sm:text-base font-sans text-nexora-text-secondary">
-              AI is the interface, not the trust layer. Trust is guaranteed through cryptography.
+              {t('pillars_desc')}
             </p>
           </div>
 
@@ -235,10 +237,10 @@ export default function LandingPage() {
                   <Activity className="w-6 h-6 stroke-[2.2]" />
                 </div>
                 <h3 className="font-display text-xl font-bold text-nexora-text-primary">
-                  1. Healthcare Access
+                  {t('pillar_1_title')}
                 </h3>
                 <p className="text-xs sm:text-sm font-sans text-nexora-text-secondary leading-relaxed">
-                  Discover and book certified cardiologists, endocrinologists, diagnostic labs, and hospitals with verified credentials and transparent pricing.
+                  {t('pillar_1_desc')}
                 </p>
               </div>
 
@@ -261,10 +263,10 @@ export default function LandingPage() {
                   <Bot className="w-6 h-6 stroke-[2.2]" />
                 </div>
                 <h3 className="font-display text-xl font-bold text-nexora-orange-400">
-                  2. Multi-Agent Layer
+                  {t('pillar_2_title')}
                 </h3>
                 <p className="text-xs sm:text-sm font-sans text-nexora-text-secondary leading-relaxed">
-                  Patient Agent, Hospital Agents, and Government Agents autonomously communicate to route requests, check slots, and verify subsidies.
+                  {t('pillar_2_desc')}
                 </p>
               </div>
 
@@ -287,10 +289,10 @@ export default function LandingPage() {
                   <ShieldCheck className="w-6 h-6 stroke-[2.2]" />
                 </div>
                 <h3 className="font-display text-xl font-bold text-nexora-text-primary">
-                  3. Privacy & Trust Layer
+                  {t('pillar_3_title')}
                 </h3>
                 <p className="text-xs sm:text-sm font-sans text-nexora-text-secondary leading-relaxed">
-                  W3C DIDs, Verifiable Credentials, Smart Consent Contracts, Zero-Knowledge Proofs, and an immutable audit trail guarantee patient sovereignty.
+                  {t('pillar_3_desc')}
                 </p>
               </div>
 
@@ -314,13 +316,13 @@ export default function LandingPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
           <div className="text-center max-w-2xl mx-auto space-y-3">
             <span className="font-mono text-xs text-nexora-orange-400 font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-[rgba(224,130,31,0.12)] border border-nexora-orange-500/30">
-              Cryptographic Protocol
+              {t('consent_protocol_badge')}
             </span>
             <h2 className="font-display text-3xl sm:text-4xl font-black tracking-tight text-nexora-text-primary">
-              How Smart Consent Works
+              {t('consent_how_title')}
             </h2>
             <p className="text-sm sm:text-base font-sans text-nexora-text-secondary">
-              Every data access request is gated by an immutable, time-limited smart contract.
+              {t('consent_how_desc')}
             </p>
           </div>
 
@@ -328,29 +330,29 @@ export default function LandingPage() {
             {[
               {
                 step: '01',
-                title: 'Patient Grants Consent',
-                desc: 'Select precise data scope (e.g. cardiac telemetry only) and set time expiry.',
+                title: t('consent_step1_title'),
+                desc: t('consent_step1_desc'),
                 icon: KeyRound,
                 badge: 'Signed with DID'
               },
               {
                 step: '02',
-                title: 'Contract Records Permission',
-                desc: 'Smart contract mints an on-chain permission token tied to the provider DID.',
+                title: t('consent_step2_title'),
+                desc: t('consent_step2_desc'),
                 icon: Cpu,
                 badge: 'Immutable State'
               },
               {
                 step: '03',
-                title: 'Hospital/AI Accesses Record',
-                desc: 'Off-chain encrypted key is resolved only for approved scope and time duration.',
+                title: t('consent_step3_title'),
+                desc: t('consent_step3_desc'),
                 icon: Database,
                 badge: 'Zero Over-Access'
               },
               {
                 step: '04',
-                title: 'Patient Audits Access',
-                desc: 'Real-time record logged to the immutable ledger: "Hospital X accessed report at 10:42 AM."',
+                title: t('consent_step4_title'),
+                desc: t('consent_step4_desc'),
                 icon: FileText,
                 badge: 'Verifiable Proof'
               }
@@ -400,10 +402,10 @@ export default function LandingPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
           <div className="text-center max-w-2xl mx-auto space-y-3">
             <span className="font-mono text-xs text-nexora-orange-400 font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-[rgba(224,130,31,0.12)] border border-nexora-orange-500/30">
-              Ecosystem Interfaces
+              {t('stakeholder_badge')}
             </span>
             <h2 className="font-display text-3xl sm:text-4xl font-black tracking-tight text-nexora-text-primary">
-              Built for Every Healthcare Stakeholder
+              {t('stakeholder_title')}
             </h2>
           </div>
 
@@ -418,7 +420,7 @@ export default function LandingPage() {
               }`}
             >
               <Building2 className="w-4 h-4" />
-              <span>For Hospitals & Labs</span>
+              <span>{t('tab_hospitals')}</span>
             </button>
 
             <button
@@ -430,7 +432,7 @@ export default function LandingPage() {
               }`}
             >
               <Landmark className="w-4 h-4" />
-              <span>For Government Schemes</span>
+              <span>{t('tab_government')}</span>
             </button>
 
             <button
@@ -442,7 +444,7 @@ export default function LandingPage() {
               }`}
             >
               <Microscope className="w-4 h-4" />
-              <span>For Researchers</span>
+              <span>{t('tab_researchers')}</span>
             </button>
           </div>
 
