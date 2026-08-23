@@ -29,6 +29,7 @@ import { useUserData } from '@/lib/userDataContext'
 import { SimulatedBadge } from '@/components/ui/SimulatedBadge'
 import { NexoraLogo } from '@/components/ui/NexoraLogo'
 import { User } from 'lucide-react'
+import { OnboardingModal } from '@/components/onboarding/OnboardingModal'
 
 export default function DashboardLayout({
   children,
@@ -231,6 +232,9 @@ export default function DashboardLayout({
           {children}
         </main>
       </div>
+
+      {/* SOVEREIGN ONBOARDING MODAL (Auto-prompts if user details are incomplete) */}
+      <OnboardingModal />
     </div>
   )
 }

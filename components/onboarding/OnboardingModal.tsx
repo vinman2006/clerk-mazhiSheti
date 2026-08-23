@@ -38,6 +38,12 @@ export function OnboardingModal() {
   const availableAllergies = ['Penicillin', 'Sulfa drugs', 'Aspirin', 'Latex', 'Peanuts', 'None']
   const availableConditions = ['Cardiovascular / Arrhythmia', 'Type 2 Diabetes', 'Hypertension', 'Asthma', 'Migraine', 'None']
 
+  React.useEffect(() => {
+    if (profile.name && profile.name !== 'Elena Rostova') {
+      setName(profile.name)
+    }
+  }, [profile.name])
+
   if (hasCompletedOnboarding) return null
 
   const handleToggleAllergy = (item: string) => {

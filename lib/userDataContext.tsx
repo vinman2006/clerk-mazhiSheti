@@ -160,27 +160,24 @@ export function UserDataProvider({ children }: { children: React.ReactNode }) {
             if (data.data.appointments) setAppointments(data.data.appointments)
             if (data.data.consents) setConsents(data.data.consents)
             if (data.data.auditTrail) setAuditTrail(data.data.auditTrail)
-            setHasCompletedOnboarding(true)
+            setHasCompletedOnboarding(data.data.hasCompletedOnboarding ?? true)
             setIsDbSynced(true)
           } else {
-            // New user setup
-            setProfile((prev) => {
-              if (prev.name === defaultInitialProfile.name) {
-                setHasCompletedOnboarding(false)
-              }
-              return {
-                ...prev,
-                name: firebaseUser.displayName || prev.name,
-                email: userEmail || prev.email,
-                avatarUrl: firebaseUser.photoURL || prev.avatarUrl,
-                did: userDid,
-                walletAddress: `0x${firebaseUser.uid.slice(0, 6)}...${firebaseUser.uid.slice(-4)}`
-              }
-            })
+            // New user setup — prompt for user details
+            setHasCompletedOnboarding(false)
+            setProfile((prev) => ({
+              ...prev,
+              name: firebaseUser.displayName || prev.name,
+              email: userEmail || prev.email,
+              avatarUrl: firebaseUser.photoURL || prev.avatarUrl,
+              did: userDid,
+              walletAddress: `0x${firebaseUser.uid.slice(0, 6)}...${firebaseUser.uid.slice(-4)}`
+            }))
           }
         })
         .catch((err) => {
           console.warn('MongoDB initial user lookup notice:', err)
+          setHasCompletedOnboarding(false)
         })
     }
   }, [firebaseUser])

@@ -4,7 +4,7 @@ import { getAuth, Auth } from 'firebase-admin/auth'
 let adminApp: App
 let adminAuth: Auth
 
-const projectId = process.env.FIREBASE_PROJECT_ID || process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID || 'nexora-health'
+const projectId = process.env.FIREBASE_PROJECT_ID || process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID || 'nexora-af757'
 const clientEmail = process.env.FIREBASE_CLIENT_EMAIL || ''
 const rawPrivateKey = process.env.FIREBASE_PRIVATE_KEY || ''
 const privateKey = rawPrivateKey.replace(/\\n/g, '\n')
