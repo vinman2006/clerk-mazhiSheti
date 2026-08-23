@@ -6,10 +6,7 @@ import {
   ShieldCheck, 
   Lock, 
   CheckCircle2, 
-  ArrowRight, 
-  Users, 
-  FileCheck, 
-  AlertCircle 
+  Download 
 } from 'lucide-react'
 import { MOCK_GOV_SCHEMES, Scheme } from '@/lib/mockData'
 import { useUserData } from '@/lib/userDataContext'
@@ -43,24 +40,24 @@ export default function PatientSchemesPage() {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 text-[#1A1A1A]">
       {/* HEADER */}
-      <div className="p-6 rounded-xl bg-[#141826] border-2 border-[#1E3A8A] shadow-xl space-y-4">
+      <div className="p-6 rounded-lg bg-white border border-[#E0E0E0] border-l-4 border-l-[#0B3D91] shadow-sm space-y-4">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
             <div className="flex items-center gap-2">
-              <h1 className="font-display font-black text-2xl text-white">
-                Government Healthcare Schemes & Subsidies
+              <h1 className="text-2xl font-extrabold text-[#0B3D91]">
+                Government Healthcare Schemes & Subsidies (सरकारी आरोग्य योजना)
               </h1>
               <SimulatedBadge />
             </div>
-            <p className="text-xs font-sans text-neutral-300 mt-1">
-              Apply for health coverage for <strong className="text-white">{profile.name}</strong> ({profile.district}). Verified via zero-knowledge proofs without exposing financial tax records.
+            <p className="text-xs text-[#4B5563] mt-1">
+              Apply for health coverage for <strong className="text-[#1A1A1A]">{profile.name}</strong> ({profile.district}). Verified via zero-knowledge proofs without exposing financial tax records.
             </p>
           </div>
 
           <div className="flex items-center gap-2">
-            <span className="px-3.5 py-1.5 rounded-md bg-[#101420] border-2 border-portal-green text-portal-green font-mono text-xs font-bold shadow-sm">
+            <span className="px-3.5 py-1.5 rounded bg-green-100 border border-green-300 text-[#1E7A34] text-xs font-bold shadow-sm">
               Zero-Knowledge Eligibility ✓
             </span>
           </div>
@@ -76,28 +73,28 @@ export default function PatientSchemesPage() {
           return (
             <div
               key={scheme.id}
-              className={`p-6 rounded-xl bg-[#141826] border border-neutral-700 border-l-4 ${
-                isEnrolled ? 'border-l-portal-green shadow-xl' : 'border-l-portal-orange hover:border-neutral-600'
-              } transition-all space-y-4 shadow-lg`}
+              className={`p-6 rounded-lg bg-white border border-[#E0E0E0] border-t-4 ${
+                isEnrolled ? 'border-t-[#1E7A34] shadow-md' : 'border-t-[#0B3D91] hover:shadow-md'
+              } transition-all space-y-4 shadow-sm`}
             >
               <div className="flex flex-col md:flex-row md:items-start justify-between gap-4">
                 <div className="space-y-1">
                   <div className="flex items-center gap-2.5 flex-wrap">
-                    <span className="px-2.5 py-0.5 rounded bg-portal-orange/20 text-portal-orange text-xs font-mono font-bold border border-portal-orange/40">
+                    <span className="px-2.5 py-0.5 rounded bg-[#FFF5EB] text-[#D66D10] text-xs font-bold border border-[#F5821F]/40">
                       {scheme.code}
                     </span>
-                    <h3 className="font-display font-bold text-base text-white">
+                    <h3 className="font-bold text-base text-[#0B3D91]">
                       {scheme.title}
                     </h3>
                   </div>
-                  <p className="text-xs font-sans text-neutral-300 leading-relaxed">
+                  <p className="text-xs text-[#4B5563] leading-relaxed">
                     {scheme.description}
                   </p>
                 </div>
 
                 {isEnrolled ? (
                   <div className="flex items-center gap-2 flex-wrap">
-                    <div className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-portal-green/20 text-portal-green border-2 border-portal-green text-xs font-mono font-bold shrink-0 shadow-sm">
+                    <div className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded bg-green-100 text-[#1E7A34] border border-green-300 text-xs font-bold shrink-0 shadow-sm">
                       <CheckCircle2 className="w-4 h-4 stroke-[2.5]" />
                       <span>ZK Verified & Enrolled ✓</span>
                     </div>
@@ -126,8 +123,9 @@ export default function PatientSchemesPage() {
                         a.click()
                         URL.revokeObjectURL(url)
                       }}
-                      className="px-3 py-2 rounded-lg bg-[#101420] hover:bg-[#182033] border border-neutral-700 text-portal-orange text-xs font-mono font-bold transition-all shadow-sm flex items-center gap-1.5"
+                      className="px-3 py-2 rounded bg-white hover:bg-neutral-50 border border-[#CBD5E1] text-[#0B3D91] text-xs font-bold transition-all shadow-sm flex items-center gap-1.5"
                     >
+                      <Download className="w-3.5 h-3.5" />
                       <span>Proof Receipt</span>
                     </button>
                   </div>
@@ -135,7 +133,7 @@ export default function PatientSchemesPage() {
                   <button
                     onClick={() => handleApply(scheme.id)}
                     disabled={isApplying}
-                    className="px-5 py-2.5 rounded-lg bg-[#2E7D32] hover:bg-[#256629] text-white font-bold text-xs uppercase tracking-wider transition-all font-mono shrink-0 shadow-md disabled:opacity-50 flex items-center gap-1.5"
+                    className="px-5 py-2.5 rounded bg-[#1E7A34] hover:bg-[#145524] text-white font-bold text-xs uppercase tracking-wider transition-all shrink-0 shadow-sm disabled:opacity-50 flex items-center gap-1.5"
                   >
                     <Lock className="w-3.5 h-3.5" />
                     <span>{isApplying ? 'Generating ZK Proof...' : 'Verify Eligibility via ZK'}</span>
@@ -144,18 +142,18 @@ export default function PatientSchemesPage() {
               </div>
 
               {/* Coverage & Criteria */}
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 p-3.5 rounded-lg bg-[#101420] border border-neutral-700 font-mono text-xs">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 p-3.5 rounded bg-[#F8FAFC] border border-[#CBD5E1] text-xs">
                 <div>
-                  <span className="text-neutral-400 text-[10px] uppercase block font-bold">Coverage Scope:</span>
-                  <span className="text-portal-green font-bold">{scheme.coverage}</span>
+                  <span className="text-neutral-500 text-[10px] uppercase block font-bold">Coverage Scope:</span>
+                  <span className="text-[#1E7A34] font-bold">{scheme.coverage}</span>
                 </div>
                 <div>
-                  <span className="text-neutral-400 text-[10px] uppercase block font-bold">Zero-Knowledge Circuit:</span>
-                  <span className="text-portal-orange font-bold">{scheme.zkProofType}</span>
+                  <span className="text-neutral-500 text-[10px] uppercase block font-bold">Zero-Knowledge Circuit:</span>
+                  <span className="text-[#D66D10] font-bold">{scheme.zkProofType}</span>
                 </div>
                 <div>
-                  <span className="text-neutral-400 text-[10px] uppercase block font-bold">Target Criteria:</span>
-                  <span className="text-neutral-200">{scheme.eligibilityCriteria.join(', ')}</span>
+                  <span className="text-neutral-500 text-[10px] uppercase block font-bold">Target Criteria:</span>
+                  <span className="text-[#1A1A1A]">{scheme.eligibilityCriteria.join(', ')}</span>
                 </div>
               </div>
             </div>

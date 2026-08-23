@@ -2,611 +2,519 @@
 
 import React, { useState } from 'react'
 import Link from 'next/link'
-import { motion } from 'framer-motion'
 import {
-  ShieldCheck,
-  Bot,
-  Lock,
-  Activity,
-  ArrowRight,
-  Building2,
-  Landmark,
-  Microscope,
-  CheckCircle2,
-  AlertTriangle,
-  Cpu,
-  Scale,
-  FileText,
-  Sparkles,
+  Stethoscope,
   KeyRound,
+  FileText,
+  Landmark,
+  PhoneCall,
+  Bot,
+  ShieldCheck,
+  Cpu,
+  Microscope,
+  Wallet,
   Database,
   Layers,
+  ArrowRight,
+  CheckCircle2,
+  AlertCircle,
+  HelpCircle,
+  Clock,
+  Mail,
+  Phone,
+  Search,
   ChevronRight,
-  Globe,
-  Radio
+  Sparkles,
+  Lock,
+  Building2,
+  FileCheck
 } from 'lucide-react'
 import { Navbar } from '@/components/layout/Navbar'
 import { Footer } from '@/components/layout/Footer'
-import { NodeDiagram } from '@/components/diagrams/NodeDiagram'
 import { HashSplitDemo } from '@/components/landing/HashSplitDemo'
-import { SimulatedBadge } from '@/components/ui/SimulatedBadge'
-import { useAuth } from '@/lib/authContext'
-import dynamic from 'next/dynamic'
-
-const DotGrid = dynamic(() => import('@/components/ui/DotGrid'), { ssr: false })
+import { StateEmblemOfIndia } from '@/components/ui/NexoraLogo'
 
 export default function LandingPage() {
-  const { loginWithGoogle } = useAuth()
-  const [activePortalTab, setActivePortalTab] = useState<'hospitals' | 'government' | 'researchers'>('hospitals')
+  const services = [
+    {
+      id: 'find-care',
+      titleEn: 'Doctor & Hospital Booking',
+      titleHi: 'वैद्यकीय सल्ला व अपॉइंटमेंट',
+      desc: 'Book verified consultations with board-certified specialists across AIIMS, Apollo, and district hospitals without disclosing unshielded identity.',
+      icon: Stethoscope,
+      color: 'border-t-[#0B3D91]',
+      iconBg: 'bg-blue-50 text-[#0B3D91]',
+      btnColor: 'text-[#0B3D91]',
+      href: '/dashboard/find-care'
+    },
+    {
+      id: 'consent',
+      titleEn: 'Smart Consent Center',
+      titleHi: 'संमती व्यवस्थापन केंद्र',
+      desc: 'Issue cryptographically signed, time-bound consent contracts. Grant or revoke record access in real-time with zero data exposure.',
+      icon: KeyRound,
+      color: 'border-t-[#F5821F]',
+      iconBg: 'bg-amber-50 text-[#F5821F]',
+      btnColor: 'text-[#F5821F]',
+      href: '/dashboard/consent'
+    },
+    {
+      id: 'records',
+      titleEn: 'Encrypted Health Records',
+      titleHi: 'आरोग्य नोंदी व चाचणी अहवाल',
+      desc: 'Access client-side AES-256 encrypted clinical summaries, lab reports, and diagnostic scans linked only via cryptographic hash.',
+      icon: FileText,
+      color: 'border-t-[#1E7A34]',
+      iconBg: 'bg-green-50 text-[#1E7A34]',
+      btnColor: 'text-[#1E7A34]',
+      href: '/dashboard/records'
+    },
+    {
+      id: 'schemes',
+      titleEn: 'Government Health Subsidies',
+      titleHi: 'सरकारी आरोग्य योजना व अनुदान',
+      desc: 'Apply for Ayushman Bharat and central health welfare grants using Zero-Knowledge proofs without uploading raw tax documents.',
+      icon: Landmark,
+      color: 'border-t-[#7C3AED]',
+      iconBg: 'bg-purple-50 text-[#7C3AED]',
+      btnColor: 'text-[#7C3AED]',
+      href: '/dashboard/schemes'
+    },
+    {
+      id: 'telehealth',
+      titleEn: 'Emergency Tele-Consultation',
+      titleHi: 'आपत्कालीन ई-सल्ला कक्ष',
+      desc: 'Connect to 24x7 encrypted WebRTC tele-health rooms with government-certified duty medical officers and emergency triage teams.',
+      icon: PhoneCall,
+      color: 'border-t-[#DC2626]',
+      iconBg: 'bg-red-50 text-[#DC2626]',
+      btnColor: 'text-[#DC2626]',
+      href: '/dashboard/appointments'
+    },
+    {
+      id: 'agents',
+      titleEn: 'Multi-Agent AI Orchestrator',
+      titleHi: 'कृत्रिम बुद्धिमत्ता समन्वयक',
+      desc: 'Interactive tripartite AI coordination between Patient Proxy, Hospital Node, and Government Agent with verifiable proof receipts.',
+      icon: Bot,
+      color: 'border-t-[#0D9488]',
+      iconBg: 'bg-teal-50 text-[#0D9488]',
+      btnColor: 'text-[#0D9488]',
+      href: '/dashboard/agents'
+    },
+    {
+      id: 'audit',
+      titleEn: 'Cryptographic Audit Ledger',
+      titleHi: 'सार्वजनिक लेखापरीक्षण नोंदवही',
+      desc: 'Inspect tamper-evident SHA-256 block logs of every clinical access event, consent state transition, and provider query.',
+      icon: ShieldCheck,
+      color: 'border-t-[#475569]',
+      iconBg: 'bg-slate-50 text-[#475569]',
+      btnColor: 'text-[#475569]',
+      href: '/dashboard/audit'
+    },
+    {
+      id: 'hospital-ai',
+      titleEn: 'Hospital Federated Learning',
+      titleHi: 'रुग्णालय एज एआय प्रशिक्षण',
+      desc: 'Train diagnostic AI models on-premise behind hospital firewalls. Aggregate model weights globally without transferring patient data.',
+      icon: Cpu,
+      color: 'border-t-[#4338CA]',
+      iconBg: 'bg-indigo-50 text-[#4338CA]',
+      btnColor: 'text-[#4338CA]',
+      href: '/hospital-portal/ai-training'
+    },
+    {
+      id: 'research',
+      titleEn: 'National Health Intelligence',
+      titleHi: 'वैद्यकीय संशोधन व सांख्यिकी',
+      desc: 'Access verified epidemiological trends and anonymized public health statistics for research institutions and policy makers.',
+      icon: Microscope,
+      color: 'border-t-[#0284C7]',
+      iconBg: 'bg-sky-50 text-[#0284C7]',
+      btnColor: 'text-[#0284C7]',
+      href: '/research'
+    },
+    {
+      id: 'wallet',
+      titleEn: 'Midnight 1AM Enclave',
+      titleHi: 'स्थानिक ब्लॉकचेन पाकीट',
+      desc: 'Execute dust-free transactions and generate client-side Groth16 zero-knowledge proofs over the localnet blockchain network.',
+      icon: Wallet,
+      color: 'border-t-[#EA580C]',
+      iconBg: 'bg-orange-50 text-[#EA580C]',
+      btnColor: 'text-[#EA580C]',
+      href: '/dashboard/profile'
+    },
+    {
+      id: 'clean-store',
+      titleEn: 'Clean Data Store (MongoDB)',
+      titleHi: 'विभक्त डेटाबेस संरचना',
+      desc: 'MongoDB separation ensuring personal identities and medical diagnoses are decoupled and linked strictly by server-derived personHash.',
+      icon: Database,
+      color: 'border-t-[#059669]',
+      iconBg: 'bg-emerald-50 text-[#059669]',
+      btnColor: 'text-[#059669]',
+      href: '/dashboard/medical'
+    },
+    {
+      id: 'architecture',
+      titleEn: 'Technical Architecture & Spec',
+      titleHi: 'तांत्रिक तपशील व सुरक्षा नियमावली',
+      desc: 'Read the official technical whitepaper covering W3C DIDs, ZK circuits, zero raw data leakage guarantees, and consensus models.',
+      icon: Layers,
+      color: 'border-t-[#2563EB]',
+      iconBg: 'bg-blue-50 text-[#2563EB]',
+      btnColor: 'text-[#2563EB]',
+      href: '/architecture'
+    }
+  ]
 
   return (
-    <div className="min-h-screen bg-nexora-bg-base text-nexora-text-primary flex flex-col selection:bg-nexora-orange-500/20 selection:text-nexora-orange-400 antialiased overflow-x-hidden">
+    <div className="min-h-screen bg-[#F4F6F9] text-[#1A1A1A] flex flex-col font-sans antialiased">
       <Navbar />
 
-      {/* HERO SECTION — TRUST-FIRST HIGH-PRECISION PORTAL */}
-      <section className="relative pt-36 pb-20 md:pt-40 md:pb-28 overflow-hidden bg-nexora-bg-surface bg-nexora-hero">
-        {/* Interactive React Bits DotGrid Background Canvas in Dark Steel Blue & Orange Accent */}
-        <div className="absolute inset-0 z-0 opacity-25 pointer-events-none">
-          <DotGrid 
-            dotSize={3.5}
-            gap={26}
-            baseColor="#1E2740"
-            activeColor="#E0821F"
-            proximity={140}
-            shockRadius={220}
-            shockStrength={4}
-            returnDuration={1.2}
-          />
+      {/* 1. OFFICIAL PAGE TITLE BANNER (Forest Green / Indian Gov Style) */}
+      <section className="bg-[#124E2A] text-white border-b-4 border-[#F5821F] shadow-sm relative overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-8 py-10 sm:py-12">
+          <div className="flex flex-col lg:flex-row items-center justify-between gap-8">
+            {/* Left Content */}
+            <div className="space-y-4 max-w-2xl text-center lg:text-left">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded bg-black/20 text-[#FFF5EB] border border-white/20 text-xs font-semibold">
+                <StateEmblemOfIndia className="w-4 h-5 inline-block" />
+                <span>Ministry of Health & Family Welfare • Government of India</span>
+              </div>
+
+              <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-white leading-tight">
+                Our Services <br />
+                <span className="text-[#FDBA74] text-2xl sm:text-3xl font-bold">
+                  नागरिक सेवा | Citizen Healthcare Services
+                </span>
+              </h1>
+
+              <p className="text-emerald-100 text-sm sm:text-base leading-relaxed font-normal">
+                Access all national sovereign healthcare services online. From confidential doctor bookings to cryptographic smart consents, all services are available 24/7 for citizens of India.
+              </p>
+
+              {/* Tricolor Indicator */}
+              <div className="w-36 h-1.5 rounded-full overflow-hidden flex mx-auto lg:mx-0">
+                <div className="w-1/3 bg-[#F5821F]"></div>
+                <div className="w-1/3 bg-white"></div>
+                <div className="w-1/3 bg-[#1E7A34]"></div>
+              </div>
+            </div>
+
+            {/* Right Card: Helpline & Quick Portal Access */}
+            <div className="w-full lg:w-96 bg-white text-[#1A1A1A] rounded-lg p-6 shadow-lg border border-neutral-200 space-y-4">
+              <div className="flex items-center justify-between border-b border-neutral-200 pb-3">
+                <span className="text-xs font-bold uppercase tracking-wider text-[#0B3D91]">
+                  National Toll-Free Helpline
+                </span>
+                <span className="px-2 py-0.5 rounded bg-green-100 text-green-800 text-[10px] font-bold">
+                  24x7 Active
+                </span>
+              </div>
+
+              <div className="space-y-1">
+                <div className="text-2xl font-black text-[#0B3D91] flex items-center gap-2">
+                  <Phone className="w-6 h-6 text-[#F5821F]" />
+                  <span>1800-11-2026</span>
+                </div>
+                <p className="text-[11px] text-neutral-500">
+                  Emergency Medical Support & Portal Assistance
+                </p>
+              </div>
+
+              <div className="pt-2 flex items-center gap-2">
+                <Link
+                  href="/dashboard/find-care"
+                  className="flex-1 py-2.5 px-3 rounded bg-[#F5821F] hover:bg-[#D66D10] text-white text-xs font-bold text-center uppercase tracking-wider transition-colors shadow-sm"
+                >
+                  Book Doctor
+                </Link>
+                <Link
+                  href="/dashboard/consent"
+                  className="flex-1 py-2.5 px-3 rounded bg-[#0B3D91] hover:bg-[#07265E] text-white text-xs font-bold text-center uppercase tracking-wider transition-colors shadow-sm"
+                >
+                  Smart Consent
+                </Link>
+              </div>
+            </div>
+          </div>
         </div>
+      </section>
 
-        {/* Ambient Structural Steel Glow */}
-        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[750px] h-[450px] bg-gradient-to-tr from-nexora-steel-700/20 via-nexora-steel-500/10 to-transparent rounded-full blur-[160px] pointer-events-none"></div>
+      {/* 2. VISION & MISSION SECTION (Matching Reference Screenshot) */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-8 py-8 w-full">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {/* Our Vision Card */}
+          <div className="bg-white rounded-lg border border-[#E0E0E0] shadow-sm overflow-hidden flex flex-col">
+            <div className="bg-[#F5821F] text-white px-5 py-3 font-bold text-sm tracking-wide flex items-center justify-between">
+              <span>Our Vision (आमचे उद्दिष्ट)</span>
+              <span className="text-[11px] bg-white/20 px-2 py-0.5 rounded">Strategic Goal</span>
+            </div>
+            <div className="p-6 space-y-3 flex-1 flex flex-col justify-between">
+              <div className="space-y-2">
+                <h3 className="font-bold text-base text-[#0B3D91]">
+                  Universal Digital Health Sovereignty for Every Citizen
+                </h3>
+                <p className="text-xs text-[#4B5563] leading-relaxed">
+                  To provide a secure, inclusive, and privacy-preserving national healthcare ecosystem where every patient owns and controls their medical data without risk of unauthorized surveillance or commercial exploitation.
+                </p>
+              </div>
+              <ul className="space-y-1.5 text-xs text-[#1A1A1A] font-medium pt-2 border-t border-neutral-100">
+                <li className="flex items-center gap-2 text-neutral-700">
+                  <span className="text-[#F5821F] font-bold">★</span> 100% Cryptographic Patient Ownership
+                </li>
+                <li className="flex items-center gap-2 text-neutral-700">
+                  <span className="text-[#F5821F] font-bold">★</span> Zero Personal Health Info (PHI) Stored On-Chain
+                </li>
+              </ul>
+            </div>
+          </div>
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 space-y-8">
-          <div className="text-center max-w-4xl mx-auto space-y-6">
-            {/* Two-Tone Headline */}
-            <h1 className="font-display font-black text-4xl sm:text-6xl md:text-7xl tracking-tight text-nexora-text-primary leading-[1.12] drop-shadow-sm">
-              Healthcare access, <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-nexora-orange-400 via-[#FFA34D] to-nexora-orange-500">
-                without giving up your privacy.
+          {/* Our Mission Card */}
+          <div className="bg-white rounded-lg border border-[#E0E0E0] shadow-sm overflow-hidden flex flex-col">
+            <div className="bg-[#1E7A34] text-white px-5 py-3 font-bold text-sm tracking-wide flex items-center justify-between">
+              <span>Our Mission (आमचे ध्येय)</span>
+              <span className="text-[11px] bg-white/20 px-2 py-0.5 rounded">Core Commitments</span>
+            </div>
+            <div className="p-6 space-y-3 flex-1 flex flex-col justify-between">
+              <div className="space-y-2">
+                <h3 className="font-bold text-base text-[#1E7A34]">
+                  Zero-Knowledge Collaboration Between Citizens, Hospitals & Government
+                </h3>
+                <p className="text-xs text-[#4B5563] leading-relaxed">
+                  To deploy state-of-the-art Zero-Knowledge Proofs, Federated AI algorithms, and W3C Verifiable Credentials that empower hospitals to collaborate while protecting individual human privacy.
+                </p>
+              </div>
+              <ul className="space-y-1.5 text-xs text-[#1A1A1A] font-medium pt-2 border-t border-neutral-100">
+                <li className="flex items-center gap-2 text-emerald-800">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-[#1E7A34]" /> Real-time 1-Click Consent Revocation
+                </li>
+                <li className="flex items-center gap-2 text-emerald-800">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-[#1E7A34]" /> Tamper-evident Audit Ledger with SHA-256 Validation
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 3. MAIN SERVICES & QUICK ACCESS LAYOUT (Matching Reference Screenshot) */}
+      <section id="services" className="max-w-7xl mx-auto px-4 sm:px-8 py-6 w-full space-y-6">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 items-start">
+          {/* LEFT SIDEBAR: QUICK ACCESS & GUIDELINES */}
+          <div className="lg:col-span-1 space-y-6">
+            {/* Quick Access Card */}
+            <div className="bg-white rounded-lg border border-[#E0E0E0] shadow-sm overflow-hidden">
+              <div className="bg-[#0B3D91] text-white px-4 py-3 font-bold text-xs uppercase tracking-wider flex items-center gap-2">
+                <Sparkles className="w-4 h-4 text-[#F5821F]" />
+                <span>Quick Access</span>
+              </div>
+              <div className="divide-y divide-neutral-100 text-xs">
+                <Link
+                  href="/dashboard/find-care"
+                  className="flex items-center justify-between px-4 py-3 text-neutral-800 hover:bg-[#EAF1FB] hover:text-[#0B3D91] font-semibold transition-colors group"
+                >
+                  <span>Book Doctor Online</span>
+                  <ChevronRight className="w-4 h-4 text-neutral-400 group-hover:translate-x-1 transition-transform" />
+                </Link>
+                <Link
+                  href="/dashboard/consent"
+                  className="flex items-center justify-between px-4 py-3 text-neutral-800 hover:bg-[#EAF1FB] hover:text-[#0B3D91] font-semibold transition-colors group"
+                >
+                  <span>Track Smart Consent</span>
+                  <ChevronRight className="w-4 h-4 text-neutral-400 group-hover:translate-x-1 transition-transform" />
+                </Link>
+                <Link
+                  href="/dashboard/records"
+                  className="flex items-center justify-between px-4 py-3 text-neutral-800 hover:bg-[#EAF1FB] hover:text-[#0B3D91] font-semibold transition-colors group"
+                >
+                  <span>Download Health Records</span>
+                  <ChevronRight className="w-4 h-4 text-neutral-400 group-hover:translate-x-1 transition-transform" />
+                </Link>
+                <Link
+                  href="/dashboard/schemes"
+                  className="flex items-center justify-between px-4 py-3 text-neutral-800 hover:bg-[#EAF1FB] hover:text-[#0B3D91] font-semibold transition-colors group"
+                >
+                  <span>Apply for Health Scheme</span>
+                  <ChevronRight className="w-4 h-4 text-neutral-400 group-hover:translate-x-1 transition-transform" />
+                </Link>
+                <Link
+                  href="/dashboard/audit"
+                  className="flex items-center justify-between px-4 py-3 text-neutral-800 hover:bg-[#EAF1FB] hover:text-[#0B3D91] font-semibold transition-colors group"
+                >
+                  <span>RTI & Audit Logs</span>
+                  <ChevronRight className="w-4 h-4 text-neutral-400 group-hover:translate-x-1 transition-transform" />
+                </Link>
+                <Link
+                  href="/dashboard/agents"
+                  className="flex items-center justify-between px-4 py-3 text-neutral-800 hover:bg-[#EAF1FB] hover:text-[#0B3D91] font-semibold transition-colors group"
+                >
+                  <span>AI Consultation Agent</span>
+                  <ChevronRight className="w-4 h-4 text-neutral-400 group-hover:translate-x-1 transition-transform" />
+                </Link>
+              </div>
+            </div>
+
+            {/* Guidelines Card */}
+            <div className="bg-white rounded-lg border border-[#E0E0E0] shadow-sm overflow-hidden">
+              <div className="bg-[#F5821F] text-white px-4 py-3 font-bold text-xs uppercase tracking-wider flex items-center gap-2">
+                <FileCheck className="w-4 h-4" />
+                <span>Citizen Guidelines</span>
+              </div>
+              <div className="p-4 space-y-3 text-xs text-[#4B5563]">
+                <div className="flex items-start gap-2.5">
+                  <CheckCircle2 className="w-4 h-4 text-[#1E7A34] shrink-0 mt-0.5" />
+                  <span>Keep your Aadhaar / Sovereign DID ready for verified authentication.</span>
+                </div>
+                <div className="flex items-start gap-2.5">
+                  <CheckCircle2 className="w-4 h-4 text-[#1E7A34] shrink-0 mt-0.5" />
+                  <span>All medical records are stored strictly off-chain under client-side encryption.</span>
+                </div>
+                <div className="flex items-start gap-2.5">
+                  <CheckCircle2 className="w-4 h-4 text-[#1E7A34] shrink-0 mt-0.5" />
+                  <span>Track status using your unique 16-character Transaction Hash.</span>
+                </div>
+                <div className="flex items-start gap-2.5">
+                  <CheckCircle2 className="w-4 h-4 text-[#1E7A34] shrink-0 mt-0.5" />
+                  <span>For urgent matters, reach the 24x7 helpline at <strong>1800-11-2026</strong>.</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* RIGHT GRID: 12 CITIZEN HEALTHCARE SERVICES */}
+          <div className="lg:col-span-3 space-y-4">
+            <div className="bg-[#0B3D91] text-white px-5 py-3 rounded-t-lg font-bold text-sm tracking-wide flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <Building2 className="w-4 h-4 text-[#F5821F]" />
+                <span>All Sovereign Healthcare Services (सर्व नागरिक सेवा)</span>
+              </div>
+              <span className="text-xs text-neutral-200 font-normal">
+                12 Services Available
               </span>
-            </h1>
-
-            {/* Sub-headline */}
-            <p className="font-sans text-base sm:text-lg md:text-xl text-nexora-text-secondary max-w-3xl mx-auto leading-relaxed font-medium drop-shadow-sm">
-              Nexora is a privacy-first multi-agent healthcare network where patients, hospitals, and government services communicate and collaborate through AI agents while blockchain and zero-knowledge technology protect patient control and trust.
-            </p>
-
-            {/* Hero CTAs */}
-            <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-4">
-              {/* Primary CTA (Green Status for Launch / Positive Action) */}
-              <Link
-                href="/dashboard/agents"
-                className="w-full sm:w-auto px-8 py-4 rounded-xl bg-nexora-green-status hover:bg-[#1b8552] text-white font-bold text-xs uppercase tracking-wider transition-all shadow-xl hover:shadow-emerald-950/40 flex items-center justify-center gap-2.5 group active:scale-[0.99]"
-              >
-                <span>Launch Multi-Agent Enclave</span>
-                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-              </Link>
-
-              {/* Secondary CTA (Steel-blue structural button) */}
-              <Link
-                href="/architecture"
-                className="w-full sm:w-auto px-7 py-4 rounded-xl bg-nexora-bg-elevated hover:bg-nexora-bg-elevated-2 text-nexora-text-primary border border-nexora-border-strong hover:border-nexora-steel-400 text-xs font-mono font-bold transition-all flex items-center justify-center gap-2 tracking-wide shadow-lg backdrop-blur-md"
-              >
-                <span>Technical Architecture</span>
-                <span className="text-nexora-orange-400">→</span>
-              </Link>
-            </div>
-          </div>
-
-          {/* Core Visual Metaphor: Interactive Node Diagram (Clean single render without wrapper duplicate) */}
-          <div className="mt-8 max-w-5xl mx-auto">
-            <NodeDiagram mode="hero" />
-          </div>
-        </div>
-      </section>
-
-      {/* INTERACTIVE HASH SPLIT DEMO ANIMATION */}
-      <HashSplitDemo />
-
-      {/* PROBLEM / SOLUTION STRIP: FEDERATED LEARNING CONTRAST */}
-      <section className="py-20 bg-nexora-bg-base border-y border-nexora-border-subtle relative">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
-          <div className="text-center max-w-3xl mx-auto space-y-3">
-            <span className="font-mono text-xs text-nexora-orange-400 font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-[rgba(224,130,31,0.12)] border border-nexora-orange-500/30">
-              Privacy Paradigm Shift
-            </span>
-            <h2 className="font-display text-2xl sm:text-4xl font-black tracking-tight text-nexora-text-primary">
-              Why Existing Healthcare AI Breaches Patient Trust
-            </h2>
-            <p className="text-sm sm:text-base font-sans text-nexora-text-secondary leading-relaxed">
-              Traditional healthcare AI hoards sensitive medical records in centralized cloud databases. Nexora flips the paradigm with edge compute and federated learning.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch">
-            {/* The Old Way */}
-            <div className="p-8 rounded-2xl bg-nexora-bg-elevated border border-red-500/30 shadow-xl relative flex flex-col justify-between space-y-6 hover:border-red-500/50 transition-all">
-              <div className="space-y-4">
-                <div className="flex items-center justify-between pb-4 border-b border-nexora-border-subtle">
-                  <div className="flex items-center gap-2.5 text-red-400 font-display font-bold text-lg">
-                    <AlertTriangle className="w-5 h-5 shrink-0" />
-                    <span>The Old Way (Centralized AI)</span>
-                  </div>
-                  <span className="px-2.5 py-1 rounded-full bg-red-500/15 border border-red-500/30 text-red-300 text-xs font-mono font-bold">
-                    High Risk
-                  </span>
-                </div>
-
-                <div className="space-y-3.5 text-xs font-sans">
-                  <div className="p-4 rounded-xl bg-nexora-bg-elevated-2 border border-nexora-border-subtle space-y-1.5">
-                    <div className="flex items-center gap-2 text-nexora-text-primary font-bold">
-                      <Building2 className="w-4 h-4 text-red-400 shrink-0" />
-                      <span>Hospitals A, B, C transmit raw patient records</span>
-                    </div>
-                    <p className="text-nexora-text-secondary leading-relaxed pl-6">
-                      Scans, clinical notes, and genomic sequences uploaded to third-party tech giants.
-                    </p>
-                  </div>
-
-                  <div className="p-4 rounded-xl bg-nexora-bg-elevated-2 border border-nexora-border-subtle space-y-1.5">
-                    <div className="flex items-center gap-2 text-red-400 font-bold">
-                      <Database className="w-4 h-4 shrink-0" />
-                      <span>Honeypot Centralized Database</span>
-                    </div>
-                    <p className="text-nexora-text-secondary leading-relaxed pl-6">
-                      Vulnerable to ransomware, catastrophic data leaks, and unauthorized commercial exploitation.
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="pt-4 border-t border-nexora-border-subtle flex items-center gap-2 text-red-300 text-xs font-mono font-semibold">
-                <AlertTriangle className="w-3.5 h-3.5 shrink-0" />
-                <span>Patients lose all control, ownership, and visibility once uploaded.</span>
-              </div>
             </div>
 
-            {/* The Nexora Way */}
-            <div className="p-8 rounded-2xl bg-nexora-bg-elevated border border-nexora-green-status/40 shadow-xl relative flex flex-col justify-between space-y-6 hover:border-nexora-green-status/60 transition-all">
-              <div className="space-y-4">
-                <div className="flex items-center justify-between pb-4 border-b border-nexora-border-subtle">
-                  <div className="flex items-center gap-2.5 text-nexora-green-status font-display font-bold text-lg">
-                    <CheckCircle2 className="w-5 h-5 shrink-0" />
-                    <span>The Nexora Way (Federated Learning)</span>
-                  </div>
-                  <span className="px-2.5 py-1 rounded-full bg-nexora-green-status/15 border border-nexora-green-status/40 text-nexora-green-status text-xs font-mono font-bold">
-                    Zero Trust ✓
-                  </span>
-                </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+              {services.map((s) => {
+                const IconComponent = s.icon
+                return (
+                  <div
+                    key={s.id}
+                    className={`bg-white rounded-lg border border-[#E0E0E0] border-t-4 ${s.color} p-5 shadow-sm hover:shadow-md transition-all flex flex-col justify-between space-y-4 group`}
+                  >
+                    <div className="space-y-3">
+                      {/* Icon + English/Devanagari Header */}
+                      <div className="flex items-start gap-3">
+                        <div className={`w-10 h-10 rounded-lg ${s.iconBg} flex items-center justify-center shrink-0`}>
+                          <IconComponent className="w-5 h-5" />
+                        </div>
+                        <div>
+                          <h4 className="font-bold text-sm text-[#0B3D91] leading-snug group-hover:text-[#F5821F] transition-colors">
+                            {s.titleEn}
+                          </h4>
+                          <span className="text-[11px] text-neutral-500 font-medium block mt-0.5">
+                            {s.titleHi}
+                          </span>
+                        </div>
+                      </div>
 
-                <div className="space-y-3.5 text-xs font-sans">
-                  <div className="p-4 rounded-xl bg-nexora-bg-elevated-2 border border-nexora-border-subtle space-y-1.5">
-                    <div className="flex items-center gap-2 text-nexora-text-primary font-bold">
-                      <Cpu className="w-4 h-4 text-nexora-green-status shrink-0" />
-                      <span>Local On-Premise Training Only</span>
-                    </div>
-                    <p className="text-nexora-text-secondary leading-relaxed pl-6">
-                      Each hospital trains AI locally behind its firewall. Raw patient records never leave the hospital premise.
-                    </p>
-                  </div>
-
-                  <div className="p-4 rounded-xl bg-nexora-bg-elevated-2 border border-nexora-border-subtle space-y-1.5">
-                    <div className="flex items-center gap-2 text-nexora-orange-400 font-bold">
-                      <ShieldCheck className="w-4 h-4 shrink-0" />
-                      <span>Encrypted Weight Updates Only</span>
-                    </div>
-                    <p className="text-nexora-text-secondary leading-relaxed pl-6">
-                      Only mathematical gradient parameters are shared to improve the global diagnostic model via secure multiparty computation.
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="pt-4 border-t border-nexora-border-subtle flex items-center gap-2 text-nexora-green-status text-xs font-mono font-semibold">
-                <CheckCircle2 className="w-3.5 h-3.5 shrink-0" />
-                <span>Patient consent cryptographically enforced via smart contracts.</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* THREE PILLARS SECTION */}
-      <section className="py-20 relative bg-nexora-bg-surface">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
-          <div className="text-center max-w-3xl mx-auto space-y-3">
-            <span className="font-mono text-xs text-nexora-orange-400 font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-[rgba(224,130,31,0.12)] border border-nexora-orange-500/30">
-              Architecture Core
-            </span>
-            <h2 className="font-display text-3xl sm:text-4xl font-black tracking-tight text-nexora-text-primary">
-              The Three Pillars of Nexora
-            </h2>
-            <p className="text-sm sm:text-base font-sans text-nexora-text-secondary">
-              AI is the interface, not the trust layer. Trust is guaranteed through cryptography.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
-            {/* Pillar 1: Healthcare Access */}
-            <div className="p-7 rounded-2xl bg-nexora-bg-elevated border border-nexora-border-subtle hover:border-nexora-border-strong shadow-xl space-y-6 flex flex-col justify-between transition-all group">
-              <div className="space-y-3.5">
-                <div className="w-12 h-12 rounded-xl bg-nexora-steel-700/40 border border-nexora-steel-500/40 flex items-center justify-center text-nexora-steel-300 group-hover:scale-105 transition-transform">
-                  <Activity className="w-6 h-6 stroke-[2.2]" />
-                </div>
-                <h3 className="font-display text-xl font-bold text-nexora-text-primary">
-                  1. Healthcare Access
-                </h3>
-                <p className="text-xs sm:text-sm font-sans text-nexora-text-secondary leading-relaxed">
-                  Discover and book certified cardiologists, endocrinologists, diagnostic labs, and hospitals with verified credentials and transparent pricing.
-                </p>
-              </div>
-
-              <div className="p-3.5 rounded-xl bg-nexora-bg-elevated-2 border border-nexora-border-subtle font-mono text-xs space-y-2">
-                <div className="flex justify-between text-nexora-text-secondary">
-                  <span>Provider Search:</span>
-                  <span className="text-nexora-orange-400 font-bold">DID-Verified</span>
-                </div>
-                <div className="flex justify-between text-nexora-text-secondary">
-                  <span>Booking Event:</span>
-                  <span className="text-nexora-text-primary font-bold">Consent Tx Created</span>
-                </div>
-              </div>
-            </div>
-
-            {/* Pillar 2: Multi-Agent Layer */}
-            <div className="p-7 rounded-2xl bg-nexora-bg-elevated border border-nexora-border-subtle hover:border-nexora-border-strong shadow-xl space-y-6 flex flex-col justify-between transition-all group">
-              <div className="space-y-3.5">
-                <div className="w-12 h-12 rounded-xl bg-[rgba(224,130,31,0.15)] border border-nexora-orange-500/30 flex items-center justify-center text-nexora-orange-400 group-hover:scale-105 transition-transform">
-                  <Bot className="w-6 h-6 stroke-[2.2]" />
-                </div>
-                <h3 className="font-display text-xl font-bold text-nexora-orange-400">
-                  2. Multi-Agent Layer
-                </h3>
-                <p className="text-xs sm:text-sm font-sans text-nexora-text-secondary leading-relaxed">
-                  Patient Agent, Hospital Agents, and Government Agents autonomously communicate to route requests, check slots, and verify subsidies.
-                </p>
-              </div>
-
-              <div className="p-3.5 rounded-xl bg-nexora-bg-elevated-2 border border-nexora-border-subtle font-mono text-xs space-y-2">
-                <div className="flex items-center justify-between text-nexora-text-secondary">
-                  <span>Patient ⇄ Hosp ⇄ Gov:</span>
-                  <span className="text-nexora-orange-400 font-bold">Agentic P2P</span>
-                </div>
-                <div className="flex items-center justify-between text-nexora-text-secondary">
-                  <span>Privacy Buffer:</span>
-                  <span className="text-nexora-green-status font-bold">Zero Data Leak ✓</span>
-                </div>
-              </div>
-            </div>
-
-            {/* Pillar 3: Privacy & Trust */}
-            <div className="p-7 rounded-2xl bg-nexora-bg-elevated border border-nexora-border-subtle hover:border-nexora-border-strong shadow-xl space-y-6 flex flex-col justify-between transition-all group">
-              <div className="space-y-3.5">
-                <div className="w-12 h-12 rounded-xl bg-nexora-green-status/15 border border-nexora-green-status/30 flex items-center justify-center text-nexora-green-status group-hover:scale-105 transition-transform">
-                  <ShieldCheck className="w-6 h-6 stroke-[2.2]" />
-                </div>
-                <h3 className="font-display text-xl font-bold text-nexora-text-primary">
-                  3. Privacy & Trust Layer
-                </h3>
-                <p className="text-xs sm:text-sm font-sans text-nexora-text-secondary leading-relaxed">
-                  W3C DIDs, Verifiable Credentials, Smart Consent Contracts, Zero-Knowledge Proofs, and an immutable audit trail guarantee patient sovereignty.
-                </p>
-              </div>
-
-              <div className="p-3.5 rounded-xl bg-nexora-bg-elevated-2 border border-nexora-border-subtle font-mono text-xs space-y-2">
-                <div className="flex justify-between text-nexora-text-secondary">
-                  <span>Medical Records:</span>
-                  <span className="text-nexora-green-status font-bold">Off-Chain IPFS</span>
-                </div>
-                <div className="flex justify-between text-nexora-text-secondary">
-                  <span>On-Chain Layer:</span>
-                  <span className="text-nexora-text-primary font-bold">Proofs & Consents</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* HOW CONSENT WORKS: 4-STEP FLOW */}
-      <section className="py-20 bg-nexora-bg-base border-y border-nexora-border-subtle">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
-          <div className="text-center max-w-2xl mx-auto space-y-3">
-            <span className="font-mono text-xs text-nexora-orange-400 font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-[rgba(224,130,31,0.12)] border border-nexora-orange-500/30">
-              Cryptographic Protocol
-            </span>
-            <h2 className="font-display text-3xl sm:text-4xl font-black tracking-tight text-nexora-text-primary">
-              How Smart Consent Works
-            </h2>
-            <p className="text-sm sm:text-base font-sans text-nexora-text-secondary">
-              Every data access request is gated by an immutable, time-limited smart contract.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {[
-              {
-                step: '01',
-                title: 'Patient Grants Consent',
-                desc: 'Select precise data scope (e.g. cardiac telemetry only) and set time expiry.',
-                icon: KeyRound,
-                badge: 'Signed with DID'
-              },
-              {
-                step: '02',
-                title: 'Contract Records Permission',
-                desc: 'Smart contract mints an on-chain permission token tied to the provider DID.',
-                icon: Cpu,
-                badge: 'Immutable State'
-              },
-              {
-                step: '03',
-                title: 'Hospital/AI Accesses Record',
-                desc: 'Off-chain encrypted key is resolved only for approved scope and time duration.',
-                icon: Database,
-                badge: 'Zero Over-Access'
-              },
-              {
-                step: '04',
-                title: 'Patient Audits Access',
-                desc: 'Real-time record logged to the immutable ledger: "Hospital X accessed report at 10:42 AM."',
-                icon: FileText,
-                badge: 'Verifiable Proof'
-              }
-            ].map((flow, index) => {
-              const Icon = flow.icon
-              return (
-                <div
-                  key={index}
-                  className="p-6 rounded-2xl bg-nexora-bg-elevated border border-nexora-border-subtle hover:border-nexora-border-strong shadow-lg flex flex-col justify-between space-y-5 transition-all group"
-                >
-                  <div className="space-y-4">
-                    <div className="flex items-center justify-between">
-                      <span className="font-mono text-xs font-bold text-nexora-orange-400 px-2 py-0.5 rounded bg-[rgba(224,130,31,0.12)] border border-nexora-orange-500/30">
-                        STEP {flow.step}
-                      </span>
-                      <span className="px-2 py-0.5 rounded bg-nexora-bg-elevated-2 text-[10px] font-mono text-nexora-steel-300 border border-nexora-border-subtle font-bold">
-                        {flow.badge}
-                      </span>
+                      <p className="text-xs text-[#4B5563] leading-relaxed line-clamp-3">
+                        {s.desc}
+                      </p>
                     </div>
 
-                    <div className="p-2.5 rounded-xl bg-nexora-steel-700/40 text-nexora-steel-300 border border-nexora-steel-500/40 w-fit">
-                      <Icon className="w-5 h-5" />
-                    </div>
-
-                    <h4 className="font-sans font-bold text-base text-nexora-text-primary">
-                      {flow.title}
-                    </h4>
-
-                    <p className="text-xs font-sans text-nexora-text-secondary leading-relaxed">
-                      {flow.desc}
-                    </p>
-                  </div>
-
-                  <div className="pt-3 border-t border-nexora-border-subtle text-[11px] font-mono text-nexora-green-status font-bold flex items-center gap-1.5">
-                    <CheckCircle2 className="w-3.5 h-3.5" />
-                    <span>Cryptographically Enforced ✓</span>
-                  </div>
-                </div>
-              )
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* FOR HOSPITALS / GOVERNMENT / RESEARCHERS PORTALS */}
-      <section className="py-20 bg-nexora-bg-surface">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
-          <div className="text-center max-w-2xl mx-auto space-y-3">
-            <span className="font-mono text-xs text-nexora-orange-400 font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-[rgba(224,130,31,0.12)] border border-nexora-orange-500/30">
-              Ecosystem Interfaces
-            </span>
-            <h2 className="font-display text-3xl sm:text-4xl font-black tracking-tight text-nexora-text-primary">
-              Built for Every Healthcare Stakeholder
-            </h2>
-          </div>
-
-          {/* Tabs */}
-          <div className="flex justify-center gap-2 sm:gap-4 border-b border-nexora-border-subtle pb-5">
-            <button
-              onClick={() => setActivePortalTab('hospitals')}
-              className={`px-5 py-3 rounded-xl text-xs font-mono font-bold transition-all flex items-center gap-2 ${
-                activePortalTab === 'hospitals'
-                  ? 'bg-nexora-orange-500 text-nexora-text-on-orange shadow-lg shadow-orange-950/40'
-                  : 'bg-nexora-bg-elevated text-nexora-text-secondary hover:text-nexora-text-primary border border-nexora-border-subtle'
-              }`}
-            >
-              <Building2 className="w-4 h-4" />
-              <span>For Hospitals & Labs</span>
-            </button>
-
-            <button
-              onClick={() => setActivePortalTab('government')}
-              className={`px-5 py-3 rounded-xl text-xs font-mono font-bold transition-all flex items-center gap-2 ${
-                activePortalTab === 'government'
-                  ? 'bg-nexora-orange-500 text-nexora-text-on-orange shadow-lg shadow-orange-950/40'
-                  : 'bg-nexora-bg-elevated text-nexora-text-secondary hover:text-nexora-text-primary border border-nexora-border-subtle'
-              }`}
-            >
-              <Landmark className="w-4 h-4" />
-              <span>For Government Schemes</span>
-            </button>
-
-            <button
-              onClick={() => setActivePortalTab('researchers')}
-              className={`px-5 py-3 rounded-xl text-xs font-mono font-bold transition-all flex items-center gap-2 ${
-                activePortalTab === 'researchers'
-                  ? 'bg-nexora-orange-500 text-nexora-text-on-orange shadow-lg shadow-orange-950/40'
-                  : 'bg-nexora-bg-elevated text-nexora-text-secondary hover:text-nexora-text-primary border border-nexora-border-subtle'
-              }`}
-            >
-              <Microscope className="w-4 h-4" />
-              <span>For Researchers</span>
-            </button>
-          </div>
-
-          {/* Tab Content Panels */}
-          <div className="p-8 sm:p-10 rounded-2xl bg-nexora-bg-elevated border border-nexora-border-strong shadow-2xl">
-            {activePortalTab === 'hospitals' && (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-                <div className="space-y-5">
-                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-nexora-steel-700/30 text-nexora-steel-300 text-xs font-mono font-bold border border-nexora-steel-500/40">
-                    <Building2 className="w-3.5 h-3.5" />
-                    <span>Hospital Portal</span>
-                  </div>
-                  <h3 className="font-display text-2xl sm:text-3xl font-bold text-nexora-text-primary leading-snug">
-                    Federated AI Training & Clinical Scheduling
-                  </h3>
-                  <p className="text-sm font-sans text-nexora-text-secondary leading-relaxed">
-                    Deploy local agent nodes behind your hospital firewall. Train diagnostic AI models without exposing patient health information (PHI), and receive autonomous booking requests directly via DID-verified channels.
-                  </p>
-                  <ul className="space-y-2.5 text-xs font-sans text-nexora-text-secondary">
-                    <li className="flex items-center gap-2 text-nexora-text-primary font-medium">
-                      <CheckCircle2 className="w-4 h-4 text-nexora-green-status shrink-0" />
-                      <span>On-premises federated learning node controls</span>
-                    </li>
-                    <li className="flex items-center gap-2 text-nexora-text-primary font-medium">
-                      <CheckCircle2 className="w-4 h-4 text-nexora-green-status shrink-0" />
-                      <span>Verifiable Credential issuance for hospital medical staff</span>
-                    </li>
-                  </ul>
-                  <div className="pt-2">
                     <Link
-                      href="/hospital-portal/ai-training"
-                      className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl bg-nexora-green-status hover:bg-[#1b8552] text-white font-bold text-xs uppercase tracking-wider transition-all shadow-md active:scale-[0.99]"
+                      href={s.href}
+                      className={`inline-flex items-center gap-1 text-xs font-bold uppercase tracking-wider ${s.btnColor} hover:underline pt-2 border-t border-neutral-100`}
                     >
-                      <span>Open Hospital Portal</span>
-                      <ArrowRight className="w-4 h-4" />
+                      <span>ACCESS SERVICE</span>
+                      <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
                     </Link>
                   </div>
-                </div>
-
-                <div className="p-6 rounded-xl bg-nexora-bg-elevated-2 border border-nexora-border-strong border-l-4 border-l-nexora-steel-500 shadow-inner">
-                  <div className="flex items-center justify-between mb-4 text-xs font-mono">
-                    <span className="text-nexora-text-primary font-bold">Node Status: Apex Heart Node #01</span>
-                    <span className="text-nexora-green-status font-bold">Connected (Round #142) ✓</span>
-                  </div>
-                  <div className="space-y-2.5 font-mono text-xs">
-                    <div className="p-3.5 rounded-lg bg-nexora-bg-surface border border-nexora-border-subtle flex justify-between">
-                      <span className="text-nexora-text-secondary">Local PHI Records:</span>
-                      <span className="text-nexora-orange-400 font-bold">100% In-Hospital Boundary</span>
-                    </div>
-                    <div className="p-3.5 rounded-lg bg-nexora-bg-surface border border-nexora-border-subtle flex justify-between">
-                      <span className="text-nexora-text-secondary">Model Shared:</span>
-                      <span className="text-nexora-green-status font-bold">Gradients Only (zk-Aggregated)</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {activePortalTab === 'government' && (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-                <div className="space-y-5">
-                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-nexora-green-status/20 text-nexora-green-status text-xs font-mono font-bold border border-nexora-green-status/40">
-                    <Landmark className="w-3.5 h-3.5" />
-                    <span>Government Portal</span>
-                  </div>
-                  <h3 className="font-display text-2xl sm:text-3xl font-bold text-nexora-text-primary leading-snug">
-                    Zero-Knowledge Subsidy & Scheme Administration
-                  </h3>
-                  <p className="text-sm font-sans text-nexora-text-secondary leading-relaxed">
-                    Verify citizen eligibility for specialized subsidies and healthcare grants in milliseconds using zero-knowledge proofs without collecting or storing citizens' private tax documents.
-                  </p>
-                  <div className="pt-2">
-                    <Link
-                      href="/gov-portal"
-                      className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl bg-nexora-green-status hover:bg-[#1b8552] text-white font-bold text-xs uppercase tracking-wider transition-all shadow-md active:scale-[0.99]"
-                    >
-                      <span>Open Government Portal</span>
-                      <ArrowRight className="w-4 h-4" />
-                    </Link>
-                  </div>
-                </div>
-
-                <div className="p-6 rounded-xl bg-nexora-bg-elevated-2 border border-nexora-border-strong border-l-4 border-l-nexora-green-status font-mono text-xs space-y-3 shadow-inner">
-                  <div className="text-nexora-text-primary font-bold">ZK-Verification Queue:</div>
-                  <div className="p-3.5 rounded-lg bg-nexora-bg-surface border border-nexora-border-subtle flex justify-between items-center">
-                    <div>
-                      <span className="text-nexora-text-primary block font-sans font-bold">Scheme #CARDIO-2026</span>
-                      <span className="text-[11px] text-nexora-text-muted">Citizen: did:nexora:pat:8f9a...</span>
-                    </div>
-                    <span className="px-3 py-1 rounded-md bg-nexora-green-status/20 text-nexora-green-status text-xs font-bold">
-                      Proof Valid ✓
-                    </span>
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {activePortalTab === 'researchers' && (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-                <div className="space-y-5">
-                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-nexora-steel-700/30 text-nexora-steel-300 text-xs font-mono font-bold border border-nexora-steel-500/40">
-                    <Microscope className="w-3.5 h-3.5" />
-                    <span>Researcher Portal</span>
-                  </div>
-                  <h3 className="font-display text-2xl sm:text-3xl font-bold text-nexora-text-primary leading-snug">
-                    Anonymized Research & ZK-Gated Cohort Queries
-                  </h3>
-                  <p className="text-sm font-sans text-nexora-text-secondary leading-relaxed">
-                    Query epidemiologic trends, rare variant correlations, and treatment outcomes across participating hospitals with differential privacy guarantees (k-anonymity=50).
-                  </p>
-                  <div className="pt-2">
-                    <Link
-                      href="/research"
-                      className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl bg-nexora-green-status hover:bg-[#1b8552] text-white font-bold text-xs uppercase tracking-wider transition-all shadow-md active:scale-[0.99]"
-                    >
-                      <span>Open Research Portal</span>
-                      <ArrowRight className="w-4 h-4" />
-                    </Link>
-                  </div>
-                </div>
-
-                <div className="p-6 rounded-xl bg-nexora-bg-elevated-2 border border-nexora-border-strong border-l-4 border-l-nexora-steel-500 font-mono text-xs space-y-3 shadow-inner">
-                  <div className="text-nexora-text-primary font-bold">Research Request Matrix:</div>
-                  <div className="p-3.5 rounded-lg bg-nexora-bg-surface border border-nexora-border-subtle space-y-1">
-                    <span className="text-nexora-text-primary block font-sans font-bold">Cardiovascular Cohort 2026</span>
-                    <span className="text-[11px] text-nexora-green-status font-bold block">ZK-Differential Privacy Protocol Active ✓</span>
-                  </div>
-                </div>
-              </div>
-            )}
+                )
+              })}
+            </div>
           </div>
         </div>
       </section>
 
-      {/* TRUST & TECHNICAL CREDIBILITY STRIP */}
-      <section className="py-16 bg-nexora-bg-base border-t border-nexora-border-subtle">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
-          <div className="text-center">
-            <span className="font-mono text-xs text-nexora-orange-400 font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-[rgba(224,130,31,0.12)] border border-nexora-orange-500/30">
-              Cryptographic & Security Foundation
+      {/* 4. INTERACTIVE HASH SPLIT & VERIFICATION TOOL */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-8 py-8 w-full">
+        <div className="bg-white rounded-lg border border-[#E0E0E0] shadow-sm p-6 sm:p-8 space-y-6">
+          <div className="border-b border-neutral-200 pb-4 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+            <div>
+              <span className="text-xs font-bold text-[#F5821F] uppercase tracking-wider">
+                Cryptographic Trust Engine
+              </span>
+              <h2 className="text-xl sm:text-2xl font-black text-[#0B3D91] mt-0.5">
+                Identity & Medical Record Cryptographic Split Visualizer
+              </h2>
+            </div>
+            <span className="px-3 py-1 rounded bg-[#EAF1FB] text-[#0B3D91] text-xs font-bold border border-[#0B3D91]/20 self-start sm:self-auto">
+              Live SHA-256 Engine
             </span>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-5">
-            {[
-              { title: 'Zero-Knowledge Proofs', desc: 'zk-SNARKs for private assertions', icon: Lock },
-              { title: 'Decentralized Identity', desc: 'W3C DID v1.0 standard', icon: KeyRound },
-              { title: 'Federated Learning', desc: 'SMPC gradient aggregation', icon: Cpu },
-              { title: 'Immutable Audit Trail', desc: 'Cryptographically hashed ledger', icon: FileText },
-            ].map((badge, idx) => {
-              const Icon = badge.icon
-              return (
-                <div
-                  key={idx}
-                  className="p-5 rounded-2xl bg-nexora-bg-elevated border border-nexora-border-subtle hover:border-nexora-border-strong transition-all text-center flex flex-col items-center justify-center space-y-2 shadow-md group"
-                >
-                  <div className="p-2.5 rounded-xl bg-nexora-steel-700/40 border border-nexora-steel-500/40 text-nexora-steel-300 mb-1 group-hover:scale-110 transition-transform">
-                    <Icon className="w-5 h-5" />
-                  </div>
-                  <span className="font-mono font-bold text-xs text-nexora-text-primary">{badge.title}</span>
-                  <span className="font-sans text-xs text-nexora-text-secondary">{badge.desc}</span>
-                </div>
-              )
-            })}
+          <p className="text-xs sm:text-sm text-[#4B5563] leading-relaxed max-w-4xl">
+            In compliance with national data protection guidelines, Nexora generates a deterministic <code className="bg-neutral-100 px-1 py-0.5 rounded text-neutral-900 font-mono">personHash</code>. Your legal identity and medical records reside in separate encrypted stores and cannot be linked without your explicit cryptographic smart consent.
+          </p>
+
+          <HashSplitDemo />
+        </div>
+      </section>
+
+      {/* 5. NEED HELP? CONTACT OUR HELPDESK BANNER (Matching Reference Screenshot) */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-8 py-8 w-full">
+        <div className="bg-white rounded-lg border-2 border-[#0B3D91] p-6 sm:p-8 shadow-md">
+          <div className="text-center sm:text-left space-y-1 mb-6">
+            <h3 className="text-xl font-black text-[#0B3D91] flex items-center justify-center sm:justify-start gap-2">
+              <PhoneCall className="w-5 h-5 text-[#F5821F]" />
+              <span>Need Help? Contact Our Citizen Helpdesk</span>
+            </h3>
+            <p className="text-xs text-neutral-500 font-medium">
+              मदत हवी आहे? आमच्या राष्ट्रीय हेल्पडेस्कशी त्वरित संपर्क साधा
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            {/* Helpline Box */}
+            <div className="p-4 rounded-lg bg-[#EAF1FB] border border-[#CBD5E1] text-center space-y-1">
+              <div className="flex items-center justify-center gap-1.5 text-xs text-[#0B3D91] font-bold">
+                <Phone className="w-3.5 h-3.5" />
+                <span>Toll-Free Helpline</span>
+              </div>
+              <div className="text-xl font-black text-[#0B3D91]">
+                1800-11-2026
+              </div>
+              <span className="text-[10px] text-neutral-500 block">24x7 Citizen Support</span>
+            </div>
+
+            {/* Email Support Box */}
+            <div className="p-4 rounded-lg bg-[#FFF5EB] border border-[#FDBA74] text-center space-y-1">
+              <div className="flex items-center justify-center gap-1.5 text-xs text-[#D66D10] font-bold">
+                <Mail className="w-3.5 h-3.5" />
+                <span>Email Support</span>
+              </div>
+              <div className="text-sm sm:text-base font-bold text-[#D66D10] truncate">
+                helpdesk@nexora.gov.in
+              </div>
+              <span className="text-[10px] text-neutral-500 block">Guaranteed response within 24 hours</span>
+            </div>
+
+            {/* Office Hours Box */}
+            <div className="p-4 rounded-lg bg-[#E8F5E9] border border-[#A7F3D0] text-center space-y-1">
+              <div className="flex items-center justify-center gap-1.5 text-xs text-[#1E7A34] font-bold">
+                <Clock className="w-3.5 h-3.5" />
+                <span>Working Hours</span>
+              </div>
+              <div className="text-base font-bold text-[#1E7A34]">
+                Mon - Sat
+              </div>
+              <span className="text-[10px] text-neutral-500 block">9:00 AM - 6:00 PM IST</span>
+            </div>
           </div>
         </div>
       </section>

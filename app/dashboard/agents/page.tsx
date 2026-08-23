@@ -1,24 +1,11 @@
 'use client'
 
 import React, { useState, useRef, useEffect } from 'react'
-import Link from 'next/link'
-import { motion, AnimatePresence } from 'framer-motion'
 import { 
   Bot, 
   Send, 
   ShieldCheck, 
-  Lock, 
-  Sparkles, 
-  Building2, 
-  Landmark, 
-  User, 
-  CheckCircle2, 
-  ArrowRight,
-  Clock,
-  KeyRound,
-  RotateCcw,
-  Zap,
-  Heart
+  RotateCcw 
 } from 'lucide-react'
 import { useAuth } from '@/lib/authContext'
 import { useUserData } from '@/lib/userDataContext'
@@ -136,23 +123,23 @@ export default function MultiAgentChatPage() {
   ]
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 text-[#1A1A1A]">
       {/* HEADER */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-6 rounded-xl bg-[#141826] border-2 border-[#1E3A8A] shadow-xl">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-6 rounded-lg bg-white border border-[#E0E0E0] border-l-4 border-l-[#0B3D91] shadow-sm">
         <div>
           <div className="flex items-center gap-2">
-            <h1 className="font-display font-black text-2xl text-white">
-              Multi-Agent Orchestrator
+            <h1 className="text-2xl font-extrabold text-[#0B3D91]">
+              AI Health Proxy Orchestrator (स्वयंचलित आरोग्य सहाय्यक)
             </h1>
             <SimulatedBadge />
           </div>
-          <p className="text-xs font-sans text-neutral-300 mt-1">
-            Personalized proxy agent for <strong className="text-white">{profile.name}</strong> communicating with hospital and government agents under zero-knowledge proofs.
+          <p className="text-xs text-[#4B5563] mt-1">
+            Personalized proxy agent for <strong className="text-[#1A1A1A]">{profile.name}</strong> communicating with hospital and government agents under zero-knowledge proofs.
           </p>
         </div>
 
         <div className="flex items-center gap-2">
-          <span className="px-3.5 py-1.5 rounded-md bg-[#101420] border-2 border-portal-green text-portal-green font-mono text-xs font-bold shadow-sm">
+          <span className="px-3.5 py-1.5 rounded bg-green-100 border border-green-300 text-[#1E7A34] text-xs font-bold shadow-sm">
             Orchestration Active ✓
           </span>
         </div>
@@ -160,16 +147,16 @@ export default function MultiAgentChatPage() {
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         {/* CHAT THREAD (LEFT 7 COLS) */}
-        <div className="lg:col-span-7 flex flex-col h-[640px] rounded-xl bg-[#141826] border-2 border-[#1E3A8A] overflow-hidden shadow-2xl">
+        <div className="lg:col-span-7 flex flex-col h-[640px] rounded-lg bg-white border border-[#E0E0E0] overflow-hidden shadow-sm">
           {/* Thread Header */}
-          <div className="p-4 bg-[#101420] border-b border-neutral-700 flex items-center justify-between font-mono text-xs text-neutral-300">
+          <div className="p-4 bg-[#F8FAFC] border-b border-neutral-200 flex items-center justify-between text-xs text-[#4B5563]">
             <div className="flex items-center gap-2">
-              <span className="w-2.5 h-2.5 rounded-full bg-portal-green animate-pulse"></span>
-              <span className="font-bold text-white">Live Multi-Agent Channel</span>
+              <span className="w-2.5 h-2.5 rounded-full bg-[#1E7A34] animate-pulse"></span>
+              <span className="font-bold text-[#0B3D91]">Live Multi-Agent Communication Channel</span>
             </div>
             <button
               onClick={() => setMessages(initialThread)}
-              className="text-[11px] text-neutral-400 hover:text-white flex items-center gap-1 font-bold"
+              className="text-[11px] text-neutral-500 hover:text-black flex items-center gap-1 font-bold"
             >
               <RotateCcw className="w-3.5 h-3.5" />
               <span>Reset</span>
@@ -177,7 +164,7 @@ export default function MultiAgentChatPage() {
           </div>
 
           {/* Messages Scroll Area */}
-          <div className="flex-1 overflow-y-auto p-4 space-y-4 font-sans text-xs">
+          <div className="flex-1 overflow-y-auto p-4 space-y-4 text-xs">
             {messages.map((msg) => {
               const isPatient = msg.sender === 'patient'
               const isPatientAgent = msg.sender === 'patient_agent'
@@ -191,32 +178,32 @@ export default function MultiAgentChatPage() {
                 >
                   <div className="flex items-center gap-2">
                     <AgentTag agent={(msg.sender as any) || 'patient_agent'} />
-                    <span className="font-mono text-[10px] text-neutral-400">
+                    <span className="text-[10px] text-neutral-400">
                       {msg.timestamp}
                     </span>
                   </div>
 
                   <div
-                    className={`p-4 rounded-xl max-w-[85%] text-xs leading-relaxed space-y-2.5 ${
+                    className={`p-4 rounded-lg max-w-[85%] text-xs leading-relaxed space-y-2.5 ${
                       isPatient
-                        ? 'bg-portal-blue text-white rounded-tr-none shadow-md'
+                        ? 'bg-[#0B3D91] text-white rounded-tr-none shadow-sm'
                         : isPatientAgent
-                        ? 'bg-[#101420] border-l-4 border-l-portal-green border border-neutral-700 text-white rounded-tl-none shadow-md'
+                        ? 'bg-[#F8FAFC] border-l-4 border-l-[#1E7A34] border border-[#CBD5E1] text-[#1A1A1A] rounded-tl-none shadow-sm'
                         : isHospital
-                        ? 'bg-[#101420] border-l-4 border-l-blue-400 border border-neutral-700 text-white rounded-tl-none shadow-md'
-                        : 'bg-[#101420] border-l-4 border-l-portal-orange border border-neutral-700 text-white rounded-tl-none shadow-md'
+                        ? 'bg-[#F8FAFC] border-l-4 border-l-[#0B3D91] border border-[#CBD5E1] text-[#1A1A1A] rounded-tl-none shadow-sm'
+                        : 'bg-[#F8FAFC] border-l-4 border-l-[#F5821F] border border-[#CBD5E1] text-[#1A1A1A] rounded-tl-none shadow-sm'
                     }`}
                   >
                     <p>{msg.content}</p>
 
                     {/* ZK Proof Receipt */}
                     {msg.zkProof && (
-                      <div className="p-2.5 rounded bg-black/40 border border-neutral-700 font-mono text-[11px] text-portal-green flex items-center justify-between">
+                      <div className="p-2.5 rounded bg-white border border-[#CBD5E1] text-[11px] text-[#1E7A34] font-bold flex items-center justify-between shadow-sm">
                         <div className="flex items-center gap-1.5">
-                          <ShieldCheck className="w-3.5 h-3.5" />
+                          <ShieldCheck className="w-3.5 h-3.5 text-[#1E7A34]" />
                           <span>ZK Proof Verified</span>
                         </div>
-                        <span className="text-[10px] text-neutral-400">{msg.zkProof.privacyGuarantee || msg.zkProof.claim}</span>
+                        <span className="text-[10px] text-neutral-500 font-normal">{msg.zkProof.privacyGuarantee || msg.zkProof.claim}</span>
                       </div>
                     )}
                   </div>
@@ -225,7 +212,7 @@ export default function MultiAgentChatPage() {
             })}
 
             {isSimulating && (
-              <div className="flex items-center gap-2 p-3 rounded-lg bg-[#101420] border border-neutral-700 text-portal-orange font-mono text-xs animate-pulse">
+              <div className="flex items-center gap-2 p-3 rounded bg-amber-50 border border-amber-200 text-[#D66D10] text-xs animate-pulse">
                 <Bot className="w-4 h-4 animate-spin" />
                 <span>Agents communicating and generating cryptographic proofs...</span>
               </div>
@@ -234,12 +221,12 @@ export default function MultiAgentChatPage() {
           </div>
 
           {/* Quick Prompt Pills */}
-          <div className="px-4 py-2 bg-[#101420] border-t border-neutral-700/60 flex items-center gap-2 overflow-x-auto">
+          <div className="px-4 py-2 bg-[#F8FAFC] border-t border-neutral-200 flex items-center gap-2 overflow-x-auto">
             {promptSuggestions.map((sug, i) => (
               <button
                 key={i}
                 onClick={() => handleSendMessage(sug)}
-                className="px-3 py-1 rounded-full bg-[#141826] hover:bg-[#182033] border border-neutral-700 text-neutral-300 hover:text-white text-[11px] font-sans whitespace-nowrap transition-colors"
+                className="px-3 py-1 rounded bg-white hover:bg-neutral-100 border border-[#CBD5E1] text-[#0B3D91] text-[11px] whitespace-nowrap transition-colors shadow-sm font-semibold"
               >
                 {sug}
               </button>
@@ -252,19 +239,19 @@ export default function MultiAgentChatPage() {
               e.preventDefault()
               handleSendMessage()
             }}
-            className="p-3 bg-[#101420] border-t border-neutral-700 flex items-center gap-2"
+            className="p-3 bg-white border-t border-neutral-200 flex items-center gap-2"
           >
             <input
               type="text"
               value={inputVal}
               onChange={(e) => setInputVal(e.target.value)}
               placeholder="Ask your agent to schedule, verify eligibility, or query records..."
-              className="flex-1 px-4 py-2.5 rounded-lg bg-[#141826] border border-neutral-700 text-white text-xs focus:outline-none focus:border-portal-orange font-sans placeholder:text-neutral-500"
+              className="flex-1 px-4 py-2 rounded bg-[#F8FAFC] border border-[#CBD5E1] text-[#1A1A1A] text-xs focus:outline-none focus:bg-white focus:border-[#0B3D91]"
             />
             <button
               type="submit"
               disabled={!inputVal.trim() || isSimulating}
-              className="p-2.5 rounded-lg bg-[#2E7D32] hover:bg-[#256629] text-white disabled:opacity-40 transition-all font-bold shadow-md"
+              className="p-2.5 rounded bg-[#1E7A34] hover:bg-[#145524] text-white disabled:opacity-40 transition-all font-bold shadow-sm"
             >
               <Send className="w-4 h-4" />
             </button>
@@ -273,15 +260,15 @@ export default function MultiAgentChatPage() {
 
         {/* TOPOLOGY VISUALIZER (RIGHT 5 COLS) */}
         <div className="lg:col-span-5 space-y-4">
-          <div className="p-5 rounded-xl bg-[#141826] border-2 border-[#1E3A8A] shadow-xl space-y-3">
-            <div className="flex items-center justify-between border-b border-neutral-700 pb-3">
-              <h2 className="font-display font-black text-sm text-white">
+          <div className="p-5 rounded-lg bg-white border border-[#E0E0E0] shadow-sm space-y-3">
+            <div className="flex items-center justify-between border-b border-neutral-100 pb-3">
+              <h2 className="font-bold text-sm text-[#0B3D91]">
                 Live Agent Node Network
               </h2>
-              <span className="text-[10px] font-mono text-portal-green font-bold">4 Nodes Connected</span>
+              <span className="text-[10px] text-[#1E7A34] font-bold">4 Nodes Connected</span>
             </div>
 
-            <p className="text-xs font-sans text-neutral-300">
+            <p className="text-xs text-[#4B5563]">
               Visual representation of active cryptographic routes during your conversation with Nexora agents.
             </p>
 
