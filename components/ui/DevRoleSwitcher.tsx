@@ -13,10 +13,17 @@ export function DevRoleSwitcher() {
   const roles: { role: UserProfile['role']; label: string; desc: string; icon: React.ElementType; link: string }[] = [
     {
       role: 'patient',
-      label: 'Patient (Elena)',
+      label: 'Patient (Elena / Demo)',
       desc: 'Find care, consent, agent chat, audit trail',
       icon: UserCheck,
       link: '/dashboard'
+    },
+    {
+      role: 'hospital_admin',
+      label: 'Dr. Tushar Pamnani (Demo Doctor)',
+      desc: 'Live patient queue, call next, complete token',
+      icon: Building2,
+      link: '/hospital-portal/doctor-demo-tushar'
     },
     {
       role: 'hospital_admin',

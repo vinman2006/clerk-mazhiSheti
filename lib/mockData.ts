@@ -68,9 +68,38 @@ export interface Provider {
   verificationStatus: 'verified' | 'unverified'
   zkProofBadge: string
   bio: string
+  isDemoParody?: boolean
+  linkedInUrl?: string
+  tagline?: string
+  coordinates?: { lat: number; lng: number }
 }
 
 export const MOCK_PROVIDERS: Provider[] = [
+  {
+    id: 'doctor-demo-tushar',
+    name: 'Tushar Pamnani',
+    title: 'Mental Health — DEMO / PARODY',
+    specialty: 'Mental Health',
+    hospital: 'St. Vincent Pallotti College of Engineering & Technology, Nagpur',
+    rating: 5.0,
+    reviewsCount: 42,
+    location: 'Gavsi Manapur, Wardha Road, Nagpur, Maharashtra 441108',
+    coordinates: { lat: 21.0504, lng: 79.0531 },
+    experienceYears: 4,
+    fee: 'Free (Demo Token Queue)',
+    availableDays: ['Today', 'Tomorrow', 'Live Queue'],
+    availableSlots: ['Live Token Queue'],
+    avatarUrl: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200&auto=format&fit=crop&q=80',
+    did: 'did:nexora:prov:demo:tushar:9042',
+    credentialId: 'vc_demo_parody_provider_tushar',
+    credentialIssuer: 'Nexora Demo Governance (did:nexora:gov:demo)',
+    verificationStatus: 'verified',
+    zkProofBadge: 'DEMO-PARODY',
+    bio: 'Tushar Pamnani is a Nagpur-based technology and Web3 community professional with experience in developer relations, blockchain ecosystems and technology communities. For this Nexora demo, he is humorously represented as a fictional mental-health provider. This is a parody/demo profile and not a real medical service.',
+    isDemoParody: true,
+    linkedInUrl: 'https://www.linkedin.com/in/tushar-pamnani/',
+    tagline: 'Apparently he has now upgraded from debugging code to debugging emotions. 😭'
+  },
   {
     id: 'prov_card_01',
     name: 'Dr. Sarah Al-Mansoor, MD, FACC',

@@ -64,14 +64,6 @@ export default function LandingPage() {
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 space-y-8">
           <div className="text-center max-w-4xl mx-auto space-y-6">
-            {/* Top Pill Tag */}
-            <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-[#081228]/90 border border-nexora-orange-500/50 text-xs font-mono font-bold text-nexora-orange-400 shadow-md">
-              <span className="w-2 h-2 rounded-full bg-nexora-green-status animate-pulse"></span>
-              <span>NEXT-GEN HEALTHCARE TRUST INFRASTRUCTURE</span>
-              <span className="text-nexora-steel-400">•</span>
-              <span className="text-nexora-green-status">Simulated Data</span>
-            </div>
-
             {/* Two-Tone Headline */}
             <h1 className="font-display font-black text-4xl sm:text-6xl md:text-7xl tracking-tight text-white leading-[1.12] drop-shadow-md">
               Healthcare access, <br />

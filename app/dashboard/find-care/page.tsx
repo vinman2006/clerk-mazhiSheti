@@ -12,7 +12,10 @@ import {
   Building2, 
   ArrowRight, 
   Sparkles, 
-  Lock 
+  Lock,
+  AlertTriangle,
+  ExternalLink,
+  Ticket
 } from 'lucide-react'
 import { MOCK_PROVIDERS, Provider } from '@/lib/mockData'
 import { VerifiedBadge } from '@/components/ui/VerifiedBadge'
@@ -22,7 +25,7 @@ export default function FindCarePage() {
   const [searchTerm, setSearchTerm] = useState('')
   const [selectedSpecialty, setSelectedSpecialty] = useState<string>('All')
 
-  const specialties = ['All', 'Cardiology', 'Neurology', 'Endocrinology', 'Pulmonology']
+  const specialties = ['All', 'Mental Health', 'Cardiology', 'Neurology', 'Endocrinology', 'Pulmonology']
 
   const filteredProviders = MOCK_PROVIDERS.filter(p => {
     const matchesSearch = 
@@ -38,7 +41,7 @@ export default function FindCarePage() {
   return (
     <div className="space-y-6">
       {/* HEADER */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-6 rounded-xl bg-[#141826] border-2 border-[#1E3A8A] shadow-xl">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-6 rounded-xl bg-[#141826] border border-[#1E3A8A] shadow-xl">
         <div>
           <div className="flex items-center gap-2">
             <h1 className="font-display font-black text-2xl text-white">
@@ -47,12 +50,12 @@ export default function FindCarePage() {
             <SimulatedBadge />
           </div>
           <p className="text-xs font-sans text-neutral-300 mt-1">
-            Every provider is cryptographically authenticated via W3C Verifiable Credentials issued by authorized medical licensing boards.
+            Discover verified healthcare providers or generate instant queue tokens for demonstration clinics.
           </p>
         </div>
 
         <div className="flex items-center gap-2">
-          <span className="px-3.5 py-1.5 rounded-md bg-[#101420] border-2 border-portal-green text-portal-green font-mono text-xs font-bold shadow-sm">
+          <span className="px-3.5 py-1.5 rounded-md bg-[#101420] border border-portal-green text-portal-green font-mono text-xs font-bold shadow-sm">
             100% DID Verified Providers ✓
           </span>
         </div>
@@ -92,83 +95,137 @@ export default function FindCarePage() {
 
       {/* PROVIDER CARDS GRID */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-        {filteredProviders.map((provider) => (
-          <div
-            key={provider.id}
-            className="p-5 rounded-xl bg-[#141826] border border-neutral-700 border-l-4 border-l-portal-orange hover:border-neutral-600 transition-all flex flex-col justify-between space-y-4 shadow-lg group"
-          >
-            <div className="space-y-3">
-              {/* Doctor Avatar & Basic Info */}
-              <div className="flex items-start gap-3.5">
-                <img
-                  src={provider.avatarUrl}
-                  alt={provider.name}
-                  className="w-14 h-14 rounded-lg object-cover border-2 border-portal-orange"
-                />
+        {filteredProviders.map((provider) => {
+          const isTusharDemo = provider.id === 'doctor-demo-tushar'
 
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center justify-between gap-2">
-                    <h3 className="font-display font-bold text-sm text-white truncate">
-                      {provider.name}
-                    </h3>
-                    <div className="flex items-center gap-1 text-amber-400 text-xs font-mono font-bold">
-                      <Star className="w-3.5 h-3.5 fill-amber-400" />
-                      <span>{provider.rating}</span>
+          return (
+            <div
+              key={provider.id}
+              className={`p-5 rounded-xl bg-[#141826] border transition-all flex flex-col justify-between space-y-4 shadow-lg group ${
+                isTusharDemo 
+                  ? 'border-l-4 border-l-amber-500 border-amber-500/30 hover:border-amber-500/60' 
+                  : 'border-neutral-700 border-l-4 border-l-portal-orange hover:border-neutral-600'
+              }`}
+            >
+              <div className="space-y-3">
+                {/* Parody / Demo Banner if applicable */}
+                {isTusharDemo && (
+                  <div className="px-3 py-1.5 rounded-md bg-amber-500/10 border border-amber-500/30 flex items-center justify-between text-[11px] font-mono text-amber-300">
+                    <span className="font-bold flex items-center gap-1">
+                      <AlertTriangle className="w-3.5 h-3.5 text-amber-400" />
+                      DEMO / PARODY PROVIDER
+                    </span>
+                    <span className="text-[10px] text-amber-400/80">Nagpur, MH</span>
+                  </div>
+                )}
+
+                {/* Doctor Avatar & Basic Info */}
+                <div className="flex items-start gap-3.5">
+                  <div className="relative">
+                    <img
+                      src={provider.avatarUrl}
+                      alt={provider.name}
+                      className={`w-14 h-14 rounded-lg object-cover border-2 ${isTusharDemo ? 'border-amber-400' : 'border-portal-orange'}`}
+                    />
+                    {isTusharDemo && (
+                      <span className="absolute -top-1.5 -right-1.5 text-base">🧠</span>
+                    )}
+                  </div>
+
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center justify-between gap-2">
+                      <h3 className="font-display font-bold text-sm text-white truncate">
+                        {provider.name}
+                      </h3>
+                      <div className="flex items-center gap-1 text-amber-400 text-xs font-mono font-bold">
+                        <Star className="w-3.5 h-3.5 fill-amber-400" />
+                        <span>{provider.rating}</span>
+                      </div>
+                    </div>
+
+                    <span className={`text-xs font-mono font-bold block ${isTusharDemo ? 'text-amber-400' : 'text-portal-orange'}`}>
+                      {provider.title}
+                    </span>
+
+                    <div className="flex items-center gap-1.5 text-xs text-neutral-300 font-sans mt-0.5">
+                      <Building2 className="w-3.5 h-3.5 text-blue-300 shrink-0" />
+                      <span className="truncate">{provider.hospital}</span>
                     </div>
                   </div>
+                </div>
 
-                  <span className="text-xs text-portal-orange font-mono font-bold block">
-                    {provider.title}
+                {/* Verified Credential / Demo Badge */}
+                <div className="flex items-center gap-2 flex-wrap pt-1">
+                  {isTusharDemo ? (
+                    <>
+                      <span className="px-2 py-0.5 rounded bg-amber-500/20 text-[10px] font-mono font-bold text-amber-300 border border-amber-500/40">
+                        DEMO / PARODY
+                      </span>
+                      <a
+                        href={provider.linkedInUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="px-2 py-0.5 rounded bg-blue-500/15 text-[10px] font-mono text-blue-300 border border-blue-500/30 flex items-center gap-1 hover:bg-blue-500/25 transition-colors"
+                      >
+                        <span>Public LinkedIn</span>
+                        <ExternalLink className="w-2.5 h-2.5" />
+                      </a>
+                    </>
+                  ) : (
+                    <VerifiedBadge
+                      entity="Medical Board"
+                      did={provider.did}
+                      credentialId={provider.credentialId}
+                      zkProof={provider.zkProofBadge}
+                    />
+                  )}
+                  <span className="px-2 py-0.5 rounded bg-[#101420] text-[10px] font-mono font-bold text-neutral-300 border border-neutral-700">
+                    {provider.experienceYears} Years Exp
                   </span>
+                </div>
 
-                  <div className="flex items-center gap-1.5 text-xs text-neutral-300 font-sans mt-0.5">
-                    <Building2 className="w-3.5 h-3.5 text-blue-300 shrink-0" />
-                    <span className="truncate">{provider.hospital}</span>
-                  </div>
+                {/* Bio / Joke Tagline */}
+                <p className="text-xs text-neutral-300 font-sans leading-relaxed line-clamp-2">
+                  {provider.bio}
+                </p>
+
+                {isTusharDemo && (
+                  <p className="text-[11px] font-mono text-amber-300/90 italic bg-amber-500/5 p-2 rounded border border-amber-500/20">
+                    ⚠️ Not a real medical professional. This profile exists only for the Nexora demonstration.
+                  </p>
+                )}
+
+                {/* Fee & Location */}
+                <div className="p-3 rounded-lg bg-[#101420] border border-neutral-700 text-xs font-mono text-neutral-300 flex justify-between items-center">
+                  <span>Fee: <span className="text-white font-bold">{provider.fee}</span></span>
+                  <span className="text-portal-green font-bold">
+                    {isTusharDemo ? 'Open Live Queue ✓' : 'Slots Available This Week ✓'}
+                  </span>
                 </div>
               </div>
 
-              {/* Verified Credential & DID Pill */}
-              <div className="flex items-center gap-2 flex-wrap pt-1">
-                <VerifiedBadge
-                  entity="Medical Board"
-                  did={provider.did}
-                  credentialId={provider.credentialId}
-                  zkProof={provider.zkProofBadge}
-                />
-                <span className="px-2 py-0.5 rounded bg-[#101420] text-[10px] font-mono font-bold text-neutral-300 border border-neutral-700">
-                  {provider.experienceYears} Years Exp
+              {/* Action */}
+              <div className="pt-2 border-t border-neutral-700/60 flex items-center justify-between">
+                <span className="font-mono text-[11px] text-neutral-400">
+                  {isTusharDemo ? 'Clinic: Pallotti College, Nagpur' : `DID: ${provider.did.slice(0, 16)}...`}
                 </span>
-              </div>
 
-              {/* Bio */}
-              <p className="text-xs text-neutral-300 font-sans leading-relaxed line-clamp-2">
-                {provider.bio}
-              </p>
-
-              {/* Fee & Location */}
-              <div className="p-3 rounded-lg bg-[#101420] border border-neutral-700 text-xs font-mono text-neutral-300 flex justify-between items-center">
-                <span>Fee: <span className="text-white font-bold">{provider.fee}</span></span>
-                <span className="text-portal-green font-bold">Slots Available This Week ✓</span>
+                <Link
+                  href={`/dashboard/book/${provider.id}`}
+                  className={`px-4 py-2 rounded-lg text-white font-mono text-xs font-bold uppercase tracking-wider transition-all shadow-md flex items-center gap-1.5 ${
+                    isTusharDemo
+                      ? 'bg-amber-600 hover:bg-amber-500'
+                      : 'bg-[#2E7D32] hover:bg-[#256629]'
+                  }`}
+                >
+                  <Ticket className="w-3.5 h-3.5" />
+                  <span>{isTusharDemo ? 'Generate Token' : 'Select & Authorize'}</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </Link>
               </div>
             </div>
-
-            {/* Action */}
-            <div className="pt-2 border-t border-neutral-700/60 flex items-center justify-between">
-              <span className="font-mono text-[11px] text-neutral-400">
-                DID: {provider.did.slice(0, 16)}...
-              </span>
-
-              <Link
-                href={`/dashboard/book/${provider.id}`}
-                className="px-4 py-2 rounded-lg bg-[#2E7D32] hover:bg-[#256629] text-white font-mono text-xs font-bold uppercase tracking-wider transition-all shadow-md flex items-center gap-1.5"
-              >
-                <span>Select & Authorize</span>
-                <ArrowRight className="w-3.5 h-3.5" />
-              </Link>
-            </div>
-          </div>
-        ))}
+          )
+        })}
       </div>
     </div>
   )

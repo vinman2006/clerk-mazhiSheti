@@ -5,426 +5,319 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { 
   UserPlus, 
-  CheckCircle2, 
-  ShieldCheck, 
-  CreditCard, 
-  FileText, 
+  Check, 
   Lock, 
-  Camera, 
-  Upload, 
+  Eye, 
+  EyeOff, 
   ArrowRight,
+  ShieldCheck,
+  Building2,
   Sparkles,
-  Check
+  Camera
 } from 'lucide-react'
-import { TopUtilityBar } from '@/components/portal/TopUtilityBar'
-import { PortalHeader } from '@/components/portal/PortalHeader'
-import { PortalNavBar } from '@/components/portal/PortalNavBar'
-import { PortalOrgBanner } from '@/components/portal/PortalOrgBanner'
-import { PortalFooter } from '@/components/portal/PortalFooter'
-import { FloatingChatWidget } from '@/components/portal/FloatingChatWidget'
 import { useAuth } from '@/lib/authContext'
+import { NexoraLogoIcon } from '@/components/ui/NexoraLogo'
+import { KiloWaveCanvas } from '@/components/ui/KiloWaveCanvas'
 
 export default function RegisterPage() {
   const router = useRouter()
-  const { setRole, loginWithGoogle, signupWithEmail } = useAuth()
+  const { loginWithGoogle, signupWithEmail } = useAuth()
 
   // Form states
   const [fullName, setFullName] = useState('')
   const [email, setEmail] = useState('')
-  const [phone, setPhone] = useState('')
-  const [selectedUnit, setSelectedUnit] = useState('Ward 1 - Medical District')
-  const [idType, setIdType] = useState('W3C Sovereign DID')
-  const [idNumber, setIdNumber] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
-  const [scannedDocument, setScannedDocument] = useState(false)
+  const [showPassword, setShowPassword] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
-  const [currentStep, setCurrentStep] = useState(2)
-
-  const handleScanDoc = () => {
-    setScannedDocument(true)
-    setIdNumber(`did:nexora:pat:${Math.random().toString(36).substring(2, 8)}`)
-  }
+  const [errorMsg, setErrorMsg] = useState('')
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    setErrorMsg('')
+    if (password !== confirmPassword) {
+      setErrorMsg('Passwords do not match')
+      return
+    }
+    if (password.length < 6) {
+      setErrorMsg('Password must be at least 6 characters')
+      return
+    }
     setIsSubmitting(true)
     try {
       await signupWithEmail(email, password, fullName)
-    } catch (err) {
-      console.error(err)
+    } catch (err: any) {
+      setErrorMsg(err.message || 'Failed to create account')
     } finally {
       setIsSubmitting(false)
     }
   }
 
   return (
-    <div className="min-h-screen bg-slate-100 flex flex-col selection:bg-portal-orange selection:text-white">
-      {/* 1. TOP UTILITY BAR */}
-      <TopUtilityBar />
+    <div className="min-h-screen bg-[#070A10] text-white flex flex-col justify-between selection:bg-nexora-orange-500/20 selection:text-nexora-orange-400 relative overflow-hidden font-sans">
+      {/* 1. KILO-STYLE GENERATIVE STIPPLE WAVE ANIMATION CANVAS */}
+      <KiloWaveCanvas />
 
-      {/* 2. PORTAL HEADER */}
-      <PortalHeader />
-
-      {/* 3. NAVBAR */}
-      <PortalNavBar />
-
-      {/* 4. ORG BANNER */}
-      <PortalOrgBanner 
-        title="NEXORA CITIZEN & PATIENT ENCLAVE"
-        hindiTitle="नेक्सोरा नागरिक आणि रुग्ण नोंदणी"
-        subtitle="New Account Registration & Identity Verification"
-      />
-
-      {/* 5. MAIN TWO-COLUMN REGISTRATION SECTION */}
-      <main id="main-content" className="flex-1 relative py-12 px-4 sm:px-8 bg-gradient-to-br from-[#1E3A8A] via-[#1a3275] to-[#152A63] overflow-hidden">
-        {/* Background tech grid */}
-        <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#ffffff_1px,transparent_1px)] [background-size:20px_20px] pointer-events-none"></div>
-
-        <div className="max-w-6xl w-full mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start relative z-10">
-          {/* LEFT PANEL */}
-          <div className="lg:col-span-5 text-white space-y-6 lg:sticky lg:top-8">
-            <div className="space-y-2">
-              <h1 className="font-display font-black text-3xl sm:text-4xl tracking-tight leading-tight">
-                Citizen Registration
-              </h1>
-              <h2 className="font-sans font-bold text-xl text-portal-orange tracking-wide">
-                नागरिक नोंदणी
-              </h2>
-            </div>
-
-            <p className="font-sans text-xs sm:text-sm text-neutral-200 leading-relaxed">
-              Register to access all e-Governance and healthcare services of Nexora. Once registered, you can book verified doctors, manage smart consent policies, and access your sovereign health records online.
-            </p>
-
-            {/* Orange-bordered info card matching screenshot */}
-            <div className="p-5 rounded-lg bg-white/10 border-l-4 border-portal-orange backdrop-blur-sm space-y-3 shadow-sm">
-              <div className="flex items-center gap-2 text-white font-bold text-xs sm:text-sm">
-                <FileText className="w-4 h-4 text-portal-orange" />
-                <span>Registration Requirements</span>
-              </div>
-              <ul className="space-y-2 text-xs text-neutral-200 font-sans">
-                <li className="flex items-center gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-portal-green shrink-0" />
-                  <span>Valid Email Address</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-portal-green shrink-0" />
-                  <span>Mobile Number</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-portal-green shrink-0" />
-                  <span>Government / Organization ID Proof (DID / Aadhaar / Voter ID)</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-portal-green shrink-0" />
-                  <span>Ward or Unit Information</span>
-                </li>
-              </ul>
-            </div>
-
-            {/* 3-segment progress bar */}
-            <div className="flex items-center gap-2 max-w-xs pt-1">
-              <div className="h-1.5 flex-1 rounded-full bg-portal-orange"></div>
-              <div className="h-1.5 flex-1 rounded-full bg-white"></div>
-              <div className="h-1.5 flex-1 rounded-full bg-portal-green"></div>
-            </div>
+      {/* 2. TOP NAV / LOGO BAR */}
+      <header className="relative z-20 px-6 sm:px-12 py-6 flex items-center justify-between">
+        <Link href="/" className="flex items-center gap-3 group">
+          <div className="w-10 h-10 rounded-xl bg-[#0D1322] border border-white/10 flex items-center justify-center p-1.5 shadow-md group-hover:border-nexora-orange-500/50 transition-all">
+            <NexoraLogoIcon className="w-full h-full" />
           </div>
+          <div className="flex flex-col">
+            <div className="flex items-center gap-2">
+              <span className="font-display font-black text-xl tracking-tight text-white">
+                NEXORA
+              </span>
+              <span className="font-sans font-bold text-[10px] px-2 py-0.5 rounded bg-nexora-orange-500 text-black leading-none">
+                नेक्सोरा
+              </span>
+            </div>
+            <span className="text-[9px] font-mono text-neutral-400 uppercase tracking-wider">
+              Zero-Trust Health Net
+            </span>
+          </div>
+        </Link>
 
-          {/* RIGHT PANEL: FORM CARD */}
-          <div className="lg:col-span-7 w-full">
-            <div className="bg-white rounded-xl shadow-portal-elevated border border-portal-border-light overflow-hidden">
-              {/* Card Header (Orange Banner) */}
-              <div className="bg-gradient-to-r from-portal-orange to-[#e07507] p-5 sm:p-6 text-center text-white space-y-2 relative">
-                <div className="w-14 h-14 rounded-full bg-white text-portal-orange flex items-center justify-center mx-auto shadow-md border-2 border-white">
-                  <UserPlus className="w-7 h-7" />
+        <Link
+          href="/"
+          className="text-xs font-mono font-semibold text-neutral-400 hover:text-white px-3.5 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 transition-all"
+        >
+          ← Back to Home
+        </Link>
+      </header>
+
+      {/* 3. MAIN SPLIT SECTION */}
+      <main className="relative z-10 flex-1 max-w-7xl mx-auto w-full px-6 sm:px-12 py-8 flex items-center">
+        <div className="w-full grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+          {/* LEFT: REGISTRATION FORM CARD */}
+          <div className="lg:col-span-6 max-w-md mx-auto w-full space-y-6">
+            <div className="text-center space-y-2">
+              <div className="w-14 h-14 rounded-2xl bg-[#0E1526] border border-white/10 flex items-center justify-center mx-auto shadow-xl p-2.5">
+                <NexoraLogoIcon className="w-full h-full" />
+              </div>
+              <h1 className="font-display font-black text-3xl sm:text-4xl text-white tracking-tight pt-2">
+                Create your account
+              </h1>
+              <p className="text-xs sm:text-sm text-neutral-400">
+                Register your sovereign cryptographic identity on Nexora
+              </p>
+            </div>
+
+            {/* ERROR NOTIFICATION */}
+            {errorMsg && (
+              <div className="p-3 rounded-lg bg-red-500/10 border border-red-500/30 text-red-300 text-xs font-mono">
+                {errorMsg}
+              </div>
+            )}
+
+            {/* CONTINUE WITH GOOGLE BUTTON */}
+            <div className="space-y-4">
+              <button
+                type="button"
+                onClick={loginWithGoogle}
+                className="w-full py-3.5 px-4 rounded-xl bg-[#141B2D] hover:bg-[#1A233A] text-white font-bold text-sm border border-white/15 hover:border-white/30 transition-all shadow-lg flex items-center justify-center gap-3 group active:scale-[0.99]"
+              >
+                <svg className="w-4 h-4 shrink-0" viewBox="0 0 24 24">
+                  <path
+                    fill="#EA4335"
+                    d="M12 5c1.6 0 3 .6 4.1 1.7l3.1-3.1C17.3 1.8 14.8 1 12 1 7.5 1 3.7 3.6 1.9 7.3l3.7 2.9C6.5 7.4 9 5 12 5z"
+                  />
+                  <path
+                    fill="#4285F4"
+                    d="M23.5 12.3c0-.8-.1-1.6-.2-2.3H12v4.5h6.5c-.3 1.5-1.1 2.8-2.4 3.7l3.7 2.9c2.2-2 3.7-5 3.7-8.8z"
+                  />
+                  <path
+                    fill="#FBBC05"
+                    d="M5.6 14.8c-.2-.7-.4-1.5-.4-2.3s.2-1.6.4-2.3L1.9 7.3C.7 9.7 0 12 0 14.5s.7 4.8 1.9 7.2l3.7-2.9z"
+                  />
+                  <path
+                    fill="#34A853"
+                    d="M12 23.5c3.2 0 6-1.1 8-3l-3.7-2.9c-1.1.7-2.5 1.2-4.3 1.2-3 0-5.5-2.4-6.4-5.2L1.9 16.5C3.7 20.2 7.5 23.5 12 23.5z"
+                  />
+                </svg>
+                <span>Continue with Google</span>
+              </button>
+
+              {/* DIVIDER */}
+              <div className="relative py-1 text-center">
+                <div className="absolute inset-0 flex items-center">
+                  <div className="w-full border-t border-white/10"></div>
                 </div>
-                <div>
-                  <h2 className="font-display font-bold text-xl sm:text-2xl tracking-tight text-white">
-                    New Citizen Registration
-                  </h2>
-                  <span className="font-sans text-xs font-semibold text-white/90">
-                    नवीन नागरिक नोंदणी फॉर्म
-                  </span>
-                </div>
+                <span className="relative bg-[#070A10] px-3 text-[11px] font-mono text-neutral-400">
+                  or register with email
+                </span>
               </div>
 
-              {/* 3-Step Stepper matching screenshot */}
-              <div className="bg-slate-50 px-6 py-4 border-b border-neutral-200">
-                <div className="flex items-center justify-between max-w-md mx-auto relative">
-                  {/* Stepper connecting line */}
-                  <div className="absolute top-4 left-6 right-6 h-0.5 bg-neutral-200 -z-0"></div>
-
-                  {[
-                    { num: 1, label: 'Personal Details' },
-                    { num: 2, label: 'Ward Selection' },
-                    { num: 3, label: 'ID Verification' }
-                  ].map((step) => {
-                    const isActive = step.num <= currentStep
-                    return (
-                      <div key={step.num} className="flex flex-col items-center relative z-10">
-                        <div className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-xs border-2 transition-all ${
-                          isActive 
-                            ? 'bg-[#1E3A8A] text-white border-[#1E3A8A]' 
-                            : 'bg-white text-neutral-400 border-neutral-300'
-                        }`}>
-                          {step.num}
-                        </div>
-                        <span className="text-[10px] font-semibold text-neutral-600 mt-1 font-sans text-center">
-                          {step.label}
-                        </span>
-                      </div>
-                    )
-                  })}
+              {/* REGISTRATION FORM */}
+              <form onSubmit={handleSubmit} className="space-y-3.5">
+                <div className="space-y-1">
+                  <label className="block text-xs font-mono font-medium text-neutral-300">
+                    Full Name / Alias
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={fullName}
+                    onChange={(e) => setFullName(e.target.value)}
+                    placeholder="Aditi Sharma"
+                    className="w-full px-4 py-2.5 rounded-xl bg-[#0D1322] border border-white/10 focus:border-nexora-orange-500 text-white text-sm focus:outline-none transition-all placeholder:text-neutral-600"
+                  />
                 </div>
-              </div>
 
-              {/* Registration Form */}
-              <form onSubmit={handleSubmit} className="p-6 sm:p-8 space-y-6 text-xs font-sans text-neutral-800">
-                {/* SECTION 1: PERSONAL DETAILS */}
-                <div className="space-y-3">
-                  <div className="flex items-center gap-2 text-portal-blue font-bold text-xs uppercase tracking-wide border-b border-neutral-200 pb-1.5">
-                    <CreditCard className="w-4 h-4 text-portal-blue" />
-                    <span>Personal Details / वैयक्तिक माहिती</span>
+                <div className="space-y-1">
+                  <label className="block text-xs font-mono font-medium text-neutral-300">
+                    Email Address
+                  </label>
+                  <input
+                    type="email"
+                    required
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="name@example.com"
+                    className="w-full px-4 py-2.5 rounded-xl bg-[#0D1322] border border-white/10 focus:border-nexora-orange-500 text-white text-sm focus:outline-none transition-all placeholder:text-neutral-600"
+                  />
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div className="space-y-1">
+                    <label className="block text-xs font-mono font-medium text-neutral-300">
+                      Password
+                    </label>
+                    <input
+                      type={showPassword ? 'text' : 'password'}
+                      required
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      placeholder="••••••••••••"
+                      className="w-full px-3.5 py-2.5 rounded-xl bg-[#0D1322] border border-white/10 focus:border-nexora-orange-500 text-white text-sm focus:outline-none transition-all placeholder:text-neutral-600"
+                    />
                   </div>
 
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-                    <div className="space-y-1">
-                      <label className="font-semibold text-neutral-700 block text-xs">
-                        Full Name / पूर्ण नाव <span className="text-red-500">*</span>
-                      </label>
-                      <input
-                        type="text"
-                        required
-                        value={fullName}
-                        onChange={(e) => setFullName(e.target.value)}
-                        placeholder="Enter full name"
-                        className="w-full px-3.5 py-2.5 rounded-md bg-portal-input-bg border border-portal-border-light text-neutral-900 text-xs focus:outline-none focus:border-portal-orange focus:ring-1 focus:ring-portal-orange"
-                      />
-                    </div>
-
-                    <div className="space-y-1">
-                      <label className="font-semibold text-neutral-700 block text-xs">
-                        Email Address / ईमेल <span className="text-red-500">*</span>
-                      </label>
-                      <input
-                        type="email"
-                        required
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        placeholder="Enter email address"
-                        className="w-full px-3.5 py-2.5 rounded-md bg-portal-input-bg border border-portal-border-light text-neutral-900 text-xs focus:outline-none focus:border-portal-orange focus:ring-1 focus:ring-portal-orange"
-                      />
-                    </div>
-
-                    <div className="space-y-1">
-                      <label className="font-semibold text-neutral-700 block text-xs">
-                        Phone Number / फोन नं. <span className="text-red-500">*</span>
-                      </label>
-                      <input
-                        type="tel"
-                        required
-                        value={phone}
-                        onChange={(e) => setPhone(e.target.value)}
-                        placeholder="Enter mobile number"
-                        className="w-full px-3.5 py-2.5 rounded-md bg-portal-input-bg border border-portal-border-light text-neutral-900 text-xs focus:outline-none focus:border-portal-orange focus:ring-1 focus:ring-portal-orange"
-                      />
-                    </div>
-
-                    <div className="space-y-1">
-                      <label className="font-semibold text-neutral-700 block text-xs">
-                        Select Ward / प्रभाग निवडा <span className="text-red-500">*</span>
-                      </label>
-                      <select
-                        value={selectedUnit}
-                        onChange={(e) => setSelectedUnit(e.target.value)}
-                        className="w-full px-3.5 py-2.5 rounded-md bg-portal-input-bg border border-portal-border-light text-neutral-900 text-xs focus:outline-none focus:border-portal-orange focus:ring-1 focus:ring-portal-orange"
-                      >
-                        <option>Ward 1 - Medical District</option>
-                        <option>Ward 2 - Central Healthcare Zone</option>
-                        <option>Ward 3 - North Clinical Wing</option>
-                        <option>Cardiology Research Unit</option>
-                      </select>
-                    </div>
+                  <div className="space-y-1">
+                    <label className="block text-xs font-mono font-medium text-neutral-300">
+                      Confirm Password
+                    </label>
+                    <input
+                      type={showPassword ? 'text' : 'password'}
+                      required
+                      value={confirmPassword}
+                      onChange={(e) => setConfirmPassword(e.target.value)}
+                      placeholder="••••••••••••"
+                      className="w-full px-3.5 py-2.5 rounded-xl bg-[#0D1322] border border-white/10 focus:border-nexora-orange-500 text-white text-sm focus:outline-none transition-all placeholder:text-neutral-600"
+                    />
                   </div>
                 </div>
 
-                {/* SECTION 2: ID VERIFICATION & SCAN DOCUMENT */}
-                <div className="space-y-3">
-                  <div className="flex items-center gap-2 text-portal-green font-bold text-xs uppercase tracking-wide border-b border-neutral-200 pb-1.5">
-                    <CheckCircle2 className="w-4 h-4 text-portal-green" />
-                    <span>ID Verification / ओळख पडताळणी</span>
-                  </div>
-
-                  {/* Scan ID Document Action Button matching screenshot */}
-                  <div>
-                    <button
-                      type="button"
-                      onClick={handleScanDoc}
-                      className={`w-full py-3 px-4 rounded-md border-2 border-dashed font-bold text-xs tracking-wider transition-all flex items-center justify-center gap-2 uppercase ${
-                        scannedDocument
-                          ? 'border-portal-green bg-green-50 text-portal-green'
-                          : 'border-portal-green text-portal-green hover:bg-green-50'
-                      }`}
-                    >
-                      {scannedDocument ? <Check className="w-4 h-4" /> : <Camera className="w-4 h-4" />}
-                      <span>{scannedDocument ? 'ID DOCUMENT ATTESTED & VERIFIED ✓' : 'SCAN ID DOCUMENT / दस्तऐवज स्कॅन करा'}</span>
-                    </button>
-                  </div>
-
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 pt-1">
-                    <div className="space-y-1">
-                      <label className="font-semibold text-neutral-700 block text-xs">
-                        ID Proof Type / ओळख प्रकार
-                      </label>
-                      <select
-                        value={idType}
-                        onChange={(e) => setIdType(e.target.value)}
-                        className="w-full px-3.5 py-2.5 rounded-md bg-portal-input-bg border border-portal-border-light text-neutral-900 text-xs focus:outline-none focus:border-portal-orange"
-                      >
-                        <option>W3C Sovereign DID</option>
-                        <option>Aadhaar / National ID</option>
-                        <option>Voter ID Card</option>
-                        <option>Passport / Health Card</option>
-                      </select>
-                    </div>
-
-                    <div className="space-y-1">
-                      <label className="font-semibold text-neutral-700 block text-xs">
-                        ID Proof Number / ओळख क्रमांक
-                      </label>
-                      <input
-                        type="text"
-                        value={idNumber}
-                        onChange={(e) => setIdNumber(e.target.value)}
-                        placeholder="Enter ID number"
-                        className="w-full px-3.5 py-2.5 rounded-md bg-portal-input-bg border border-portal-border-light text-neutral-900 text-xs focus:outline-none focus:border-portal-orange"
-                      />
-                      <span className="text-[10px] text-neutral-400 block">
-                        You can add or update this later in Profile
-                      </span>
-                    </div>
-                  </div>
-                </div>
-
-                {/* SECTION 3: SECURITY */}
-                <div className="space-y-3">
-                  <div className="flex items-center gap-2 text-portal-blue font-bold text-xs uppercase tracking-wide border-b border-neutral-200 pb-1.5">
-                    <Lock className="w-4 h-4 text-portal-blue" />
-                    <span>Security Credentials / पासवर्ड</span>
-                  </div>
-
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-                    <div className="space-y-1">
-                      <label className="font-semibold text-neutral-700 block text-xs">
-                        Password / पासवर्ड <span className="text-red-500">*</span>
-                      </label>
-                      <input
-                        type="password"
-                        required
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        placeholder="Create strong password"
-                        className="w-full px-3.5 py-2.5 rounded-md bg-portal-input-bg border border-portal-border-light text-neutral-900 text-xs focus:outline-none focus:border-portal-orange"
-                      />
-                    </div>
-
-                    <div className="space-y-1">
-                      <label className="font-semibold text-neutral-700 block text-xs">
-                        Confirm Password / पासवर्ड पुष्टी करा <span className="text-red-500">*</span>
-                      </label>
-                      <input
-                        type="password"
-                        required
-                        value={confirmPassword}
-                        onChange={(e) => setConfirmPassword(e.target.value)}
-                        placeholder="Confirm password"
-                        className="w-full px-3.5 py-2.5 rounded-md bg-portal-input-bg border border-portal-border-light text-neutral-900 text-xs focus:outline-none focus:border-portal-orange"
-                      />
-                    </div>
-                  </div>
-                </div>
-
-                {/* PRIMARY CTA (Solid Success Green, height 52px) */}
                 <div className="pt-2">
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="w-full h-[52px] rounded-md bg-[#2E7D32] hover:bg-[#256629] text-white font-bold text-sm tracking-wide transition-all shadow-md flex items-center justify-center gap-2 uppercase"
+                    className="w-full py-3.5 rounded-xl bg-nexora-green-status hover:bg-[#1b8552] text-white font-bold text-xs uppercase tracking-wider transition-all shadow-xl hover:shadow-emerald-950/40 flex items-center justify-center gap-2 active:scale-[0.99] disabled:opacity-50"
                   >
-                    <UserPlus className="w-5 h-5" />
-                    <span>{isSubmitting ? 'Registering...' : 'REGISTER / नोंदणी करा'}</span>
+                    <UserPlus className="w-4 h-4" />
+                    <span>{isSubmitting ? 'Creating Sovereign Account...' : 'Create Account'}</span>
                   </button>
                 </div>
-
-                {/* OR Divider */}
-                <div className="relative py-2 text-center">
-                  <div className="absolute inset-0 flex items-center">
-                    <div className="w-full border-t border-neutral-200"></div>
-                  </div>
-                  <span className="relative bg-white px-3 text-[11px] font-bold text-neutral-400 font-mono uppercase">
-                    OR
-                  </span>
-                </div>
-
-                {/* Google Sign-In Button */}
-                <button
-                  type="button"
-                  onClick={loginWithGoogle}
-                  className="w-full py-3 rounded-md bg-white hover:bg-neutral-50 text-neutral-800 font-bold text-xs border-2 border-neutral-300 transition-all shadow-sm flex items-center justify-center gap-2.5"
-                >
-                  <svg className="w-4 h-4" viewBox="0 0 24 24">
-                    <path
-                      fill="#EA4335"
-                      d="M12 5c1.6 0 3 .6 4.1 1.7l3.1-3.1C17.3 1.8 14.8 1 12 1 7.5 1 3.7 3.6 1.9 7.3l3.7 2.9C6.5 7.4 9 5 12 5z"
-                    />
-                    <path
-                      fill="#4285F4"
-                      d="M23.5 12.3c0-.8-.1-1.6-.2-2.3H12v4.5h6.5c-.3 1.5-1.1 2.8-2.4 3.7l3.7 2.9c2.2-2 3.7-5 3.7-8.8z"
-                    />
-                    <path
-                      fill="#FBBC05"
-                      d="M5.6 14.8c-.2-.7-.4-1.5-.4-2.3s.2-1.6.4-2.3L1.9 7.3C.7 9.7 0 12 0 14.5s.7 4.8 1.9 7.2l3.7-2.9z"
-                    />
-                    <path
-                      fill="#34A853"
-                      d="M12 23.5c3.2 0 6-1.1 8-3l-3.7-2.9c-1.1.7-2.5 1.2-4.3 1.2-3 0-5.5-2.4-6.4-5.2L1.9 16.5C3.7 20.2 7.5 23.5 12 23.5z"
-                    />
-                  </svg>
-                  <span>SIGN UP WITH GOOGLE / गुगलने नोंदणी करा</span>
-                </button>
-
-                {/* Secondary Link */}
-                <div className="text-center pt-1">
-                  <span className="text-xs text-neutral-600">
-                    Already have an account?{' '}
-                    <Link href="/login" className="text-portal-blue font-bold hover:underline">
-                      Sign In / साइन इन
-                    </Link>
-                  </span>
-                </div>
-
-                {/* Footer Note */}
-                <div className="pt-3 border-t border-neutral-100 flex items-center justify-center gap-1.5 text-[11px] text-neutral-500 font-sans">
-                  <Lock className="w-3 h-3 text-portal-orange shrink-0" />
-                  <span>Your data is securely encrypted and protected under Zero-Knowledge protocol.</span>
-                </div>
               </form>
+            </div>
+
+            {/* BOTTOM TOGGLE */}
+            <div className="pt-2 text-center text-xs text-neutral-400">
+              Already have an account?{' '}
+              <Link href="/login" className="text-nexora-orange-400 hover:underline font-semibold">
+                Sign in here →
+              </Link>
+            </div>
+          </div>
+
+          {/* RIGHT: FEATURE SHOWCASE CARD (KILO STYLE) */}
+          <div className="lg:col-span-6 w-full flex justify-center">
+            <div className="w-full max-w-lg p-8 sm:p-10 rounded-2xl bg-[#0D1322]/80 border border-white/10 backdrop-blur-xl shadow-2xl space-y-8 relative overflow-hidden">
+              {/* Ambient gradient */}
+              <div className="absolute top-0 right-0 w-64 h-64 bg-nexora-orange-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+              <div className="space-y-2 relative z-10">
+                <h2 className="font-display font-black text-3xl sm:text-4xl text-white tracking-tight leading-tight">
+                  One sovereign health key. <br />
+                  Every hospital. <br />
+                  <span className="text-nexora-orange-400">Total privacy.</span>
+                </h2>
+              </div>
+
+              {/* CHECKMARK BULLETS */}
+              <div className="space-y-5 text-xs sm:text-sm font-sans relative z-10">
+                <div className="flex items-start gap-3.5">
+                  <div className="w-5 h-5 rounded-full bg-nexora-green-status/20 border border-nexora-green-status/40 text-nexora-green-status flex items-center justify-center shrink-0 mt-0.5">
+                    <Check className="w-3 h-3 stroke-[3]" />
+                  </div>
+                  <div>
+                    <h3 className="font-bold text-white">Zero-Knowledge medical attestations.</h3>
+                    <p className="text-neutral-400 text-xs mt-0.5 leading-relaxed">
+                      Prove eligibility, lab results, and diagnostic metrics without exposing private health records.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-3.5">
+                  <div className="w-5 h-5 rounded-full bg-nexora-green-status/20 border border-nexora-green-status/40 text-nexora-green-status flex items-center justify-center shrink-0 mt-0.5">
+                    <Check className="w-3 h-3 stroke-[3]" />
+                  </div>
+                  <div>
+                    <h3 className="font-bold text-white">Everywhere you seek care.</h3>
+                    <p className="text-neutral-400 text-xs mt-0.5 leading-relaxed">
+                      Hospitals, diagnostic laboratories, specialist clinics, and government health schemes.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-3.5">
+                  <div className="w-5 h-5 rounded-full bg-nexora-green-status/20 border border-nexora-green-status/40 text-nexora-green-status flex items-center justify-center shrink-0 mt-0.5">
+                    <Check className="w-3 h-3 stroke-[3]" />
+                  </div>
+                  <div>
+                    <h3 className="font-bold text-white">Multi-agent autonomous coordination.</h3>
+                    <p className="text-neutral-400 text-xs mt-0.5 leading-relaxed">
+                      AI agents coordinate bookings and subsidies with zero PHI leakage.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-3.5">
+                  <div className="w-5 h-5 rounded-full bg-nexora-green-status/20 border border-nexora-green-status/40 text-nexora-green-status flex items-center justify-center shrink-0 mt-0.5">
+                    <Check className="w-3 h-3 stroke-[3]" />
+                  </div>
+                  <div>
+                    <h3 className="font-bold text-white">100% patient-owned sovereign data.</h3>
+                    <p className="text-neutral-400 text-xs mt-0.5 leading-relaxed">
+                      W3C Decentralized Identifiers (DIDs) & client-side AES-256 encryption.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* TRUSTED BY NETWORK BADGES */}
+              <div className="pt-6 border-t border-white/10 space-y-3 relative z-10">
+                <span className="text-[10px] font-mono font-bold text-neutral-400 uppercase tracking-wider block text-center sm:text-left">
+                  Trusted by clinical networks & researchers at
+                </span>
+                <div className="flex flex-wrap items-center gap-4 text-xs font-mono text-neutral-400">
+                  <span className="px-2.5 py-1 rounded bg-white/5 border border-white/10">Apollo Health</span>
+                  <span className="px-2.5 py-1 rounded bg-white/5 border border-white/10">Fortis Care</span>
+                  <span className="px-2.5 py-1 rounded bg-white/5 border border-white/10">AIIMS Network</span>
+                  <span className="px-2.5 py-1 rounded bg-white/5 border border-white/10">Stanford Medicine</span>
+                  <span className="px-2.5 py-1 rounded bg-white/5 border border-white/10">Midnight ZK</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </main>
 
-      {/* 6. GREEN SUB-BANNER */}
-      <div className="bg-[#2E7D32] text-white py-2.5 px-4 text-center text-xs font-semibold tracking-wide">
-        Nexora Trust Infrastructure | नेक्सोरा शासन | © 2026 Nexora Unified Platform
-      </div>
-
-      {/* 7. PORTAL FOOTER */}
-      <PortalFooter />
-
-      {/* 8. FLOATING CHAT WIDGET */}
-      <FloatingChatWidget />
+      {/* 4. FOOTER */}
+      <footer className="relative z-10 px-6 sm:px-12 py-4 border-t border-white/5 text-center text-xs font-mono text-neutral-400">
+        Nexora Sovereign Health Infrastructure • Protected by Zero-Knowledge Cryptography
+      </footer>
     </div>
   )
 }

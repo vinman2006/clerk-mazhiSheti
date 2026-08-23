@@ -1,6 +1,6 @@
 'use client'
 
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { 
   Bot, 
@@ -18,7 +18,10 @@ import {
   Lock, 
   ChevronRight,
   User,
-  Heart
+  Heart,
+  Ticket,
+  MapPin,
+  AlertTriangle
 } from 'lucide-react'
 import { useAuth } from '@/lib/authContext'
 import { useUserData } from '@/lib/userDataContext'
@@ -31,9 +34,34 @@ export default function PatientDashboardPage() {
   const { user } = useAuth()
   const { profile, consents, appointments, records, auditTrail } = useUserData()
 
+  const [activeTokens, setActiveTokens] = useState<any[]>([])
+  const [loadingTokens, setLoadingTokens] = useState(true)
+
+  // Fetch active queue tokens from MongoDB
+  const fetchTokens = async () => {
+    try {
+      const res = await fetch('/api/tokens')
+      const data = await res.json()
+      if (data.success && Array.isArray(data.tokens)) {
+        setActiveTokens(data.tokens)
+      }
+    } catch (err) {
+      console.error('Failed to load tokens:', err)
+    } finally {
+      setLoadingTokens(false)
+    }
+  }
+
+  useEffect(() => {
+    fetchTokens()
+    const interval = setInterval(fetchTokens, 5000)
+    return () => clearInterval(interval)
+  }, [])
+
   const activeConsentsCount = consents.filter(c => c.status === 'active').length
   const upcomingAppointment = appointments.find(a => a.status !== 'Cancelled') || appointments[0]
   const lastAudit = auditTrail[0]
+  const latestToken = activeTokens.find(t => ['QUEUED', 'CALLED', 'IN_PROGRESS'].includes(t.status))
 
   return (
     <div className="space-y-6">
@@ -75,6 +103,43 @@ export default function PatientDashboardPage() {
         </div>
       </div>
 
+      {/* ACTIVE DEMO QUEUE TOKEN BANNER IF PRESENT */}
+      {latestToken && (
+        <div className="p-5 rounded-xl bg-[#141826] border-2 border-amber-500/50 shadow-xl flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div className="flex items-start gap-3.5">
+            <div className="w-12 h-12 rounded-xl bg-amber-500/20 text-amber-400 border border-amber-500/40 flex items-center justify-center text-xl shrink-0">
+              🧠
+            </div>
+            <div>
+              <div className="flex items-center gap-2">
+                <span className="text-xs font-mono font-bold text-amber-400 uppercase tracking-wide">
+                  Active Consultation Queue Token
+                </span>
+                <span className="px-2 py-0.5 rounded bg-amber-500/20 text-[10px] font-mono text-amber-300 font-bold">
+                  {latestToken.status}
+                </span>
+              </div>
+              <h3 className="font-display font-black text-xl text-white mt-0.5">
+                Token #{latestToken.tokenNumber} — {latestToken.doctorName}
+              </h3>
+              <p className="text-xs font-sans text-neutral-300 flex items-center gap-1.5 mt-1">
+                <MapPin className="w-3.5 h-3.5 text-amber-400 shrink-0" />
+                <span>{latestToken.locationName}</span>
+              </p>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-3 shrink-0">
+            <Link
+              href="/hospital-portal/doctor-demo-tushar"
+              className="px-4 py-2 rounded-lg bg-amber-500 hover:bg-amber-600 text-black font-bold text-xs font-mono transition-all shadow-md"
+            >
+              Open Tushar Portal →
+            </Link>
+          </div>
+        </div>
+      )}
+
       {/* 1AM WALLET & MIDNIGHT BLOCKCHAIN ENCLAVE */}
       <OneAmWalletCard />
 
@@ -89,7 +154,7 @@ export default function PatientDashboardPage() {
           </div>
           <div>
             <span className="font-sans font-bold text-xs text-white block">Find Care</span>
-            <span className="text-[11px] text-neutral-400 font-sans">Verified doctors & clinics</span>
+            <span className="text-[11px] text-neutral-400 font-sans">Verified doctors & demo tokens</span>
           </div>
         </Link>
 
