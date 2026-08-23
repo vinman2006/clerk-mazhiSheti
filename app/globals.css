@@ -1,0 +1,81 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg-base: #0B0E17;
+  --surface: #141826;
+  --surface-border: #242A3D;
+  --brand-teal: #2DE8C8;
+  --brand-coral: #FF6B5B;
+  --brand-warning: #FFB648;
+}
+
+body {
+  background-color: #0B0E17;
+  color: #F4F6FB;
+  font-family: 'Inter', sans-serif;
+  overflow-x: hidden;
+  selection-background-color: rgba(45, 232, 200, 0.3);
+}
+
+::selection {
+  background: rgba(45, 232, 200, 0.25);
+  color: #2DE8C8;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0B0E17;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #242A3D;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #323B54;
+}
+
+/* Subtle tech grid background */
+.tech-grid {
+  background-size: 36px 36px;
+  background-image: 
+    linear-gradient(to right, rgba(36, 42, 61, 0.25) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(36, 42, 61, 0.25) 1px, transparent 1px);
+}
+
+/* Radial glow effect */
+.teal-radial-glow {
+  background: radial-gradient(circle at 50% 30%, rgba(45, 232, 200, 0.08) 0%, transparent 70%);
+}
+
+.coral-radial-glow {
+  background: radial-gradient(circle at 50% 50%, rgba(255, 107, 91, 0.08) 0%, transparent 70%);
+}
+
+/* Flowing dash animation for SVG connection paths */
+@keyframes flowDashAnim {
+  from {
+    stroke-dashoffset: 200;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.animate-pulse-flow {
+  animation: flowDashAnim 3s linear infinite;
+}
+
+.animate-pulse-slow {
+  animation: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}

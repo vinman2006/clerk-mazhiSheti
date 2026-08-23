@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login – Nexora</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="auth-container">
+    <h1>Welcome to Nexora</h1>
+    <div id="error-msg" class="error" style="display:none;"></div>
+    <div id="loader" class="loader" style="display:none;">Loading…</div>
+    <form id="login-form">
+      <input type="email" id="login-email" placeholder="Email" required />
+      <input type="password" id="login-password" placeholder="Password" required />
+      <button type="submit">Login</button>
+    </form>
+    <button id="google-btn">Sign in with Google</button>
+    <p>Don\'t have an account? <a href="signup.html">Sign up</a></p>
+    <p><a href="forgot.html">Forgot password?</a></p>
+  </div>
+  <script type="module" src="auth.js"></script>
+  <script type="module">
+    import { logIn, googleSignIn } from "./auth.js";
+    document.getElementById("login-form").addEventListener("submit", (e) => {
+      e.preventDefault();
+      const email = document.getElementById("login-email").value.trim();
+      const pwd = document.getElementById("login-password").value;
+      logIn(email, pwd);
+    });
+    document.getElementById("google-btn").addEventListener("click", () => googleSignIn());
+  </script>
+</body>
+</html>
