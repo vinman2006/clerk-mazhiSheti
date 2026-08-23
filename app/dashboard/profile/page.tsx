@@ -5,13 +5,18 @@ import {
   User, 
   KeyRound, 
   ShieldCheck, 
+  Heart, 
+  MapPin, 
   Check, 
   Lock, 
   Save, 
   CheckCircle2, 
-  Copy, 
-  RefreshCw, 
-  Shield 
+  AlertCircle,
+  Copy,
+  RefreshCw,
+  Shield,
+  Zap,
+  Sparkles
 } from 'lucide-react'
 import { useUserData } from '@/lib/userDataContext'
 import { useWallet } from '@/lib/walletContext'
@@ -26,6 +31,7 @@ export default function ProfilePage() {
     address, 
     shieldedCoinPublicKey, 
     network, 
+    isDustSponsored, 
     connect, 
     disconnect 
   } = useWallet()
@@ -98,17 +104,17 @@ export default function ProfilePage() {
   }
 
   return (
-    <div className="space-y-6 max-w-4xl mx-auto text-[#1A1A1A]">
+    <div className="space-y-6 max-w-4xl mx-auto">
       {/* HEADER */}
-      <div className="p-6 rounded-lg bg-white border border-[#E0E0E0] border-l-4 border-l-[#0B3D91] shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="p-6 rounded-xl bg-[#141826] border-2 border-[#1E3A8A] shadow-xl flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <div className="flex items-center gap-2">
-            <h1 className="text-2xl font-extrabold text-[#0B3D91]">
-              Sovereign Health Profile & Key Vault (नागरिक प्रोफाईल व ओळख तिजोरी)
+            <h1 className="font-display font-black text-2xl text-white">
+              Sovereign Health Profile & Key Vault
             </h1>
             <SimulatedBadge />
           </div>
-          <p className="text-xs text-[#4B5563] mt-1">
+          <p className="text-xs font-sans text-neutral-300 mt-1">
             Manage your personal demographic and clinical parameters. Changes are signed client-side and logged on-chain.
           </p>
         </div>
@@ -120,77 +126,77 @@ export default function ProfilePage() {
 
       <form onSubmit={handleSave} className="space-y-6">
         {/* SECTION 1: IDENTITY & CRYPTOGRAPHIC KEYS */}
-        <div className="p-6 rounded-lg bg-white border border-[#E0E0E0] border-t-4 border-t-[#0B3D91] space-y-4 shadow-sm">
-          <div className="flex items-center justify-between border-b border-neutral-100 pb-3">
-            <div className="flex items-center gap-2 text-[#0B3D91] font-bold text-xs">
-              <KeyRound className="w-4 h-4 text-[#F5821F]" />
+        <div className="p-6 rounded-xl bg-[#141826] border border-neutral-700 space-y-4 shadow-lg">
+          <div className="flex items-center justify-between border-b border-neutral-700 pb-3">
+            <div className="flex items-center gap-2 text-portal-orange font-mono font-bold text-xs">
+              <KeyRound className="w-4 h-4" />
               <span>Decentralized Identity & Enclave Keys</span>
             </div>
-            <span className="text-[10px] text-[#1E7A34] font-bold">100% Client-Side Custody ✓</span>
+            <span className="text-[10px] font-mono text-portal-green font-bold">100% Client-Side Custody ✓</span>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs font-sans">
-            <div className="space-y-1">
-              <label className="text-[11px] text-[#1A1A1A] font-bold block">Decentralized Identifier (DID):</label>
+            <div className="space-y-1.5">
+              <label className="font-mono text-[11px] text-neutral-300 font-bold uppercase">Decentralized Identifier (DID):</label>
               <div className="flex items-center gap-2">
                 <input
                   type="text"
                   readOnly
                   value={profile.did}
-                  className="w-full px-3 py-2 rounded bg-[#F8FAFC] border border-[#CBD5E1] text-[#D66D10] font-mono text-xs focus:outline-none"
+                  className="w-full px-3.5 py-2.5 rounded-lg bg-[#101420] border border-neutral-700 text-portal-orange font-mono text-xs focus:outline-none"
                 />
                 <button
                   type="button"
                   onClick={handleCopyDid}
-                  className="px-3 py-2 rounded bg-white hover:bg-neutral-50 border border-[#CBD5E1] text-neutral-600 hover:text-black"
+                  className="px-3 py-2.5 rounded-lg bg-[#101420] border border-neutral-700 text-neutral-300 hover:text-white"
                 >
-                  {copiedDid ? <Check className="w-4 h-4 text-[#1E7A34]" /> : <Copy className="w-4 h-4" />}
+                  {copiedDid ? <Check className="w-4 h-4 text-portal-green" /> : <Copy className="w-4 h-4" />}
                 </button>
               </div>
             </div>
 
-            <div className="space-y-1">
-              <label className="text-[11px] text-[#1A1A1A] font-bold block">Enclave Key Fingerprint:</label>
+            <div className="space-y-1.5">
+              <label className="font-mono text-[11px] text-neutral-300 font-bold uppercase">Enclave Key Fingerprint:</label>
               <input
                 type="text"
                 readOnly
                 value={profile.encryptionKeyFingerprint}
-                className="w-full px-3 py-2 rounded bg-[#F8FAFC] border border-[#CBD5E1] text-[#1E7A34] font-mono text-xs focus:outline-none"
+                className="w-full px-3.5 py-2.5 rounded-lg bg-[#101420] border border-neutral-700 text-portal-green font-mono text-xs focus:outline-none"
               />
             </div>
 
             {/* 1AM Midnight Wallet Address */}
-            <div className="space-y-1 sm:col-span-2 p-3.5 rounded bg-[#F8FAFC] border border-[#CBD5E1]">
+            <div className="space-y-1.5 sm:col-span-2 p-3.5 rounded-lg bg-[#101420] border border-portal-orange/40">
               <div className="flex items-center justify-between">
-                <label className="text-[11px] text-[#0B3D91] font-bold flex items-center gap-1.5">
-                  <Shield className="w-3.5 h-3.5 text-[#F5821F]" />
+                <label className="font-mono text-[11px] text-portal-orange font-bold uppercase flex items-center gap-1.5">
+                  <Shield className="w-3.5 h-3.5" />
                   <span>1AM Midnight Blockchain Wallet:</span>
                 </label>
-                <span className="text-[10px] text-[#1E7A34] font-bold">
-                  {isConnected ? `Connected (${network} - Localnet)` : 'Not Connected'}
+                <span className="text-[10px] font-mono text-portal-green font-bold">
+                  {isConnected ? `Connected (${network} - Dust-Free)` : 'Not Connected'}
                 </span>
               </div>
-              <div className="flex items-center gap-2 mt-1.5">
+              <div className="flex items-center gap-2 mt-1">
                 <input
                   type="text"
                   readOnly
                   value={isConnected ? address || '' : 'No 1AM Wallet connected. Click connect below to link.'}
-                  className="w-full px-3 py-2 rounded bg-white border border-[#CBD5E1] text-[#1A1A1A] font-mono text-xs focus:outline-none"
+                  className="w-full px-3.5 py-2 rounded bg-[#141826] border border-neutral-700 text-white font-mono text-xs focus:outline-none"
                 />
                 {isConnected ? (
                   <>
                     <button
                       type="button"
                       onClick={handleCopyWallet}
-                      className="px-3 py-2 rounded bg-white border border-[#CBD5E1] text-neutral-600 hover:text-black"
+                      className="px-3 py-2 rounded bg-[#141826] border border-neutral-700 text-neutral-300 hover:text-white"
                       title="Copy Address"
                     >
-                      {copiedWallet ? <Check className="w-4 h-4 text-[#1E7A34]" /> : <Copy className="w-4 h-4" />}
+                      {copiedWallet ? <Check className="w-4 h-4 text-portal-green" /> : <Copy className="w-4 h-4" />}
                     </button>
                     <button
                       type="button"
                       onClick={disconnect}
-                      className="px-3 py-2 rounded bg-red-50 hover:bg-red-100 text-red-700 border border-red-200 text-xs font-bold"
+                      className="px-3 py-2 rounded bg-red-500/10 hover:bg-red-500/20 text-red-300 border border-red-500/30 text-xs font-mono font-bold"
                     >
                       Disconnect
                     </button>
@@ -200,7 +206,7 @@ export default function ProfilePage() {
                     type="button"
                     onClick={() => connect('localnet')}
                     disabled={isConnecting}
-                    className="px-4 py-2 rounded bg-[#F5821F] hover:bg-[#D66D10] text-white text-xs font-bold whitespace-nowrap shadow-sm"
+                    className="px-4 py-2 rounded bg-nexora-orange-500 hover:bg-nexora-orange-600 text-nexora-text-on-orange text-xs font-mono font-bold whitespace-nowrap shadow-sm"
                   >
                     {isConnecting ? 'Connecting...' : 'Connect 1AM (Localnet)'}
                   </button>
@@ -221,7 +227,7 @@ export default function ProfilePage() {
                 setSaved(true)
                 setTimeout(() => setSaved(false), 2500)
               }}
-              className="px-4 py-2 rounded bg-white hover:bg-neutral-50 border border-[#0B3D91] text-[#0B3D91] text-xs font-bold transition-all flex items-center gap-1.5 shadow-sm"
+              className="px-4 py-2 rounded-lg bg-[#101420] hover:bg-[#182033] border border-neutral-700 text-portal-orange text-xs font-mono font-bold transition-all flex items-center gap-1.5"
             >
               <RefreshCw className="w-3.5 h-3.5" />
               <span>Rotate Enclave Keys & DID</span>
@@ -248,50 +254,50 @@ export default function ProfilePage() {
                 a.click()
                 URL.revokeObjectURL(url)
               }}
-              className="px-4 py-2 rounded bg-white hover:bg-neutral-50 border border-[#CBD5E1] text-[#1A1A1A] text-xs font-bold transition-all flex items-center gap-1.5 shadow-sm"
+              className="px-4 py-2 rounded-lg bg-[#101420] hover:bg-[#182033] border border-neutral-700 text-neutral-200 hover:text-white text-xs font-mono font-bold transition-all flex items-center gap-1.5"
             >
-              <Lock className="w-3.5 h-3.5 text-[#1E7A34]" />
+              <Lock className="w-3.5 h-3.5 text-portal-green" />
               <span>Export Encrypted Vault Backup</span>
             </button>
           </div>
         </div>
 
         {/* SECTION 2: PERSONAL DEMOGRAPHICS */}
-        <div className="p-6 rounded-lg bg-white border border-[#E0E0E0] border-t-4 border-t-[#0B3D91] space-y-4 shadow-sm">
-          <div className="border-b border-neutral-100 pb-3 flex items-center justify-between">
-            <h2 className="font-bold text-sm text-[#0B3D91]">
+        <div className="p-6 rounded-xl bg-[#141826] border border-neutral-700 space-y-4 shadow-lg">
+          <div className="border-b border-neutral-700 pb-3 flex items-center justify-between">
+            <h2 className="font-display font-black text-sm text-white">
               1. Personal Demographics
             </h2>
-            <span className="text-[10px] text-neutral-500">Basic Citizen Parameters</span>
+            <span className="text-[10px] font-mono text-neutral-400">Basic Sovereign Parameters</span>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs font-sans">
-            <div className="space-y-1">
-              <label className="text-[11px] text-[#1A1A1A] font-bold block">Full Legal Name:</label>
+            <div className="space-y-1.5">
+              <label className="font-mono text-[11px] text-neutral-300 font-bold uppercase">Full Legal Name:</label>
               <input
                 type="text"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                className="w-full px-3 py-2 rounded bg-[#F8FAFC] border border-[#CBD5E1] text-[#1A1A1A] focus:outline-none focus:bg-white focus:border-[#0B3D91] text-xs"
+                className="w-full px-3.5 py-2.5 rounded-lg bg-[#101420] border border-neutral-700 text-white focus:outline-none focus:border-portal-orange text-xs"
               />
             </div>
 
-            <div className="space-y-1">
-              <label className="text-[11px] text-[#1A1A1A] font-bold block">Date of Birth:</label>
+            <div className="space-y-1.5">
+              <label className="font-mono text-[11px] text-neutral-300 font-bold uppercase">Date of Birth:</label>
               <input
                 type="date"
                 value={dob}
                 onChange={(e) => setDob(e.target.value)}
-                className="w-full px-3 py-2 rounded bg-[#F8FAFC] border border-[#CBD5E1] text-[#1A1A1A] focus:outline-none focus:bg-white focus:border-[#0B3D91] text-xs"
+                className="w-full px-3.5 py-2.5 rounded-lg bg-[#101420] border border-neutral-700 text-white focus:outline-none focus:border-portal-orange text-xs"
               />
             </div>
 
-            <div className="space-y-1">
-              <label className="text-[11px] text-[#1A1A1A] font-bold block">Biological Gender:</label>
+            <div className="space-y-1.5">
+              <label className="font-mono text-[11px] text-neutral-300 font-bold uppercase">Biological Gender:</label>
               <select
                 value={gender}
                 onChange={(e) => setGender(e.target.value)}
-                className="w-full px-3 py-2 rounded bg-[#F8FAFC] border border-[#CBD5E1] text-[#1A1A1A] focus:outline-none focus:bg-white focus:border-[#0B3D91] text-xs"
+                className="w-full px-3.5 py-2.5 rounded-lg bg-[#101420] border border-neutral-700 text-white focus:outline-none focus:border-portal-orange text-xs"
               >
                 <option>Female</option>
                 <option>Male</option>
@@ -300,12 +306,12 @@ export default function ProfilePage() {
               </select>
             </div>
 
-            <div className="space-y-1">
-              <label className="text-[11px] text-[#1A1A1A] font-bold block">Blood Group:</label>
+            <div className="space-y-1.5">
+              <label className="font-mono text-[11px] text-neutral-300 font-bold uppercase">Blood Group:</label>
               <select
                 value={bloodGroup}
                 onChange={(e) => setBloodGroup(e.target.value)}
-                className="w-full px-3 py-2 rounded bg-[#F8FAFC] border border-[#CBD5E1] text-[#1A1A1A] focus:outline-none focus:bg-white focus:border-[#0B3D91] text-xs"
+                className="w-full px-3.5 py-2.5 rounded-lg bg-[#101420] border border-neutral-700 text-white focus:outline-none focus:border-portal-orange text-xs"
               >
                 {['O+', 'O-', 'A+', 'A-', 'B+', 'B-', 'AB+', 'AB-'].map(bg => (
                   <option key={bg}>{bg}</option>
@@ -313,14 +319,13 @@ export default function ProfilePage() {
               </select>
             </div>
 
-            <div className="space-y-1">
-              <label className="text-[11px] text-[#1A1A1A] font-bold block">Residential Health District:</label>
+            <div className="space-y-1.5">
+              <label className="font-mono text-[11px] text-neutral-300 font-bold uppercase">Residential Health District:</label>
               <select
                 value={district}
                 onChange={(e) => setDistrict(e.target.value)}
-                className="w-full px-3 py-2 rounded bg-[#F8FAFC] border border-[#CBD5E1] text-[#1A1A1A] focus:outline-none focus:bg-white focus:border-[#0B3D91] text-xs"
+                className="w-full px-3.5 py-2.5 rounded-lg bg-[#101420] border border-neutral-700 text-white focus:outline-none focus:border-portal-orange text-xs"
               >
-                <option>Nagpur Municipal Corporation (Umred Region)</option>
                 <option>Metropolis Medical District (District 4)</option>
                 <option>Capital Health Zone (District 1)</option>
                 <option>High-Altitude Regional Sector (District 7)</option>
@@ -328,41 +333,41 @@ export default function ProfilePage() {
               </select>
             </div>
 
-            <div className="space-y-1">
-              <label className="text-[11px] text-[#1A1A1A] font-bold block">Emergency Contact:</label>
+            <div className="space-y-1.5">
+              <label className="font-mono text-[11px] text-neutral-300 font-bold uppercase">Emergency Contact:</label>
               <input
                 type="text"
                 value={emergencyContact}
                 onChange={(e) => setEmergencyContact(e.target.value)}
-                className="w-full px-3 py-2 rounded bg-[#F8FAFC] border border-[#CBD5E1] text-[#1A1A1A] focus:outline-none focus:bg-white focus:border-[#0B3D91] text-xs"
+                className="w-full px-3.5 py-2.5 rounded-lg bg-[#101420] border border-neutral-700 text-white focus:outline-none focus:border-portal-orange text-xs"
               />
             </div>
           </div>
         </div>
 
         {/* SECTION 3: MEDICAL ALLERGIES & CHRONIC CONDITIONS */}
-        <div className="p-6 rounded-lg bg-white border border-[#E0E0E0] border-t-4 border-t-[#0B3D91] space-y-5 shadow-sm">
-          <div className="border-b border-neutral-100 pb-3 flex items-center justify-between">
-            <h2 className="font-bold text-sm text-[#0B3D91]">
+        <div className="p-6 rounded-xl bg-[#141826] border border-neutral-700 space-y-5 shadow-lg">
+          <div className="border-b border-neutral-700 pb-3 flex items-center justify-between">
+            <h2 className="font-display font-black text-sm text-white">
               2. Clinical Context & Focus Areas
             </h2>
-            <span className="text-[10px] text-[#D66D10] font-bold">Informs Local AI Agents</span>
+            <span className="text-[10px] font-mono text-portal-orange font-bold">Informs Local AI Agents</span>
           </div>
 
           {/* Allergies */}
           <div className="space-y-2 text-xs font-sans">
-            <label className="text-[11px] text-[#1A1A1A] font-bold block">Documented Allergies:</label>
+            <label className="font-mono text-[11px] text-neutral-300 font-bold uppercase">Documented Allergies:</label>
             <div className="flex flex-wrap gap-2">
               {allergies.map((alg) => (
                 <span
                   key={alg}
-                  className="px-3 py-1.5 rounded bg-amber-50 border border-[#F5821F]/40 text-[#D66D10] font-bold flex items-center gap-1.5"
+                  className="px-3 py-1.5 rounded-md bg-portal-orange/20 border border-portal-orange/40 text-portal-orange font-mono font-bold flex items-center gap-1.5"
                 >
                   <span>{alg}</span>
                   <button
                     type="button"
                     onClick={() => handleRemoveAllergy(alg)}
-                    className="hover:text-red-700 font-bold ml-1"
+                    className="hover:text-white font-bold ml-1"
                   >
                     ×
                   </button>
@@ -375,12 +380,12 @@ export default function ProfilePage() {
                 value={customAllergy}
                 onChange={(e) => setCustomAllergy(e.target.value)}
                 placeholder="Add custom allergy..."
-                className="px-3 py-1.5 rounded bg-[#F8FAFC] border border-[#CBD5E1] text-[#1A1A1A] text-xs flex-1 focus:outline-none focus:bg-white focus:border-[#0B3D91]"
+                className="px-3 py-1.5 rounded-md bg-[#101420] border border-neutral-700 text-white text-xs flex-1 focus:outline-none focus:border-portal-orange"
               />
               <button
                 type="button"
                 onClick={handleAddAllergy}
-                className="px-3 py-1.5 rounded bg-white hover:bg-neutral-50 border border-[#CBD5E1] text-[#0B3D91] font-bold text-xs"
+                className="px-3 py-1.5 rounded-md bg-[#101420] hover:bg-[#182033] border border-neutral-700 text-portal-orange font-mono font-bold text-xs"
               >
                 + Add
               </button>
@@ -388,19 +393,19 @@ export default function ProfilePage() {
           </div>
 
           {/* Conditions */}
-          <div className="space-y-2 text-xs font-sans pt-2 border-t border-neutral-100">
-            <label className="text-[11px] text-[#1A1A1A] font-bold block">Chronic Conditions / Active Diagnoses:</label>
+          <div className="space-y-2 text-xs font-sans pt-2 border-t border-neutral-700/60">
+            <label className="font-mono text-[11px] text-neutral-300 font-bold uppercase">Chronic Conditions / Active Diagnoses:</label>
             <div className="flex flex-wrap gap-2">
               {conditions.map((cnd) => (
                 <span
                   key={cnd}
-                  className="px-3 py-1.5 rounded bg-green-50 border border-green-300 text-[#1E7A34] font-bold flex items-center gap-1.5"
+                  className="px-3 py-1.5 rounded-md bg-portal-green/20 border border-portal-green/40 text-portal-green font-mono font-bold flex items-center gap-1.5"
                 >
                   <span>{cnd}</span>
                   <button
                     type="button"
                     onClick={() => handleRemoveCondition(cnd)}
-                    className="hover:text-red-700 font-bold ml-1"
+                    className="hover:text-white font-bold ml-1"
                   >
                     ×
                   </button>
@@ -413,12 +418,12 @@ export default function ProfilePage() {
                 value={customCondition}
                 onChange={(e) => setCustomCondition(e.target.value)}
                 placeholder="Add custom condition..."
-                className="px-3 py-1.5 rounded bg-[#F8FAFC] border border-[#CBD5E1] text-[#1A1A1A] text-xs flex-1 focus:outline-none focus:bg-white focus:border-[#0B3D91]"
+                className="px-3 py-1.5 rounded-md bg-[#101420] border border-neutral-700 text-white text-xs flex-1 focus:outline-none focus:border-portal-orange"
               />
               <button
                 type="button"
                 onClick={handleAddCondition}
-                className="px-3 py-1.5 rounded bg-white hover:bg-neutral-50 border border-[#CBD5E1] text-[#1E7A34] font-bold text-xs"
+                className="px-3 py-1.5 rounded-md bg-[#101420] hover:bg-[#182033] border border-neutral-700 text-portal-green font-mono font-bold text-xs"
               >
                 + Add
               </button>
@@ -431,21 +436,21 @@ export default function ProfilePage() {
           <button
             type="button"
             onClick={resetToDefaults}
-            className="px-4 py-2.5 rounded text-xs font-bold text-neutral-500 hover:text-red-600 transition-colors"
+            className="px-4 py-2.5 rounded-lg text-xs font-mono font-bold text-neutral-400 hover:text-red-400 transition-colors"
           >
             Reset to Defaults
           </button>
 
           <div className="flex items-center gap-3">
             {saved && (
-              <span className="text-xs font-bold text-[#1E7A34] flex items-center gap-1">
+              <span className="text-xs font-mono font-bold text-portal-green flex items-center gap-1">
                 <CheckCircle2 className="w-4 h-4" />
                 <span>Profile Updated & Signed On-Chain!</span>
               </span>
             )}
             <button
               type="submit"
-              className="px-8 py-3 rounded bg-[#1E7A34] hover:bg-[#145524] text-white font-bold text-xs uppercase tracking-wider transition-all shadow-sm flex items-center gap-2"
+              className="px-8 py-3.5 rounded-lg bg-[#2E7D32] hover:bg-[#256629] text-white font-bold text-xs uppercase tracking-wider transition-all shadow-md font-mono flex items-center gap-2"
             >
               <Save className="w-4 h-4" />
               <span>Save & Sign Profile</span>

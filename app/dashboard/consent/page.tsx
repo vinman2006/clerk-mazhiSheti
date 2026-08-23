@@ -8,13 +8,16 @@ import {
   Lock, 
   Ban, 
   Check, 
+  Copy, 
   Clock, 
   KeyRound, 
   FileText, 
   X, 
   CheckCircle2, 
-  Loader2 
+  Loader2,
+  AlertCircle
 } from 'lucide-react'
+import { ConsentRecord } from '@/lib/mockData'
 import { useUserData } from '@/lib/userDataContext'
 import { ConsentPill } from '@/components/ui/ConsentPill'
 import { VerifiedBadge } from '@/components/ui/VerifiedBadge'
@@ -82,24 +85,24 @@ export default function ConsentManagementPage() {
   })
 
   return (
-    <div className="space-y-6 text-[#1A1A1A]">
+    <div className="space-y-6">
       {/* HEADER WITH GRANT BUTTON */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-6 rounded-lg bg-white border border-[#E0E0E0] border-l-4 border-l-[#F5821F] shadow-sm">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-6 rounded-xl bg-[#141826] border-2 border-[#1E3A8A] shadow-xl">
         <div>
           <div className="flex items-center gap-2">
-            <h1 className="text-2xl font-extrabold text-[#0B3D91]">
-              Smart Consent Management Center (संमती व्यवस्थापन केंद्र)
+            <h1 className="font-display font-black text-2xl text-white">
+              Smart Consent Management Center
             </h1>
             <SimulatedBadge />
           </div>
-          <p className="text-xs text-[#4B5563] mt-1">
-            Grant, scope, and immediately revoke data access authorizations for <strong className="text-[#1A1A1A]">{profile.name}</strong>. Enforced cryptographically.
+          <p className="text-xs font-sans text-neutral-300 mt-1">
+            Grant, scope, and immediately revoke data access authorizations for <strong className="text-white">{profile.name}</strong>. Enforced on-chain.
           </p>
         </div>
 
         <button
           onClick={() => setShowModal(true)}
-          className="inline-flex items-center gap-2 px-5 py-2.5 rounded bg-[#1E7A34] hover:bg-[#145524] text-white font-bold text-xs uppercase tracking-wider transition-all shadow-sm"
+          className="inline-flex items-center gap-2 px-5 py-3 rounded-lg bg-[#2E7D32] hover:bg-[#256629] text-white font-bold text-xs uppercase tracking-wider transition-all shadow-md font-mono"
         >
           <Plus className="w-4 h-4" />
           <span>Grant New Consent</span>
@@ -107,15 +110,15 @@ export default function ConsentManagementPage() {
       </div>
 
       {/* FILTER TABS */}
-      <div className="flex items-center gap-2 border-b border-[#E0E0E0] pb-3">
+      <div className="flex items-center gap-2 border-b border-neutral-700 pb-3">
         {(['all', 'active', 'expired', 'revoked'] as const).map((tab) => (
           <button
             key={tab}
             onClick={() => setFilter(tab)}
-            className={`px-3.5 py-1.5 rounded text-xs font-bold capitalize transition-all ${
+            className={`px-3.5 py-1.5 rounded-lg text-xs font-mono font-bold capitalize transition-all ${
               filter === tab
-                ? 'bg-[#0B3D91] text-white shadow-sm'
-                : 'text-[#4B5563] hover:text-[#1A1A1A] bg-white border border-[#CBD5E1]'
+                ? 'bg-portal-orange text-white shadow-sm'
+                : 'text-neutral-400 hover:text-white hover:bg-[#141826]'
             }`}
           >
             {tab} ({tab === 'all' ? consents.length : consents.filter(c => c.status === tab).length})
@@ -124,41 +127,41 @@ export default function ConsentManagementPage() {
       </div>
 
       {/* CONSENT GRANTS LEDGER LIST */}
-      <div className="rounded-lg bg-white border border-[#E0E0E0] overflow-hidden shadow-sm">
-        <div className="p-4 border-b border-neutral-200 bg-[#F8FAFC] flex items-center justify-between text-xs text-[#4B5563] font-bold">
-          <span className="text-[#0B3D91] uppercase">Active Smart Consent Contracts ({filteredConsents.length})</span>
-          <span className="text-[#1E7A34]">Zero-Knowledge Scoped ✓</span>
+      <div className="rounded-xl bg-[#141826] border-2 border-[#1E3A8A] overflow-hidden shadow-xl">
+        <div className="p-4 border-b border-neutral-700 bg-[#101420] flex items-center justify-between font-mono text-xs text-neutral-400 font-bold">
+          <span className="text-white">Active Smart Consent Contracts ({filteredConsents.length})</span>
+          <span className="text-portal-orange">Zero-Knowledge Scoped ✓</span>
         </div>
 
-        <div className="divide-y divide-neutral-100">
+        <div className="divide-y divide-neutral-700">
           {filteredConsents.map((consent) => (
-            <div key={consent.id} className="p-5 hover:bg-neutral-50 transition-colors space-y-3">
+            <div key={consent.id} className="p-5 hover:bg-[#182033] transition-colors space-y-3">
               <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-3">
                 {/* Entity & Badge */}
                 <div className="space-y-1">
                   <div className="flex items-center gap-2.5 flex-wrap">
-                    <span className="font-bold text-sm text-[#0B3D91]">
+                    <span className="font-sans font-bold text-sm text-white">
                       {consent.entityName}
                     </span>
                     <VerifiedBadge entity="Provider DID" did={consent.entityDid} />
                     <ConsentPill status={consent.status} />
                   </div>
-                  <div className="text-[11px] text-neutral-500 font-mono">
+                  <div className="font-mono text-[11px] text-neutral-400">
                     DID: {consent.entityDid} • Contract: {consent.contractAddress || '0x8849b...29ef'}
                   </div>
                 </div>
 
                 {/* Revoke / Actions */}
                 <div className="flex items-center gap-3">
-                  <div className="text-right text-xs">
-                    <span className="text-neutral-500 block text-[10px]">Valid Until:</span>
-                    <span className="text-[#1A1A1A] font-bold">{formatTimestamp(consent.validUntil)}</span>
+                  <div className="text-right font-mono text-xs">
+                    <span className="text-neutral-400 block text-[10px]">Valid Until:</span>
+                    <span className="text-white font-bold">{formatTimestamp(consent.validUntil)}</span>
                   </div>
 
                   {consent.status === 'active' && (
                     <button
                       onClick={() => revokeConsent(consent.id)}
-                      className="px-3.5 py-1.5 rounded bg-red-50 hover:bg-red-100 text-red-700 border border-red-200 text-xs font-bold transition-all flex items-center gap-1.5"
+                      className="px-3.5 py-1.5 rounded-lg bg-red-500/20 hover:bg-red-500 text-red-300 hover:text-white border border-red-500/40 text-xs font-mono font-bold transition-all flex items-center gap-1.5"
                     >
                       <Ban className="w-3.5 h-3.5" />
                       <span>Revoke Access</span>
@@ -168,40 +171,40 @@ export default function ConsentManagementPage() {
               </div>
 
               {/* Data Scope & Purpose */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs bg-[#F8FAFC] p-3.5 rounded border border-[#CBD5E1]">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs bg-[#101420] p-3.5 rounded-lg border-l-4 border-l-portal-orange border border-neutral-700">
                 <div>
-                  <span className="text-neutral-500 text-[10px] uppercase block font-bold">Authorized Data Scope:</span>
-                  <span className="text-[#D66D10] font-bold">{consent.dataType}</span>
+                  <span className="font-mono text-neutral-400 text-[10px] uppercase block font-bold">Authorized Data Scope:</span>
+                  <span className="text-portal-orange-light font-sans font-bold">{consent.dataType}</span>
                 </div>
                 <div>
-                  <span className="text-neutral-500 text-[10px] uppercase block font-bold">Purpose of Processing:</span>
-                  <span className="text-[#1A1A1A]">{consent.purpose}</span>
+                  <span className="font-mono text-neutral-400 text-[10px] uppercase block font-bold">Purpose of Processing:</span>
+                  <span className="text-neutral-200 font-sans">{consent.purpose}</span>
                 </div>
               </div>
 
               {/* Transaction Hash */}
-              <div className="flex items-center justify-between text-[11px] font-mono text-neutral-500 pt-1">
-                <span>TX: <span className="text-neutral-900 font-semibold">{truncateHash(consent.txHash, 12, 8)}</span></span>
-                <span className="text-[#1E7A34] font-bold">Granted: {formatTimestamp(consent.grantedAt)}</span>
+              <div className="flex items-center justify-between text-[11px] font-mono text-neutral-400 pt-1">
+                <span>TX: <span className="text-neutral-300 font-semibold">{truncateHash(consent.txHash, 12, 8)}</span></span>
+                <span className="text-portal-green font-bold">Granted: {formatTimestamp(consent.grantedAt)}</span>
               </div>
             </div>
           ))}
         </div>
       </div>
 
-      {/* GRANT NEW CONSENT MODAL */}
+      {/* GRANT NEW CONSENT MODAL WITH CRYPTO TRANSACTION SIGNING */}
       {showModal && (
-        <div className="fixed inset-0 z-[10000] bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
-          <div className="w-full max-w-xl bg-white border border-[#E0E0E0] rounded-lg p-6 shadow-2xl space-y-5">
+        <div className="fixed inset-0 z-[10000] bg-black/80 backdrop-blur-md flex items-center justify-center p-4 overflow-y-auto">
+          <div className="w-full max-w-xl bg-[#141826] border-2 border-[#1E3A8A] rounded-2xl p-6 shadow-2xl space-y-5 animate-in fade-in zoom-in-95 duration-150">
             {/* Modal Header */}
-            <div className="flex items-center justify-between border-b border-neutral-200 pb-3">
-              <div className="flex items-center gap-2 text-[#0B3D91] font-bold text-sm">
-                <KeyRound className="w-4 h-4 text-[#F5821F]" />
+            <div className="flex items-center justify-between border-b border-neutral-700 pb-3">
+              <div className="flex items-center gap-2 text-portal-orange font-mono font-bold text-sm">
+                <KeyRound className="w-4 h-4" />
                 <span>Issue Cryptographic Consent Grant</span>
               </div>
               <button 
                 onClick={() => setShowModal(false)}
-                className="text-neutral-400 hover:text-neutral-700 p-1 rounded"
+                className="text-neutral-400 hover:text-white p-1 rounded"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -210,12 +213,12 @@ export default function ConsentManagementPage() {
             {signingStep === 'form' && (
               <div className="space-y-4 text-xs font-sans">
                 {/* Select Entity */}
-                <div className="space-y-1">
-                  <label className="text-[11px] text-[#1A1A1A] font-bold block">Recipient Entity / Provider:</label>
+                <div className="space-y-1.5">
+                  <label className="font-mono text-[11px] text-neutral-300 font-bold uppercase">Recipient Entity / Provider:</label>
                   <select
                     value={targetEntity}
                     onChange={(e) => setTargetEntity(e.target.value)}
-                    className="w-full px-3 py-2 rounded bg-[#F8FAFC] border border-[#CBD5E1] text-[#1A1A1A] focus:outline-none focus:bg-white focus:border-[#0B3D91]"
+                    className="w-full px-3.5 py-2.5 rounded-lg bg-[#101420] border border-neutral-700 text-white focus:outline-none focus:border-portal-orange font-sans"
                   >
                     <option>Apex Heart & Vascular Institute</option>
                     <option>City Care Academic Health System</option>
@@ -227,7 +230,7 @@ export default function ConsentManagementPage() {
 
                 {/* Select Data Scope */}
                 <div className="space-y-2">
-                  <label className="text-[11px] text-[#1A1A1A] font-bold block">Select Permitted Data Selectors:</label>
+                  <label className="font-mono text-[11px] text-neutral-300 font-bold uppercase">Select Permitted Data Selectors:</label>
                   <div className="space-y-1.5">
                     {availableScopes.map((scope) => {
                       const isChecked = selectedScopes.includes(scope)
@@ -235,14 +238,14 @@ export default function ConsentManagementPage() {
                         <div
                           key={scope}
                           onClick={() => handleToggleScope(scope)}
-                          className={`p-3 rounded border cursor-pointer transition-all flex items-center justify-between ${
+                          className={`p-3 rounded-lg border cursor-pointer transition-all flex items-center justify-between ${
                             isChecked
-                              ? 'bg-amber-50/50 border-[#F5821F] text-[#0B3D91] font-bold'
-                              : 'bg-[#F8FAFC] border-[#CBD5E1] text-neutral-600 hover:border-neutral-400'
+                              ? 'bg-[#101420] border-l-4 border-l-portal-orange border-neutral-700 text-white font-bold'
+                              : 'bg-[#101420]/60 border-neutral-800 text-neutral-400 hover:border-neutral-700'
                           }`}
                         >
                           <span>{scope}</span>
-                          <div className={`w-4 h-4 rounded flex items-center justify-center border ${isChecked ? 'bg-[#F5821F] border-[#F5821F] text-white' : 'border-neutral-400 bg-white'}`}>
+                          <div className={`w-4 h-4 rounded flex items-center justify-center border ${isChecked ? 'bg-portal-orange border-portal-orange text-white' : 'border-neutral-600'}`}>
                             {isChecked && <Check className="w-3 h-3 stroke-[3]" />}
                           </div>
                         </div>
@@ -252,29 +255,29 @@ export default function ConsentManagementPage() {
                 </div>
 
                 {/* Purpose */}
-                <div className="space-y-1">
-                  <label className="text-[11px] text-[#1A1A1A] font-bold block">Purpose Specification:</label>
+                <div className="space-y-1.5">
+                  <label className="font-mono text-[11px] text-neutral-300 font-bold uppercase">Purpose Specification:</label>
                   <input
                     type="text"
                     value={purpose}
                     onChange={(e) => setPurpose(e.target.value)}
-                    className="w-full px-3 py-2 rounded bg-[#F8FAFC] border border-[#CBD5E1] text-[#1A1A1A] focus:outline-none focus:bg-white focus:border-[#0B3D91]"
+                    className="w-full px-3.5 py-2.5 rounded-lg bg-[#101420] border border-neutral-700 text-white focus:outline-none focus:border-portal-orange font-sans"
                   />
                 </div>
 
                 {/* Expiry */}
-                <div className="space-y-1">
-                  <label className="text-[11px] text-[#1A1A1A] font-bold block">Time Duration / Expiry:</label>
+                <div className="space-y-1.5">
+                  <label className="font-mono text-[11px] text-neutral-300 font-bold uppercase">Time Duration / Expiry:</label>
                   <div className="grid grid-cols-4 gap-2">
                     {['24 Hours', '72 Hours', '30 Days', '1 Year'].map((opt) => (
                       <button
                         key={opt}
                         type="button"
                         onClick={() => setExpiryOption(opt)}
-                        className={`py-2 rounded text-xs border font-bold transition-all ${
+                        className={`py-2 rounded-lg font-mono text-xs border font-bold transition-all ${
                           expiryOption === opt
-                            ? 'bg-[#0B3D91] text-white border-[#0B3D91] shadow-sm'
-                            : 'bg-[#F8FAFC] border-[#CBD5E1] text-neutral-600 hover:bg-neutral-100'
+                            ? 'bg-portal-orange text-white border-portal-orange shadow-sm'
+                            : 'bg-[#101420] border-neutral-700 text-neutral-400 hover:text-white'
                         }`}
                       >
                         {opt}
@@ -283,37 +286,57 @@ export default function ConsentManagementPage() {
                   </div>
                 </div>
 
+                {/* Monospace crypto signing preview */}
+                <div className="p-4 rounded-lg bg-[#101420] border border-neutral-700 font-mono text-[11px] text-neutral-300 space-y-1.5">
+                  <div className="text-portal-orange font-bold mb-1 flex items-center gap-1.5">
+                    <Lock className="w-3.5 h-3.5" />
+                    <span>Transaction Payload Preview</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>Signer Citizen:</span>
+                    <span className="text-white font-bold">{profile.name}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>Signer DID:</span>
+                    <span className="text-neutral-200">{profile.did.slice(0, 20)}...</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>Contract Method:</span>
+                    <span className="text-white font-bold">grantScopedAccess(bytes32, uint64)</span>
+                  </div>
+                </div>
+
                 {/* Submit button */}
                 <div className="pt-2">
                   <button
                     onClick={handleGrantConsent}
                     disabled={selectedScopes.length === 0}
-                    className="w-full py-3 rounded bg-[#1E7A34] hover:bg-[#145524] text-white font-bold text-xs uppercase tracking-wider transition-all shadow-sm flex items-center justify-center gap-2 disabled:opacity-40"
+                    className="w-full py-3.5 rounded-lg bg-[#2E7D32] hover:bg-[#256629] text-white font-bold text-xs uppercase tracking-wider transition-all shadow-md font-mono flex items-center justify-center gap-2 disabled:opacity-40"
                   >
                     <KeyRound className="w-4 h-4" />
-                    <span>Sign & Record Smart Consent</span>
+                    <span>Sign & Record Smart Contract</span>
                   </button>
                 </div>
               </div>
             )}
 
             {signingStep === 'signing' && (
-              <div className="py-12 flex flex-col items-center justify-center text-center space-y-4">
-                <Loader2 className="w-8 h-8 text-[#0B3D91] animate-spin" />
+              <div className="py-12 flex flex-col items-center justify-center text-center space-y-4 font-mono">
+                <Loader2 className="w-8 h-8 text-portal-orange animate-spin" />
                 <div>
-                  <h3 className="font-bold text-[#0B3D91] text-sm">Recording to ledger...</h3>
-                  <p className="text-xs text-neutral-500 mt-1">Generating Ed25519 signature & smart contract state commit</p>
+                  <h3 className="font-bold text-white text-sm">Recording to ledger...</h3>
+                  <p className="text-xs text-neutral-400 mt-1">Generating Ed25519 signature & consensus broadcast</p>
                 </div>
               </div>
             )}
 
             {signingStep === 'confirmed' && (
-              <div className="py-12 flex flex-col items-center justify-center text-center space-y-3">
-                <div className="w-12 h-12 rounded-full bg-green-100 text-[#1E7A34] flex items-center justify-center border-2 border-[#1E7A34]">
+              <div className="py-12 flex flex-col items-center justify-center text-center space-y-3 font-mono">
+                <div className="w-12 h-12 rounded-full bg-portal-green/20 text-portal-green flex items-center justify-center border-2 border-portal-green">
                   <CheckCircle2 className="w-7 h-7 stroke-[2.5]" />
                 </div>
-                <h3 className="font-bold text-[#0B3D91] text-sm">Consent Smart Contract Minted!</h3>
-                <p className="text-xs text-[#1E7A34] font-bold">Transaction state recorded securely.</p>
+                <h3 className="font-bold text-white text-sm">Consent Smart Contract Minted!</h3>
+                <p className="text-xs text-portal-green font-bold">Transaction state updated on-chain.</p>
               </div>
             )}
           </div>

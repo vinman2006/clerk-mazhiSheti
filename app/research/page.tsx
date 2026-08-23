@@ -3,13 +3,20 @@
 import React, { useState } from 'react'
 import Link from 'next/link'
 import { 
+  Microscope, 
   ShieldCheck, 
   Lock, 
+  Database, 
+  CheckCircle2, 
   Plus, 
   ArrowLeft, 
-  Download 
+  FileText, 
+  KeyRound, 
+  Download, 
+  AlertCircle 
 } from 'lucide-react'
 import { SimulatedBadge } from '@/components/ui/SimulatedBadge'
+import { VerifiedBadge } from '@/components/ui/VerifiedBadge'
 
 interface DatasetRequest {
   id: string
@@ -66,34 +73,34 @@ export default function ResearchPortalPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#F4F6F9] text-[#1A1A1A] p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto space-y-6">
+    <div className="min-h-screen bg-[#0B0E17] text-white p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto space-y-6">
       {/* HEADER */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-6 rounded-lg bg-white border border-[#E0E0E0] border-l-4 border-l-[#0B3D91] shadow-sm">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-6 rounded-xl bg-[#141826] border-2 border-[#1E3A8A] shadow-xl">
         <div className="space-y-1">
           <div className="flex items-center gap-2">
-            <Link href="/dashboard" className="text-xs font-bold text-[#0B3D91] hover:underline flex items-center gap-1">
+            <Link href="/dashboard" className="text-xs font-mono font-bold text-portal-orange hover:text-white flex items-center gap-1">
               <ArrowLeft className="w-3.5 h-3.5" />
-              <span>Back to Citizen View</span>
+              <span>Back to Patient View</span>
             </Link>
-            <span className="text-neutral-400">•</span>
-            <span className="text-xs font-bold text-[#7C3AED]">Academic Research Enclave</span>
+            <span className="text-neutral-500">•</span>
+            <span className="text-xs font-mono font-bold text-purple-300">Researcher Enclave</span>
           </div>
 
           <div className="flex items-center gap-3">
-            <h1 className="font-extrabold text-2xl sm:text-3xl text-[#0B3D91]">
-              Anonymized Research & ZK Cohort Queries (संशोधन डेटा पोर्टल)
+            <h1 className="font-display font-black text-2xl sm:text-3xl text-white">
+              Anonymized Research & ZK Cohort Queries
             </h1>
             <SimulatedBadge />
           </div>
 
-          <p className="text-xs text-[#4B5563]">
-            National Biomedical Research Consortium • Sovereign research access governed by smart contract consent and differential privacy.
+          <p className="text-xs font-sans text-neutral-300">
+            BioGen Institute • Sovereign research access governed by smart contract consent and differential privacy.
           </p>
         </div>
 
         <button
           onClick={() => setShowModal(true)}
-          className="inline-flex items-center gap-2 px-5 py-2.5 rounded bg-[#1E7A34] hover:bg-[#145524] text-white font-bold text-xs uppercase tracking-wider shadow-sm transition-all"
+          className="inline-flex items-center gap-2 px-5 py-3 rounded-lg bg-[#2E7D32] hover:bg-[#256629] text-white font-bold text-xs uppercase tracking-wider font-mono shadow-md transition-all"
         >
           <Plus className="w-4 h-4" />
           <span>Request New Dataset Access</span>
@@ -105,39 +112,39 @@ export default function ResearchPortalPage() {
         {requests.map((req) => (
           <div
             key={req.id}
-            className="p-6 rounded-lg bg-white border border-[#E0E0E0] border-t-4 border-t-[#0B3D91] hover:shadow-md transition-all space-y-4 shadow-sm"
+            className="p-6 rounded-xl bg-[#141826] border border-neutral-700 border-l-4 border-l-purple-500 hover:border-neutral-600 transition-all space-y-4 shadow-lg"
           >
             <div className="flex flex-col md:flex-row md:items-start justify-between gap-4">
               <div className="space-y-1">
                 <div className="flex items-center gap-2.5 flex-wrap">
-                  <span className="px-2.5 py-0.5 rounded bg-purple-50 text-purple-700 text-xs font-bold border border-purple-200">
+                  <span className="px-2.5 py-0.5 rounded bg-purple-500/20 text-purple-300 text-xs font-mono font-bold border border-purple-500/40">
                     {req.status} ✓
                   </span>
-                  <h3 className="font-bold text-base text-[#0B3D91]">
+                  <h3 className="font-display font-bold text-base text-white">
                     {req.title}
                   </h3>
                 </div>
-                <p className="text-xs text-[#4B5563]">
+                <p className="text-xs font-sans text-neutral-300">
                   Scope: {req.scope}
                 </p>
               </div>
 
-              <div className="p-3 rounded bg-[#F8FAFC] border border-[#CBD5E1] text-right text-xs shrink-0">
-                <span className="text-neutral-500 block text-[10px]">Approved Cohort:</span>
-                <span className="text-[#0B3D91] font-bold">{req.approvedCohortSize.toLocaleString()} Citizens</span>
+              <div className="p-3 rounded-lg bg-[#101420] border border-neutral-700 text-right font-mono text-xs shrink-0">
+                <span className="text-neutral-400 block text-[10px]">Approved Cohort:</span>
+                <span className="text-purple-300 font-bold">{req.approvedCohortSize.toLocaleString()} Patients</span>
               </div>
             </div>
 
             {/* Privacy & ZK guarantees */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 p-3.5 rounded bg-[#F8FAFC] border border-[#CBD5E1] text-xs">
-              <div className="flex items-center gap-2 text-neutral-700">
-                <ShieldCheck className="w-4 h-4 text-[#1E7A34] shrink-0" />
-                <span>Privacy Standard: <strong className="text-[#1A1A1A]">{req.anonymizationMethod}</strong></span>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 p-3.5 rounded-lg bg-[#101420] border border-neutral-700 text-xs font-mono">
+              <div className="flex items-center gap-2 text-neutral-300">
+                <ShieldCheck className="w-4 h-4 text-purple-400 shrink-0" />
+                <span>Privacy: <strong className="text-white font-sans">{req.anonymizationMethod}</strong></span>
               </div>
 
-              <div className="flex items-center justify-between text-neutral-500 font-mono text-[11px]">
-                <span>Valid Until: <span className="text-[#1A1A1A] font-semibold">{req.validUntil}</span></span>
-                <span>Tx: <span className="text-[#1E7A34] font-bold">{req.txProof}</span></span>
+              <div className="flex items-center justify-between text-neutral-400">
+                <span>Valid Until: <span className="text-white font-semibold">{req.validUntil}</span></span>
+                <span>Tx: <span className="text-portal-green font-bold">{req.txProof}</span></span>
               </div>
             </div>
 
@@ -158,7 +165,7 @@ export default function ResearchPortalPage() {
                     a.click()
                     URL.revokeObjectURL(url)
                   }}
-                  className="px-4 py-2 rounded bg-white hover:bg-neutral-50 border border-[#CBD5E1] text-[#0B3D91] text-xs font-bold transition-all flex items-center gap-1.5 shadow-sm"
+                  className="px-4 py-2 rounded-lg bg-[#101420] hover:bg-[#182033] border border-neutral-700 text-purple-300 hover:text-white text-xs font-mono font-bold transition-all flex items-center gap-1.5 shadow-sm"
                 >
                   <Download className="w-3.5 h-3.5" />
                   <span>Download De-Identified Dataset (.csv)</span>
@@ -171,39 +178,39 @@ export default function ResearchPortalPage() {
 
       {/* REQUEST DATASET MODAL */}
       {showModal && (
-        <div className="fixed inset-0 z-[10000] bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="w-full max-w-md bg-white border border-[#E0E0E0] rounded-lg p-6 shadow-2xl space-y-4">
-            <h3 className="font-bold text-base text-[#0B3D91]">
+        <div className="fixed inset-0 z-[10000] bg-black/80 backdrop-blur-md flex items-center justify-center p-4">
+          <div className="w-full max-w-md bg-[#141826] border-2 border-[#1E3A8A] rounded-2xl p-6 shadow-2xl space-y-4">
+            <h3 className="font-display font-black text-base text-white">
               Submit Anonymized Cohort Query Request
             </h3>
             <div className="space-y-3 text-xs font-sans">
               <div className="space-y-1">
-                <label className="text-[10px] text-[#1A1A1A] font-bold uppercase block">Research Study Title:</label>
+                <label className="font-mono text-[10px] text-neutral-300 font-bold uppercase">Research Study Title:</label>
                 <input
                   type="text"
                   value={newTitle}
                   onChange={(e) => setNewTitle(e.target.value)}
-                  className="w-full px-3 py-2 rounded bg-[#F8FAFC] border border-[#CBD5E1] text-[#1A1A1A] text-xs focus:outline-none focus:bg-white focus:border-[#0B3D91]"
+                  className="w-full px-3.5 py-2.5 rounded-lg bg-[#101420] border border-neutral-700 text-white text-xs focus:outline-none focus:border-portal-orange"
                 />
               </div>
 
               <div className="space-y-1">
-                <label className="text-[10px] text-[#1A1A1A] font-bold uppercase block">Requested Data Scope:</label>
+                <label className="font-mono text-[10px] text-neutral-300 font-bold uppercase">Requested Data Scope:</label>
                 <textarea
                   rows={3}
                   value={newScope}
                   onChange={(e) => setNewScope(e.target.value)}
-                  className="w-full px-3 py-2 rounded bg-[#F8FAFC] border border-[#CBD5E1] text-[#1A1A1A] text-xs focus:outline-none focus:bg-white focus:border-[#0B3D91]"
+                  className="w-full px-3.5 py-2.5 rounded-lg bg-[#101420] border border-neutral-700 text-white text-xs focus:outline-none focus:border-portal-orange"
                 />
               </div>
 
-              <div className="p-3 rounded bg-purple-50/50 border border-purple-200 text-[10px] text-purple-900 space-y-1">
-                <div className="text-purple-700 font-bold flex items-center gap-1">
+              <div className="p-3.5 rounded-lg bg-[#101420] border border-neutral-700 font-mono text-[10px] text-neutral-400 space-y-1">
+                <div className="text-purple-300 font-bold flex items-center gap-1">
                   <Lock className="w-3 h-3" />
                   <span>ZK-Differential Privacy Enforced</span>
                 </div>
-                <p className="text-neutral-600">
-                  Cohort requests require zero raw clinical data export. Only anonymized aggregations satisfying k-anonymity=50 will be returned.
+                <p className="text-neutral-300">
+                  Cohort requests require zero raw PHI export. Only anonymized aggregations satisfying k-anonymity=50 will be returned.
                 </p>
               </div>
             </div>
@@ -211,13 +218,13 @@ export default function ResearchPortalPage() {
             <div className="flex items-center justify-end gap-3 pt-2">
               <button
                 onClick={() => setShowModal(false)}
-                className="px-4 py-2 rounded text-xs font-bold text-neutral-500 hover:text-neutral-900"
+                className="px-4 py-2.5 rounded-lg text-xs font-mono font-bold text-neutral-400 hover:text-white"
               >
                 Cancel
               </button>
               <button
                 onClick={handleCreateRequest}
-                className="px-5 py-2 rounded bg-[#1E7A34] hover:bg-[#145524] text-white font-bold text-xs uppercase tracking-wider shadow-sm transition-all"
+                className="px-5 py-2.5 rounded-lg bg-[#2E7D32] hover:bg-[#256629] text-white font-bold text-xs uppercase tracking-wider font-mono shadow-md transition-all"
               >
                 Submit for Smart Consent Review
               </button>

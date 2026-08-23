@@ -2,9 +2,16 @@
 
 import React, { useState } from 'react'
 import { 
+  FileText, 
   Search, 
+  Filter, 
   ShieldCheck, 
-  Download 
+  Lock, 
+  Database, 
+  ExternalLink, 
+  Download, 
+  Calendar, 
+  Layers 
 } from 'lucide-react'
 import { useUserData } from '@/lib/userDataContext'
 import { LedgerRow } from '@/components/ui/LedgerRow'
@@ -28,19 +35,19 @@ export default function AuditTrailPage() {
   })
 
   return (
-    <div className="space-y-6 text-[#1A1A1A]">
+    <div className="space-y-6">
       {/* HEADER & SOURCE MATERIAL QUOTE */}
-      <div className="p-6 rounded-lg bg-white border border-[#E0E0E0] border-l-4 border-l-[#0B3D91] shadow-sm space-y-4">
+      <div className="p-6 rounded-xl bg-[#141826] border-2 border-[#1E3A8A] shadow-xl space-y-4">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
             <div className="flex items-center gap-2">
-              <h1 className="text-2xl font-extrabold text-[#0B3D91]">
-                Immutable Cryptographic Audit Ledger (सार्वजनिक लेखापरीक्षण नोंदवही)
+              <h1 className="font-display font-black text-2xl text-white">
+                Immutable Cryptographic Audit Trail
               </h1>
               <SimulatedBadge />
             </div>
-            <p className="text-xs text-[#4B5563] mt-1">
-              Every data access, zero-knowledge verification, and consent grant for <strong className="text-[#1A1A1A]">{profile.name}</strong> is permanently logged on-chain.
+            <p className="text-xs font-sans text-neutral-300 mt-1">
+              Every data access, zero-knowledge verification, and consent grant for <strong className="text-white">{profile.name}</strong> is permanently logged on-chain.
             </p>
           </div>
 
@@ -60,33 +67,33 @@ export default function AuditTrailPage() {
                 a.click()
                 URL.revokeObjectURL(url)
               }}
-              className="px-3.5 py-1.5 rounded bg-white hover:bg-neutral-50 border border-[#0B3D91] text-[#0B3D91] text-xs font-bold transition-all flex items-center gap-1.5 shadow-sm"
+              className="px-3.5 py-1.5 rounded-md bg-[#101420] hover:bg-[#182033] border border-neutral-700 text-portal-orange font-mono text-xs font-bold transition-all flex items-center gap-1.5 shadow-sm"
             >
               <Download className="w-3.5 h-3.5" />
               <span>Export Audit CSV</span>
             </button>
-            <span className="px-3.5 py-1.5 rounded bg-green-100 border border-green-300 text-[#1E7A34] text-xs font-bold shadow-sm">
+            <span className="px-3.5 py-1.5 rounded-md bg-[#101420] border-2 border-portal-green text-portal-green font-mono text-xs font-bold shadow-sm">
               Ledger State: SYNCED ✓ ({auditTrail.length} Entries)
             </span>
           </div>
         </div>
 
         {/* Source Material Callout Banner */}
-        <div className="p-3 rounded bg-[#F8FAFC] border border-[#CBD5E1] border-l-4 border-l-[#1E7A34] flex items-start gap-3">
-          <ShieldCheck className="w-5 h-5 text-[#1E7A34] shrink-0 mt-0.5" />
-          <div className="space-y-0.5">
-            <span className="font-bold text-xs text-[#1A1A1A] block">
-              Citizen Visibility Guarantee:
+        <div className="p-4 rounded-lg bg-[#101420] border border-neutral-700 border-l-4 border-l-portal-green flex items-start gap-3">
+          <ShieldCheck className="w-5 h-5 text-portal-green shrink-0 mt-0.5" />
+          <div className="space-y-1">
+            <span className="font-sans font-bold text-xs text-white block">
+              Patient Visibility Guarantee:
             </span>
-            <p className="text-xs text-[#4B5563] italic">
-              "Citizens have unconditional visibility into precisely who accessed their records, at what exact second, for what clinical purpose, and under which cryptographic consent contract."
+            <p className="text-xs text-neutral-300 font-sans italic">
+              "Patients have unconditional visibility into precisely who accessed their records, at what exact second, for what clinical purpose, and under which cryptographic consent contract."
             </p>
           </div>
         </div>
       </div>
 
       {/* FILTER & SEARCH TOOLBAR */}
-      <div className="flex flex-col sm:flex-row items-center justify-between gap-3 p-4 rounded-lg bg-white border border-[#E0E0E0] shadow-sm">
+      <div className="flex flex-col sm:flex-row items-center justify-between gap-3 p-4 rounded-xl bg-[#141826] border border-neutral-700">
         {/* Search */}
         <div className="relative w-full sm:w-80">
           <Search className="w-4 h-4 text-neutral-400 absolute left-3 top-1/2 -translate-y-1/2" />
@@ -95,20 +102,20 @@ export default function AuditTrailPage() {
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             placeholder="Search entity, action, hash..."
-            className="w-full pl-9 pr-3 py-2 rounded bg-[#F8FAFC] border border-[#CBD5E1] text-xs text-[#1A1A1A] focus:outline-none focus:bg-white focus:border-[#0B3D91]"
+            className="w-full pl-9 pr-3 py-2.5 rounded-lg bg-[#101420] border border-neutral-700 text-xs text-white focus:outline-none focus:border-portal-orange font-sans placeholder:text-neutral-500"
           />
         </div>
 
         {/* Action Filter Pills */}
-        <div className="flex items-center gap-1.5 overflow-x-auto w-full sm:w-auto text-xs">
+        <div className="flex items-center gap-1.5 overflow-x-auto w-full sm:w-auto font-mono text-xs">
           {(['all', 'access', 'verify', 'train', 'grant', 'revoke'] as const).map((act) => (
             <button
               key={act}
               onClick={() => setActionFilter(act)}
-              className={`px-3 py-1.5 rounded capitalize whitespace-nowrap font-bold transition-all ${
+              className={`px-3 py-1.5 rounded-md capitalize whitespace-nowrap font-bold transition-all ${
                 actionFilter === act
-                  ? 'bg-[#0B3D91] text-white shadow-sm'
-                  : 'bg-[#F8FAFC] text-neutral-700 hover:text-black border border-[#CBD5E1]'
+                  ? 'bg-portal-orange text-white shadow-sm'
+                  : 'bg-[#101420] text-neutral-400 hover:text-white border border-neutral-700'
               }`}
             >
               {act}
@@ -118,14 +125,14 @@ export default function AuditTrailPage() {
       </div>
 
       {/* AUDIT LEDGER TABLE */}
-      <div className="rounded-lg bg-white border border-[#E0E0E0] overflow-hidden shadow-sm">
-        <div className="px-5 py-3.5 border-b border-neutral-200 bg-[#F8FAFC] flex items-center justify-between text-xs text-[#4B5563] font-bold">
+      <div className="rounded-xl bg-[#141826] border-2 border-[#1E3A8A] overflow-hidden shadow-2xl">
+        <div className="px-5 py-3.5 border-b border-neutral-700 bg-[#101420] flex items-center justify-between font-mono text-xs text-neutral-300 font-bold">
           <span>Timestamp & Entity</span>
           <span className="hidden md:inline">Action & Purpose Scope</span>
           <span>Transaction Verification</span>
         </div>
 
-        <div className="divide-y divide-neutral-100">
+        <div className="divide-y divide-neutral-700">
           {filteredEntries.map((entry, idx) => (
             <LedgerRow
               key={entry.id}
@@ -144,7 +151,7 @@ export default function AuditTrailPage() {
           ))}
 
           {filteredEntries.length === 0 && (
-            <div className="p-8 text-center text-xs text-neutral-500">
+            <div className="p-8 text-center text-xs font-mono text-neutral-400">
               No matching audit entries found for "{searchTerm}".
             </div>
           )}

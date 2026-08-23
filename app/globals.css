@@ -1,70 +1,81 @@
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-  --gov-navy: #0B3D91;
-  --gov-orange: #F5821F;
-  --gov-green: #1E7A34;
-  --gov-bg: #F4F6F9;
-  --gov-surface: #FFFFFF;
-  --gov-border: #E0E0E0;
-  --gov-text: #1A1A1A;
+  --bg-base: #0B0E17;
+  --surface: #141826;
+  --surface-border: #242A3D;
+  --brand-teal: #2DE8C8;
+  --brand-coral: #FF6B5B;
+  --brand-warning: #FFB648;
 }
 
 body {
-  background-color: #F4F6F9;
-  color: #1A1A1A;
-  font-family: 'Noto Sans', 'Inter', -apple-system, sans-serif;
+  background-color: #0B0E17;
+  color: #F4F6FB;
+  font-family: 'Inter', sans-serif;
   overflow-x: hidden;
-  line-height: 1.6;
+  selection-background-color: rgba(45, 232, 200, 0.3);
 }
 
 ::selection {
-  background: #0B3D91;
-  color: #FFFFFF;
+  background: rgba(45, 232, 200, 0.25);
+  color: #2DE8C8;
 }
 
-/* Custom accessible scrollbar */
+/* Custom scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #F1F5F9;
+  background: #0B0E17;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #CBD5E1;
+  background: #242A3D;
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #94A3B8;
+  background: #323B54;
 }
 
-/* Official Government Card Styling */
-.gov-card {
-  background-color: #FFFFFF;
-  border: 1px solid #E0E0E0;
-  border-radius: 8px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+/* Subtle tech grid background */
+.tech-grid {
+  background-size: 36px 36px;
+  background-image: 
+    linear-gradient(to right, rgba(36, 42, 61, 0.25) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(36, 42, 61, 0.25) 1px, transparent 1px);
 }
 
-.gov-card-hover {
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
+/* Radial glow effect */
+.teal-radial-glow {
+  background: radial-gradient(circle at 50% 30%, rgba(45, 232, 200, 0.08) 0%, transparent 70%);
 }
 
-.gov-card-hover:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+.coral-radial-glow {
+  background: radial-gradient(circle at 50% 50%, rgba(255, 107, 91, 0.08) 0%, transparent 70%);
 }
 
-/* Tri-Color Stripe (Saffron, White, Green) */
-.gov-tricolor-stripe {
-  height: 4px;
-  background: linear-gradient(90deg, #F5821F 33.33%, #FFFFFF 33.33%, #FFFFFF 66.66%, #1E7A34 66.66%);
+/* Flowing dash animation for SVG connection paths */
+@keyframes flowDashAnim {
+  from {
+    stroke-dashoffset: 200;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.animate-pulse-flow {
+  animation: flowDashAnim 3s linear infinite;
+}
+
+.animate-pulse-slow {
+  animation: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }

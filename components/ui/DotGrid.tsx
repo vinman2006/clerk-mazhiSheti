@@ -96,7 +96,7 @@ export function DotGrid({
     const { width, height } = wrap.getBoundingClientRect()
     if (width === 0 || height === 0) return
 
-    const dpr = window.devicePixelRatio || 1
+    const dpr = typeof window !== 'undefined' ? window.devicePixelRatio || 1 : 1
 
     canvas.width = width * dpr
     canvas.height = height * dpr
@@ -130,10 +130,9 @@ export function DotGrid({
   }, [dotSize, gap])
 
   useEffect(() => {
-    if (!circlePath) return
-
     let rafId: number
     const proxSq = proximity * proximity
+    let time = 0
 
     const draw = () => {
       const canvas = canvasRef.current
@@ -142,9 +141,11 @@ export function DotGrid({
       if (!ctx) return
       ctx.clearRect(0, 0, canvas.width, canvas.height)
 
+      time += 0.02
       const { x: px, y: py } = pointerRef.current
 
-      for (const dot of dotsRef.current) {
+      for (let i = 0; i < dotsRef.current.length; i++) {
+        const dot = dotsRef.current[i]
         const ox = dot.cx + dot.xOffset
         const oy = dot.cy + dot.yOffset
         const dx = dot.cx - px
@@ -152,20 +153,29 @@ export function DotGrid({
         const dsq = dx * dx + dy * dy
 
         let fill = baseColor
+        let radius = dotSize / 2
+
+        // Subtle ambient wave ripple across matrix
+        const wave = Math.sin(time + (dot.cx * 0.015) + (dot.cy * 0.015)) * 0.35 + 0.65
+
         if (dsq <= proxSq) {
           const dist = Math.sqrt(dsq)
-          const t = 1 - dist / proximity
+          const t = Math.max(0, 1 - dist / proximity)
           const r = Math.round(baseRgb.r + (activeRgb.r - baseRgb.r) * t)
           const g = Math.round(baseRgb.g + (activeRgb.g - baseRgb.g) * t)
           const b = Math.round(baseRgb.b + (activeRgb.b - baseRgb.b) * t)
-          fill = `rgb(${r},${g},${b})`
+          const alpha = 0.6 + t * 0.4
+          fill = `rgba(${r},${g},${b},${alpha})`
+          radius = (dotSize / 2) * (1 + t * 0.8)
+        } else {
+          fill = `rgba(${baseRgb.r},${baseRgb.g},${baseRgb.b},${0.35 + wave * 0.35})`
+          radius = (dotSize / 2) * (0.85 + wave * 0.3)
         }
 
-        ctx.save()
-        ctx.translate(ox, oy)
+        ctx.beginPath()
+        ctx.arc(ox, oy, radius, 0, Math.PI * 2)
         ctx.fillStyle = fill
-        ctx.fill(circlePath)
-        ctx.restore()
+        ctx.fill()
       }
 
       rafId = requestAnimationFrame(draw)
@@ -173,20 +183,20 @@ export function DotGrid({
 
     draw()
     return () => cancelAnimationFrame(rafId)
-  }, [proximity, baseColor, activeRgb, baseRgb, circlePath])
+  }, [proximity, baseColor, activeRgb, baseRgb, dotSize])
 
   useEffect(() => {
     buildGrid()
     let ro: ResizeObserver | null = null
-    if ('ResizeObserver' in window && wrapperRef.current) {
+    if (typeof window !== 'undefined' && 'ResizeObserver' in window && wrapperRef.current) {
       ro = new ResizeObserver(buildGrid)
       ro.observe(wrapperRef.current)
-    } else {
+    } else if (typeof window !== 'undefined') {
       window.addEventListener('resize', buildGrid)
     }
     return () => {
       if (ro) ro.disconnect()
-      else window.removeEventListener('resize', buildGrid)
+      else if (typeof window !== 'undefined') window.removeEventListener('resize', buildGrid)
     }
   }, [buildGrid])
 
@@ -194,6 +204,7 @@ export function DotGrid({
     const onMove = (e: MouseEvent) => {
       const canvas = canvasRef.current
       if (!canvas) return
+      const rect = canvas.getBoundingClientRect()
       const now = performance.now()
       const pr = pointerRef.current
       const dt = pr.lastTime ? now - pr.lastTime : 16
@@ -215,7 +226,6 @@ export function DotGrid({
       pr.vy = vy
       pr.speed = speed
 
-      const rect = canvas.getBoundingClientRect()
       pr.x = e.clientX - rect.left
       pr.y = e.clientY - rect.top
 
@@ -284,7 +294,7 @@ export function DotGrid({
       }
     }
 
-    const throttledMove = throttle(onMove, 30)
+    const throttledMove = throttle(onMove, 16)
     window.addEventListener('mousemove', throttledMove, { passive: true })
     window.addEventListener('click', onClick)
 
