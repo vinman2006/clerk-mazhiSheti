@@ -22,8 +22,10 @@ import { Navbar } from '@/components/layout/Navbar'
 import { Footer } from '@/components/layout/Footer'
 import { NodeDiagram } from '@/components/diagrams/NodeDiagram'
 import { SimulatedBadge } from '@/components/ui/SimulatedBadge'
+import { useGsapAnimations } from '@/lib/useGsapAnimations'
 
 export default function ArchitecturePage() {
+  const { containerRef } = useGsapAnimations()
   const blockchainConcepts = [
     {
       num: '01',
@@ -82,15 +84,18 @@ export default function ArchitecturePage() {
   ]
 
   return (
-    <div className="min-h-screen bg-[#0B0E17] text-white flex flex-col selection:bg-portal-orange/20 selection:text-portal-orange">
+    <div
+      ref={containerRef}
+      className="min-h-screen bg-[#0B0E17] text-white flex flex-col selection:bg-portal-orange/20 selection:text-portal-orange"
+    >
       <Navbar />
 
       <main className="pt-28 pb-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
         {/* Header Breadcrumb */}
-        <div className="space-y-4">
+        <div className="space-y-4 gsap-reveal">
           <Link
             href="/"
-            className="inline-flex items-center gap-2 text-xs font-mono font-bold text-portal-orange hover:text-white transition-colors"
+            className="gsap-magnetic inline-flex items-center gap-2 text-xs font-mono font-bold text-portal-orange hover:text-white transition-colors"
           >
             <ArrowLeft className="w-3.5 h-3.5" />
             <span>Back to Network Overview</span>
@@ -133,7 +138,7 @@ export default function ArchitecturePage() {
                   a.click()
                   URL.revokeObjectURL(url)
                 }}
-                className="px-3.5 py-1.5 rounded-lg bg-[#141826] hover:bg-[#182033] border border-neutral-700 text-portal-orange font-bold flex items-center gap-1.5 shadow-sm"
+                className="gsap-magnetic px-3.5 py-1.5 rounded-lg bg-[#141826] hover:bg-[#182033] border border-neutral-700 text-portal-orange font-bold flex items-center gap-1.5 shadow-sm"
               >
                 <span>Download Spec</span>
               </button>
@@ -152,7 +157,7 @@ export default function ArchitecturePage() {
         </div>
 
         {/* SECTION 1: FULL 3-TIER SYSTEM ARCHITECTURE DIAGRAM */}
-        <section className="space-y-6">
+        <section className="space-y-6 gsap-reveal">
           <div className="flex items-center justify-between border-b border-neutral-700 pb-3">
             <div className="flex items-center gap-2">
               <Layers className="w-5 h-5 text-portal-orange" />
@@ -169,7 +174,7 @@ export default function ArchitecturePage() {
 
         {/* SECTION 2: SIX PRIORITIZED BLOCKCHAIN & CRYPTOGRAPHIC CONCEPTS */}
         <section className="space-y-8">
-          <div className="border-b border-neutral-700 pb-3">
+          <div className="border-b border-neutral-700 pb-3 gsap-reveal">
             <span className="font-mono text-xs text-portal-orange font-bold uppercase tracking-wider">
               Cryptographic Trust Primitives
             </span>
@@ -181,18 +186,18 @@ export default function ArchitecturePage() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 gsap-stagger-group">
             {blockchainConcepts.map((item) => {
               const Icon = item.icon
               return (
                 <div
                   key={item.id}
-                  className="p-6 rounded-xl bg-[#141826] border border-neutral-700 border-l-4 border-l-portal-orange hover:border-neutral-600 transition-all flex flex-col justify-between space-y-4 shadow-lg"
+                  className="gsap-stagger-item gsap-card p-6 rounded-xl bg-[#141826] border border-neutral-700 border-l-4 border-l-portal-orange hover:border-neutral-600 transition-all flex flex-col justify-between space-y-4 shadow-lg"
                 >
                   <div className="space-y-3">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2.5">
-                        <div className={`p-2 rounded-lg ${item.bg} ${item.color} border border-neutral-700`}>
+                        <div className={`p-2 rounded-lg ${item.bg} ${item.color} border border-neutral-700 gsap-float`}>
                           <Icon className="w-4 h-4" />
                         </div>
                         <span className="font-mono font-bold text-xs text-neutral-400">
@@ -225,7 +230,7 @@ export default function ArchitecturePage() {
 
         {/* SECTION 3: FEDERATED LEARNING ARCHITECTURE */}
         <section className="space-y-6">
-          <div className="flex items-center justify-between border-b border-neutral-700 pb-3">
+          <div className="flex items-center justify-between border-b border-neutral-700 pb-3 gsap-reveal">
             <div className="flex items-center gap-2">
               <Cpu className="w-5 h-5 text-portal-orange" />
               <h2 className="font-display text-xl sm:text-2xl font-black text-white">
@@ -236,11 +241,11 @@ export default function ArchitecturePage() {
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <div className="lg:col-span-2">
+            <div className="lg:col-span-2 gsap-reveal">
               <NodeDiagram mode="federated-learning" />
             </div>
 
-            <div className="p-6 rounded-xl bg-[#141826] border border-neutral-700 border-l-4 border-l-portal-green space-y-4 flex flex-col justify-between shadow-lg">
+            <div className="gsap-card p-6 rounded-xl bg-[#141826] border border-neutral-700 border-l-4 border-l-portal-green space-y-4 flex flex-col justify-between shadow-lg gsap-reveal">
               <div className="space-y-3">
                 <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded bg-portal-green/20 text-portal-green text-xs font-mono font-bold">
                   <ShieldCheck className="w-3.5 h-3.5" />
@@ -271,7 +276,7 @@ export default function ArchitecturePage() {
               <div className="pt-4 border-t border-neutral-700">
                 <Link
                   href="/hospital-portal/ai-training"
-                  className="w-full py-3 rounded-lg bg-[#2E7D32] hover:bg-[#256629] text-white font-bold text-xs uppercase tracking-wider font-mono flex items-center justify-center gap-2 transition-all shadow-md"
+                  className="gsap-magnetic w-full py-3 rounded-lg bg-[#2E7D32] hover:bg-[#256629] text-white font-bold text-xs uppercase tracking-wider font-mono flex items-center justify-center gap-2 transition-all shadow-md"
                 >
                   <span>Simulate Hospital Training Node →</span>
                 </Link>
@@ -285,3 +290,4 @@ export default function ArchitecturePage() {
     </div>
   )
 }
+

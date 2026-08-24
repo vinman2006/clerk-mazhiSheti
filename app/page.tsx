@@ -29,25 +29,34 @@ import { Navbar } from '@/components/layout/Navbar'
 import { Footer } from '@/components/layout/Footer'
 import { NodeDiagram } from '@/components/diagrams/NodeDiagram'
 import { HashSplitDemo } from '@/components/landing/HashSplitDemo'
+import { AgentMissionControl } from '@/components/landing/AgentMissionControl'
 import { SimulatedBadge } from '@/components/ui/SimulatedBadge'
 import { useAuth } from '@/lib/authContext'
 import { useLanguage } from '@/lib/languageContext'
+import { useSettings } from '@/lib/settingsContext'
 import dynamic from 'next/dynamic'
+import { useGsapAnimations } from '@/lib/useGsapAnimations'
 
 const DotGrid = dynamic(() => import('@/components/ui/DotGrid'), { ssr: false })
+const HeroThreeScene = dynamic(() => import('@/components/ui/HeroThreeScene'), { ssr: false })
 
 export default function LandingPage() {
   const { loginWithGoogle } = useAuth()
   const { t } = useLanguage()
+  const { hero3DEnabled } = useSettings()
   const [activePortalTab, setActivePortalTab] = useState<'hospitals' | 'government' | 'researchers'>('hospitals')
+  const { containerRef } = useGsapAnimations()
 
   return (
-    <div className="min-h-screen bg-nexora-bg-base text-nexora-text-primary flex flex-col selection:bg-nexora-orange-500/20 selection:text-nexora-orange-400 antialiased overflow-x-hidden">
+    <div
+      ref={containerRef}
+      className="min-h-screen bg-nexora-bg-base text-nexora-text-primary flex flex-col selection:bg-nexora-orange-500/20 selection:text-nexora-orange-400 antialiased overflow-x-hidden"
+    >
       <Navbar />
 
       {/* HERO SECTION — TRUST-FIRST HIGH-PRECISION PORTAL */}
       <section className="relative pt-36 pb-20 md:pt-40 md:pb-28 overflow-hidden bg-[#0D1C44] bg-gradient-to-b from-[#0B1736] via-[#0E204E] to-[#0A1530]">
-        {/* Interactive Vivid DotGrid Background Canvas */}
+        {/* Interactive Vivid DotGrid Background Canvas (Always active) */}
         <div className="absolute inset-0 z-0 opacity-85 pointer-events-none">
           <DotGrid 
             dotSize={3.5}
@@ -61,11 +70,15 @@ export default function LandingPage() {
           />
         </div>
 
+        {/* Three.js 3D Cryptographic WebGL Particle Scene (Toggable via Settings in Navbar) */}
+        {hero3DEnabled && <HeroThreeScene />}
+
         {/* Ambient Structural Steel Glow */}
         <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[750px] h-[450px] bg-gradient-to-tr from-blue-600/15 via-nexora-steel-500/10 to-transparent rounded-full blur-[160px] pointer-events-none"></div>
 
+
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 space-y-8">
-          <div className="text-center max-w-4xl mx-auto space-y-6">
+          <div className="text-center max-w-4xl mx-auto space-y-6 gsap-reveal">
             {/* Two-Tone Headline */}
             <h1 className="font-display font-black text-4xl sm:text-6xl md:text-7xl tracking-tight text-white leading-[1.12] drop-shadow-md">
               {t('hero_title_line1')} <br />
@@ -79,12 +92,12 @@ export default function LandingPage() {
               {t('hero_subtitle')}
             </p>
 
-            {/* Hero CTAs */}
+            {/* Hero CTAs with GSAP magnetic physics */}
             <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-4">
               {/* Primary CTA (Green Status for Launch / Positive Action) */}
               <Link
                 href="/dashboard/agents"
-                className="w-full sm:w-auto px-8 py-4 rounded-xl bg-nexora-green-status hover:bg-[#1b8552] text-white font-black text-xs uppercase tracking-wider transition-all shadow-xl hover:shadow-emerald-950/40 flex items-center justify-center gap-2.5 group active:scale-[0.99]"
+                className="gsap-magnetic w-full sm:w-auto px-8 py-4 rounded-xl bg-nexora-green-status hover:bg-[#1b8552] text-white font-black text-xs uppercase tracking-wider transition-all shadow-xl hover:shadow-emerald-950/40 flex items-center justify-center gap-2.5 group active:scale-[0.99]"
               >
                 <span>{t('hero_cta_primary')}</span>
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -93,7 +106,7 @@ export default function LandingPage() {
               {/* Secondary CTA (Dark navy with orange border) */}
               <Link
                 href="/architecture"
-                className="w-full sm:w-auto px-7 py-4 rounded-xl bg-[#081228]/85 hover:bg-[#0E1F4B] text-nexora-orange-400 border-2 border-nexora-orange-500/70 hover:border-nexora-orange-400 text-xs font-mono font-bold transition-all flex items-center justify-center gap-2 tracking-wide shadow-lg"
+                className="gsap-magnetic w-full sm:w-auto px-7 py-4 rounded-xl bg-[#081228]/85 hover:bg-[#0E1F4B] text-nexora-orange-400 border-2 border-nexora-orange-500/70 hover:border-nexora-orange-400 text-xs font-mono font-bold transition-all flex items-center justify-center gap-2 tracking-wide shadow-lg"
               >
                 <span>{t('hero_cta_secondary')}</span>
                 <span className="text-nexora-orange-400">→</span>
@@ -102,7 +115,7 @@ export default function LandingPage() {
           </div>
 
           {/* Core Visual Metaphor: Interactive Node Diagram */}
-          <div className="mt-8 max-w-5xl mx-auto">
+          <div className="mt-8 max-w-5xl mx-auto gsap-reveal">
             <NodeDiagram mode="hero" />
           </div>
         </div>
@@ -111,13 +124,13 @@ export default function LandingPage() {
       {/* INTERACTIVE HASH SPLIT DEMO ANIMATION */}
       <HashSplitDemo />
 
+      {/* AGENT MISSION CONTROL — LIVE TOPOLOGICAL MULTI-AGENT SIMULATION */}
+      <AgentMissionControl />
+
       {/* PROBLEM / SOLUTION STRIP: FEDERATED LEARNING CONTRAST */}
       <section className="py-20 bg-nexora-bg-base border-y border-nexora-border-subtle relative">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
-          <div className="text-center max-w-3xl mx-auto space-y-3">
-            <span className="font-mono text-xs text-nexora-orange-400 font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-[rgba(224,130,31,0.12)] border border-nexora-orange-500/30">
-              {t('paradigm_badge')}
-            </span>
+          <div className="text-center max-w-3xl mx-auto space-y-3 gsap-reveal">
             <h2 className="font-display text-2xl sm:text-4xl font-black tracking-tight text-nexora-text-primary">
               {t('paradigm_title')}
             </h2>
@@ -126,9 +139,9 @@ export default function LandingPage() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch gsap-stagger-group">
             {/* The Old Way */}
-            <div className="p-8 rounded-2xl bg-nexora-bg-elevated border border-red-500/30 shadow-xl relative flex flex-col justify-between space-y-6 hover:border-red-500/50 transition-all">
+            <div className="gsap-stagger-item gsap-card p-8 rounded-2xl bg-nexora-bg-elevated border border-red-500/30 shadow-xl relative flex flex-col justify-between space-y-6 hover:border-red-500/50 transition-all">
               <div className="space-y-4">
                 <div className="flex items-center justify-between pb-4 border-b border-nexora-border-subtle">
                   <div className="flex items-center gap-2.5 text-red-400 font-display font-bold text-lg">
@@ -170,7 +183,7 @@ export default function LandingPage() {
             </div>
 
             {/* The Nexora Way */}
-            <div className="p-8 rounded-2xl bg-nexora-bg-elevated border border-nexora-green-status/40 shadow-xl relative flex flex-col justify-between space-y-6 hover:border-nexora-green-status/60 transition-all">
+            <div className="gsap-stagger-item gsap-card p-8 rounded-2xl bg-nexora-bg-elevated border border-nexora-green-status/40 shadow-xl relative flex flex-col justify-between space-y-6 hover:border-nexora-green-status/60 transition-all">
               <div className="space-y-4">
                 <div className="flex items-center justify-between pb-4 border-b border-nexora-border-subtle">
                   <div className="flex items-center gap-2.5 text-nexora-green-status font-display font-bold text-lg">
@@ -217,10 +230,7 @@ export default function LandingPage() {
       {/* THREE PILLARS SECTION */}
       <section className="py-20 relative bg-nexora-bg-surface">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
-          <div className="text-center max-w-3xl mx-auto space-y-3">
-            <span className="font-mono text-xs text-nexora-orange-400 font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-[rgba(224,130,31,0.12)] border border-nexora-orange-500/30">
-              {t('pillars_core')}
-            </span>
+          <div className="text-center max-w-3xl mx-auto space-y-3 gsap-reveal">
             <h2 className="font-display text-3xl sm:text-4xl font-black tracking-tight text-nexora-text-primary">
               {t('pillars_title')}
             </h2>
@@ -229,9 +239,9 @@ export default function LandingPage() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 gsap-stagger-group">
             {/* Pillar 1: Healthcare Access */}
-            <div className="p-7 rounded-2xl bg-nexora-bg-elevated border border-nexora-border-subtle hover:border-nexora-border-strong shadow-xl space-y-6 flex flex-col justify-between transition-all group">
+            <div className="gsap-stagger-item gsap-card p-7 rounded-2xl bg-nexora-bg-elevated border border-nexora-border-subtle hover:border-nexora-border-strong shadow-xl space-y-6 flex flex-col justify-between transition-all group">
               <div className="space-y-3.5">
                 <div className="w-12 h-12 rounded-xl bg-nexora-steel-700/40 border border-nexora-steel-500/40 flex items-center justify-center text-nexora-steel-300 group-hover:scale-105 transition-transform">
                   <Activity className="w-6 h-6 stroke-[2.2]" />
@@ -257,7 +267,7 @@ export default function LandingPage() {
             </div>
 
             {/* Pillar 2: Multi-Agent Layer */}
-            <div className="p-7 rounded-2xl bg-nexora-bg-elevated border border-nexora-border-subtle hover:border-nexora-border-strong shadow-xl space-y-6 flex flex-col justify-between transition-all group">
+            <div className="gsap-stagger-item gsap-card p-7 rounded-2xl bg-nexora-bg-elevated border border-nexora-border-subtle hover:border-nexora-border-strong shadow-xl space-y-6 flex flex-col justify-between transition-all group">
               <div className="space-y-3.5">
                 <div className="w-12 h-12 rounded-xl bg-[rgba(224,130,31,0.15)] border border-nexora-orange-500/30 flex items-center justify-center text-nexora-orange-400 group-hover:scale-105 transition-transform">
                   <Bot className="w-6 h-6 stroke-[2.2]" />
@@ -283,7 +293,7 @@ export default function LandingPage() {
             </div>
 
             {/* Pillar 3: Privacy & Trust */}
-            <div className="p-7 rounded-2xl bg-nexora-bg-elevated border border-nexora-border-subtle hover:border-nexora-border-strong shadow-xl space-y-6 flex flex-col justify-between transition-all group">
+            <div className="gsap-stagger-item gsap-card p-7 rounded-2xl bg-nexora-bg-elevated border border-nexora-border-subtle hover:border-nexora-border-strong shadow-xl space-y-6 flex flex-col justify-between transition-all group">
               <div className="space-y-3.5">
                 <div className="w-12 h-12 rounded-xl bg-nexora-green-status/15 border border-nexora-green-status/30 flex items-center justify-center text-nexora-green-status group-hover:scale-105 transition-transform">
                   <ShieldCheck className="w-6 h-6 stroke-[2.2]" />
@@ -314,10 +324,7 @@ export default function LandingPage() {
       {/* HOW CONSENT WORKS: 4-STEP FLOW */}
       <section className="py-20 bg-nexora-bg-base border-y border-nexora-border-subtle">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
-          <div className="text-center max-w-2xl mx-auto space-y-3">
-            <span className="font-mono text-xs text-nexora-orange-400 font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-[rgba(224,130,31,0.12)] border border-nexora-orange-500/30">
-              {t('consent_protocol_badge')}
-            </span>
+          <div className="text-center max-w-2xl mx-auto space-y-3 gsap-reveal">
             <h2 className="font-display text-3xl sm:text-4xl font-black tracking-tight text-nexora-text-primary">
               {t('consent_how_title')}
             </h2>
@@ -326,7 +333,7 @@ export default function LandingPage() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 gsap-stagger-group">
             {[
               {
                 step: '01',
@@ -361,7 +368,7 @@ export default function LandingPage() {
               return (
                 <div
                   key={index}
-                  className="p-6 rounded-2xl bg-nexora-bg-elevated border border-nexora-border-subtle hover:border-nexora-border-strong shadow-lg flex flex-col justify-between space-y-5 transition-all group"
+                  className="gsap-stagger-item gsap-card p-6 rounded-2xl bg-nexora-bg-elevated border border-nexora-border-subtle hover:border-nexora-border-strong shadow-lg flex flex-col justify-between space-y-5 transition-all group"
                 >
                   <div className="space-y-4">
                     <div className="flex items-center justify-between">
@@ -373,7 +380,7 @@ export default function LandingPage() {
                       </span>
                     </div>
 
-                    <div className="p-2.5 rounded-xl bg-nexora-steel-700/40 text-nexora-steel-300 border border-nexora-steel-500/40 w-fit">
+                    <div className="p-2.5 rounded-xl bg-nexora-steel-700/40 text-nexora-steel-300 border border-nexora-steel-500/40 w-fit gsap-float">
                       <Icon className="w-5 h-5" />
                     </div>
 
@@ -400,17 +407,14 @@ export default function LandingPage() {
       {/* FOR HOSPITALS / GOVERNMENT / RESEARCHERS PORTALS */}
       <section className="py-20 bg-nexora-bg-surface">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
-          <div className="text-center max-w-2xl mx-auto space-y-3">
-            <span className="font-mono text-xs text-nexora-orange-400 font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-[rgba(224,130,31,0.12)] border border-nexora-orange-500/30">
-              {t('stakeholder_badge')}
-            </span>
+          <div className="text-center max-w-2xl mx-auto space-y-3 gsap-reveal">
             <h2 className="font-display text-3xl sm:text-4xl font-black tracking-tight text-nexora-text-primary">
               {t('stakeholder_title')}
             </h2>
           </div>
 
           {/* Tabs */}
-          <div className="flex justify-center gap-2 sm:gap-4 border-b border-nexora-border-subtle pb-5">
+          <div className="flex justify-center gap-2 sm:gap-4 border-b border-nexora-border-subtle pb-5 gsap-reveal">
             <button
               onClick={() => setActivePortalTab('hospitals')}
               className={`px-5 py-3 rounded-xl text-xs font-mono font-bold transition-all flex items-center gap-2 ${
@@ -449,7 +453,7 @@ export default function LandingPage() {
           </div>
 
           {/* Tab Content Panels */}
-          <div className="p-8 sm:p-10 rounded-2xl bg-nexora-bg-elevated border border-nexora-border-strong shadow-2xl">
+          <div className="p-8 sm:p-10 rounded-2xl bg-nexora-bg-elevated border border-nexora-border-strong shadow-2xl gsap-reveal">
             {activePortalTab === 'hospitals' && (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
                 <div className="space-y-5">
@@ -476,7 +480,7 @@ export default function LandingPage() {
                   <div className="pt-2">
                     <Link
                       href="/hospital-portal/ai-training"
-                      className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl bg-nexora-green-status hover:bg-[#1b8552] text-white font-bold text-xs uppercase tracking-wider transition-all shadow-md active:scale-[0.99]"
+                      className="gsap-magnetic inline-flex items-center gap-2 px-6 py-3.5 rounded-xl bg-nexora-green-status hover:bg-[#1b8552] text-white font-bold text-xs uppercase tracking-wider transition-all shadow-md active:scale-[0.99]"
                     >
                       <span>Open Hospital Portal</span>
                       <ArrowRight className="w-4 h-4" />
@@ -519,7 +523,7 @@ export default function LandingPage() {
                   <div className="pt-2">
                     <Link
                       href="/gov-portal"
-                      className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl bg-nexora-green-status hover:bg-[#1b8552] text-white font-bold text-xs uppercase tracking-wider transition-all shadow-md active:scale-[0.99]"
+                      className="gsap-magnetic inline-flex items-center gap-2 px-6 py-3.5 rounded-xl bg-nexora-green-status hover:bg-[#1b8552] text-white font-bold text-xs uppercase tracking-wider transition-all shadow-md active:scale-[0.99]"
                     >
                       <span>Open Government Portal</span>
                       <ArrowRight className="w-4 h-4" />
@@ -558,7 +562,7 @@ export default function LandingPage() {
                   <div className="pt-2">
                     <Link
                       href="/research"
-                      className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl bg-nexora-green-status hover:bg-[#1b8552] text-white font-bold text-xs uppercase tracking-wider transition-all shadow-md active:scale-[0.99]"
+                      className="gsap-magnetic inline-flex items-center gap-2 px-6 py-3.5 rounded-xl bg-nexora-green-status hover:bg-[#1b8552] text-white font-bold text-xs uppercase tracking-wider transition-all shadow-md active:scale-[0.99]"
                     >
                       <span>Open Research Portal</span>
                       <ArrowRight className="w-4 h-4" />
@@ -582,13 +586,13 @@ export default function LandingPage() {
       {/* TRUST & TECHNICAL CREDIBILITY STRIP */}
       <section className="py-16 bg-nexora-bg-base border-t border-nexora-border-subtle">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
-          <div className="text-center">
-            <span className="font-mono text-xs text-nexora-orange-400 font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-[rgba(224,130,31,0.12)] border border-nexora-orange-500/30">
+          <div className="text-center gsap-reveal">
+            <h2 className="font-display text-2xl sm:text-3xl font-black tracking-tight text-nexora-text-primary">
               Cryptographic & Security Foundation
-            </span>
+            </h2>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-5">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-5 gsap-stagger-group">
             {[
               { title: 'Zero-Knowledge Proofs', desc: 'zk-SNARKs for private assertions', icon: Lock },
               { title: 'Decentralized Identity', desc: 'W3C DID v1.0 standard', icon: KeyRound },
@@ -599,9 +603,9 @@ export default function LandingPage() {
               return (
                 <div
                   key={idx}
-                  className="p-5 rounded-2xl bg-nexora-bg-elevated border border-nexora-border-subtle hover:border-nexora-border-strong transition-all text-center flex flex-col items-center justify-center space-y-2 shadow-md group"
+                  className="gsap-stagger-item gsap-card p-5 rounded-2xl bg-nexora-bg-elevated border border-nexora-border-subtle hover:border-nexora-border-strong transition-all text-center flex flex-col items-center justify-center space-y-2 shadow-md group"
                 >
-                  <div className="p-2.5 rounded-xl bg-nexora-steel-700/40 border border-nexora-steel-500/40 text-nexora-steel-300 mb-1 group-hover:scale-110 transition-transform">
+                  <div className="p-2.5 rounded-xl bg-nexora-steel-700/40 border border-nexora-steel-500/40 text-nexora-steel-300 mb-1 group-hover:scale-110 transition-transform gsap-float">
                     <Icon className="w-5 h-5" />
                   </div>
                   <span className="font-mono font-bold text-xs text-nexora-text-primary">{badge.title}</span>
@@ -617,3 +621,5 @@ export default function LandingPage() {
     </div>
   )
 }
+
+

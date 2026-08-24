@@ -49,6 +49,11 @@ export const TRANSLATIONS: TranslationDictionary = {
     hi: 'पंजीकरण',
     mr: 'नोंदणी करा'
   },
+  nav_sign_in_register: {
+    en: 'Sign In / Register',
+    hi: 'साइन इन / पंजीकरण',
+    mr: 'साइन इन / नोंदणी'
+  },
   nav_open_app: {
     en: 'Open App',
     hi: 'ऐप खोलें',
@@ -80,6 +85,230 @@ export const TRANSLATIONS: TranslationDictionary = {
     en: 'Technical Architecture',
     hi: 'तकनीकी आर्किटेक्चर',
     mr: 'तांत्रिक रचना (आर्किटेक्चर)'
+  },
+
+  // Node Diagram & Visualizer
+  viz_title: {
+    en: 'Live Network Orchestration Visualizer',
+    hi: 'लाइव नेटवर्क ऑर्केस्ट्रेशन विज़ुअलाइज़र',
+    mr: 'थेट नेटवर्क ऑर्केस्ट्रेशन व्हिज्युअलायझर'
+  },
+  viz_decentralized: {
+    en: 'Decentralized',
+    hi: 'विकेंद्रीकृत',
+    mr: 'विकेंद्रित'
+  },
+  viz_zk: {
+    en: 'Zero-Knowledge',
+    hi: 'ज़ीरो-नॉलेज',
+    mr: 'झिरो-नॉलेज'
+  },
+  viz_offchain: {
+    en: 'Off-Chain Storage',
+    hi: 'ऑफ-चेन स्टोरेज',
+    mr: 'ऑफ-चेन स्टोरेज'
+  },
+  viz_patient_you: {
+    en: 'Patient (You)',
+    hi: 'मरीज (आप)',
+    mr: 'रुग्ण (तुम्ही)'
+  },
+  viz_sovereign_keyholder: {
+    en: 'Sovereign Keyholder',
+    hi: 'संप्रभु की-धारक',
+    mr: 'सार्वभौम की-धारक'
+  },
+  viz_patient_agent: {
+    en: 'Patient Agent',
+    hi: 'मरीज एआई एजेंट',
+    mr: 'रुग्ण एआय एजंट'
+  },
+  viz_orchestrator: {
+    en: 'Orchestrator',
+    hi: 'ऑर्केस्ट्रेटर',
+    mr: 'ऑर्केस्ट्रेटर'
+  },
+  viz_intent_router: {
+    en: 'Encrypted local intent router',
+    hi: 'एन्क्रिप्टेड स्थानीय अनुरोध राउटर',
+    mr: 'एन्क्रिप्टेड स्थानिक उद्देश राउटर'
+  },
+  viz_active_router: {
+    en: 'Active Router ✓',
+    hi: 'सक्रिय राउटर ✓',
+    mr: 'सक्रिय राउटर ✓'
+  },
+  viz_dispatch_stream: {
+    en: 'Encrypted Intent & Multi-Agent Dispatch Stream',
+    hi: 'एन्क्रिप्टेड अनुरोध व मल्टी-एजेंट संचार प्रवाह',
+    mr: 'एन्क्रिप्टेड उद्देश व मल्टी-एजंट संवाद प्रवाह'
+  },
+  viz_hospital_agent: {
+    en: 'Hospital Agent',
+    hi: 'अस्पताल एआई एजेंट',
+    mr: 'रुग्णालय एआय एजंट'
+  },
+  viz_did_verified: {
+    en: 'DID Verified ✓',
+    hi: 'DID सत्यापित ✓',
+    mr: 'DID सत्यापित ✓'
+  },
+  viz_hosp_provider_nodes: {
+    en: 'Apex & City Care Provider Nodes',
+    hi: 'अपेक्स व सिटी केयर प्रदाता नोड्स',
+    mr: 'अपेक्स व सिटी केअर प्रदाता नोड्स'
+  },
+  viz_w3c_vc_verified: {
+    en: 'W3C VC Verified',
+    hi: 'W3C VC सत्यापित',
+    mr: 'W3C VC सत्यापित'
+  },
+  viz_government_agent: {
+    en: 'Government Agent',
+    hi: 'सरकारी एआई एजेंट',
+    mr: 'शासकीय एआय एजंट'
+  },
+  viz_zk_gateway: {
+    en: 'ZK Gateway ✓',
+    hi: 'ज़ेडके गेटवे ✓',
+    mr: 'झेडके गेटवे ✓'
+  },
+  viz_subsidy_check: {
+    en: 'Instant subsidy & eligibility check',
+    hi: 'त्वरित सब्सिडी और पात्रता सत्यापन',
+    mr: 'त्वरित अनुदान व पात्रता पडताळणी'
+  },
+  viz_zero_data_exposed: {
+    en: 'Zero Data Exposed',
+    hi: 'शून्य डेटा प्रकट',
+    mr: 'शून्य डेटा उघड'
+  },
+  viz_consent_audit_commit: {
+    en: 'Cryptographic Consent Verification & Audit Log Commit',
+    hi: 'क्रिप्टोग्राफ़िक सहमति सत्यापन और ऑडिट लॉग कमिट',
+    mr: 'क्रिप्टोग्राफिक संमती पडताळणी व ऑडिट नोंद'
+  },
+  viz_blockchain_trust_layer: {
+    en: 'Blockchain Trust & Audit Layer',
+    hi: 'ब्लॉकचेन ट्रस्ट और ऑडिट लेयर',
+    mr: 'ब्लॉकचेन ट्रस्ट आणि ऑडिट स्तर'
+  },
+  viz_consensus_live: {
+    en: 'Consensus Live ✓',
+    hi: 'सर्वसम्मति सक्रिय ✓',
+    mr: 'सर्वसंमती सक्रिय ✓'
+  },
+  viz_blockchain_subtitle: {
+    en: 'Smart Contracts • Zero-Knowledge Proofs • Immutable Audit Trail • W3C DIDs',
+    hi: 'स्मार्ट अनुबंध • ज़ीरो-नॉलेज प्रूफ • अपरिवर्तनीय ऑडिट ट्रेल • W3C DIDs',
+    mr: 'स्मार्ट कॉन्ट्रॅक्ट्स • झिरो-नॉलेज प्रूक्स • अपरिवर्तनीय ऑडिट ट्रेल • W3C DIDs'
+  },
+  viz_offchain_private: {
+    en: 'Off-Chain Medical Data: 100% Private',
+    hi: 'ऑफ-चेन मेडिकल डेटा: १००% निजी',
+    mr: 'ऑफ-चेन वैद्यकीय डेटा: १००% खाजगी'
+  },
+  demo_role_label: {
+    en: 'Demo Role:',
+    hi: 'डेमो भूमिका:',
+    mr: 'डेमो भूमिका:'
+  },
+
+  // Hash Split Demo
+  hash_demo_badge: {
+    en: 'Dual-Key Cryptographic Split',
+    hi: 'डुअल-की क्रिप्टोग्राफ़िक विभाजन',
+    mr: 'ड्युअल-की क्रिप्टोग्राफिक विभाजन'
+  },
+  hash_demo_title: {
+    en: 'Interactive Sovereign Data Splitting Demo',
+    hi: 'इंटरएक्टिव डेटा विभाजन डेमो',
+    mr: 'परस्परसंवादी डेटा विभाजन डेमो'
+  },
+  hash_demo_desc: {
+    en: 'Type sample identity & medical information below. Watch Nexora mathematically separate demographic identity from clinical records.',
+    hi: 'नीचे पहचान और चिकित्सा जानकारी दर्ज करें। देखें कि नेक्सोरा कैसे नाम और क्लिनिकल रिकॉर्ड को अलग करता है।',
+    mr: 'खाली ओळख व वैद्यकीय माहिती भरा. नेक्सोरा नाव आणि वैद्यकीय रेकॉर्ड कसे वेगळे करते ते प्रत्यक्ष पहा.'
+  },
+  hash_panel_a: {
+    en: 'Personal Identity',
+    hi: 'व्यक्तिगत पहचान',
+    mr: 'वैयक्तिक ओळख'
+  },
+  hash_panel_b: {
+    en: 'Medical Details',
+    hi: 'चिकित्सा विवरण',
+    mr: 'वैद्यकीय तपशील'
+  },
+  hash_full_name: {
+    en: 'Full Legal Name:',
+    hi: 'पूरा कानूनी नाम:',
+    mr: 'पूर्ण कायदेशीर नाव:'
+  },
+  hash_dob: {
+    en: 'Date of Birth:',
+    hi: 'जन्म तिथि:',
+    mr: 'जन्मतारीख:'
+  },
+  hash_email: {
+    en: 'Contact Email:',
+    hi: 'संपर्क ईमेल:',
+    mr: 'संपर्क ईमेल:'
+  },
+  hash_condition: {
+    en: 'Clinical Condition / Observation:',
+    hi: 'नैदानिक स्थिति / अवलोकन:',
+    mr: 'वैद्यकीय स्थिती / निरीक्षण:'
+  },
+  hash_doctor: {
+    en: 'Attending Physician:',
+    hi: 'संबंधित डॉक्टर:',
+    mr: 'उपचार करणारे डॉक्टर:'
+  },
+  hash_notes: {
+    en: 'Diagnostic Clinical Notes:',
+    hi: 'नैदानिक क्लिनिकल नोट्स:',
+    mr: 'तपासणीच्या नोंदी:'
+  },
+  hash_hide_btn: {
+    en: 'Hide My Data',
+    hi: 'मेरा डेटा सुरक्षित करें',
+    mr: 'माझा डेटा सुरक्षित करा'
+  },
+  hash_hiding_btn: {
+    en: 'Scrambling & Hiding Data...',
+    hi: 'डेटा एन्क्रिप्ट किया जा रहा है...',
+    mr: 'डेटा एन्क्रिप्ट केला जात आहे...'
+  },
+  hash_person_hash: {
+    en: 'Person Hash',
+    hi: 'पहचान हैश',
+    mr: 'ओळख हॅश'
+  },
+  hash_medical_hash: {
+    en: 'Medical Data Hash',
+    hi: 'मेडिकल डेटा हैश',
+    mr: 'वैद्यकीय डेटा हॅश'
+  },
+  hash_copy: {
+    en: 'Copy',
+    hi: 'कॉपी',
+    mr: 'कॉपी'
+  },
+  hash_copied: {
+    en: 'Copied',
+    hi: 'कॉपी किया गया',
+    mr: 'कॉपी केले'
+  },
+  hash_try_again: {
+    en: 'Try Again with New Values',
+    hi: 'नए विवरण के साथ पुनः प्रयास करें',
+    mr: 'नवीन माहितीसह पुन्हा प्रयत्न करा'
+  },
+  hash_linked_note: {
+    en: 'Linked only by a hash — never by name or email.',
+    hi: 'केवल हैश से जुड़े हैं — कभी नाम या ईमेल से नहीं।',
+    mr: 'फक्त हॅशने जोडलेले — कधीही नाव किंवा ईमेलने नाही.'
   },
 
   // Problem / Paradigm Shift

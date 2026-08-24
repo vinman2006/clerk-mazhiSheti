@@ -2,12 +2,14 @@
 
 import React, { useState } from 'react'
 import { useAuth } from '@/lib/authContext'
+import { useLanguage } from '@/lib/languageContext'
 import { UserCheck, Shield, Building2, Landmark, Microscope, Sparkles, ChevronDown } from 'lucide-react'
 import { UserProfile } from '@/lib/mockData'
 import Link from 'next/link'
 
 export function DevRoleSwitcher() {
   const { user, setRole } = useAuth()
+  const { t } = useLanguage()
   const [isOpen, setIsOpen] = useState(false)
 
   const roles: { role: UserProfile['role']; label: string; desc: string; icon: React.ElementType; link: string }[] = [
@@ -56,7 +58,7 @@ export function DevRoleSwitcher() {
           className="flex items-center gap-2 px-3.5 py-2 rounded-md bg-[#101420] border-2 border-portal-orange text-white text-xs font-mono shadow-xl hover:bg-[#152A63] transition-all group backdrop-blur-md"
         >
           <div className="w-2 h-2 rounded-full bg-portal-green"></div>
-          <span className="text-neutral-400">Demo Role:</span>
+          <span className="text-neutral-400">{t('demo_role_label')}</span>
           <span className="text-portal-orange font-bold capitalize">{user.role.replace('_', ' ')}</span>
           <ChevronDown className={`w-3.5 h-3.5 text-neutral-400 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
         </button>

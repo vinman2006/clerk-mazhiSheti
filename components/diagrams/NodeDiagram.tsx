@@ -22,6 +22,7 @@ import {
   CheckCircle2,
   Zap
 } from 'lucide-react'
+import { useLanguage } from '@/lib/languageContext'
 
 interface NodeDiagramProps {
   mode?: 'hero' | 'architecture' | 'agent-routing' | 'federated-learning'
@@ -38,6 +39,7 @@ export function NodeDiagram({
 }: NodeDiagramProps) {
   const [activeStep, setActiveStep] = useState<number>(0)
   const [hoveredNode, setHoveredNode] = useState<string | null>(null)
+  const { t } = useLanguage()
 
   // -------------------------------------------------------------
   // MODE: AGENT-ROUTING (Used inside Chat & Live Assistant)
@@ -277,18 +279,18 @@ export function NodeDiagram({
         <div className="flex items-center gap-2">
           <Sparkles className="w-4 h-4 text-nexora-orange-400" />
           <span className="font-mono text-xs font-bold text-nexora-text-primary uppercase tracking-wider">
-            Live Network Orchestration Visualizer
+            {t('viz_title')}
           </span>
         </div>
         <div className="flex items-center gap-4 text-[11px] font-mono">
           <span className="text-nexora-amber-status font-semibold flex items-center gap-1.5">
             <span className="w-2 h-2 rounded-full bg-nexora-amber-status animate-pulse"></span>
-            Decentralized
+            {t('viz_decentralized')}
           </span>
           <span className="text-nexora-text-muted">•</span>
-          <span className="text-nexora-info-status font-semibold">Zero-Knowledge</span>
+          <span className="text-nexora-info-status font-semibold">{t('viz_zk')}</span>
           <span className="text-nexora-text-muted">•</span>
-          <span className="text-nexora-neutral-status font-semibold">Off-Chain Storage</span>
+          <span className="text-nexora-neutral-status font-semibold">{t('viz_offchain')}</span>
         </div>
       </div>
 
@@ -308,14 +310,14 @@ export function NodeDiagram({
                 </div>
                 <div>
                   <div className="flex items-center gap-2">
-                    <span className="text-sm font-bold text-nexora-text-primary font-sans">Patient (You)</span>
+                    <span className="text-sm font-bold text-nexora-text-primary font-sans">{t('viz_patient_you')}</span>
                     <span className="w-2 h-2 rounded-full bg-nexora-green-status"></span>
                   </div>
                   <span className="text-[11px] font-mono text-nexora-text-muted block">did:nexora:pat:8f9a...31da</span>
                 </div>
               </div>
               <span className="text-[10px] font-mono text-nexora-text-muted font-bold px-2 py-0.5 rounded bg-nexora-bg-surface border border-nexora-border-subtle">
-                Sovereign Keyholder
+                {t('viz_sovereign_keyholder')}
               </span>
             </div>
           </div>
@@ -333,16 +335,16 @@ export function NodeDiagram({
                 </div>
                 <div>
                   <div className="flex items-center gap-2">
-                    <span className="text-sm font-bold text-nexora-orange-400 font-sans">Patient Agent</span>
+                    <span className="text-sm font-bold text-nexora-orange-400 font-sans">{t('viz_patient_agent')}</span>
                     <span className="px-2 py-0.5 rounded bg-[rgba(224,130,31,0.12)] text-[9px] font-mono font-bold text-nexora-orange-400 uppercase border border-nexora-orange-500/30">
-                      Orchestrator
+                      {t('viz_orchestrator')}
                     </span>
                   </div>
-                  <span className="text-[11px] text-nexora-text-secondary font-sans block">Encrypted local intent router</span>
+                  <span className="text-[11px] text-nexora-text-secondary font-sans block">{t('viz_intent_router')}</span>
                 </div>
               </div>
               <span className="text-[10px] font-mono text-nexora-green-status font-bold px-2 py-0.5 rounded bg-nexora-green-status/10 border border-nexora-green-status/30">
-                Active Router ✓
+                {t('viz_active_router')}
               </span>
             </div>
           </div>
@@ -353,7 +355,7 @@ export function NodeDiagram({
           <div className="h-[1px] flex-1 bg-gradient-to-r from-transparent via-nexora-orange-500/40 to-transparent"></div>
           <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-nexora-bg-surface border border-nexora-orange-500/40 text-[10px] font-mono font-bold text-nexora-orange-400 shadow-sm">
             <Zap className="w-3 h-3 text-nexora-orange-400 animate-pulse" />
-            <span>Encrypted Intent & Multi-Agent Dispatch Stream</span>
+            <span>{t('viz_dispatch_stream')}</span>
             <ArrowDown className="w-3 h-3 text-nexora-orange-400" />
           </div>
           <div className="h-[1px] flex-1 bg-gradient-to-r from-transparent via-nexora-orange-500/40 to-transparent"></div>
@@ -374,14 +376,14 @@ export function NodeDiagram({
                 </div>
                 <div>
                   <div className="flex items-center gap-2">
-                    <span className="text-sm font-bold text-nexora-text-primary font-sans">Hospital Agent</span>
-                    <span className="text-[10px] font-mono text-nexora-green-status font-bold">DID Verified ✓</span>
+                    <span className="text-sm font-bold text-nexora-text-primary font-sans">{t('viz_hospital_agent')}</span>
+                    <span className="text-[10px] font-mono text-nexora-green-status font-bold">{t('viz_did_verified')}</span>
                   </div>
-                  <span className="text-[11px] text-nexora-text-secondary block">Apex & City Care Provider Nodes</span>
+                  <span className="text-[11px] text-nexora-text-secondary block">{t('viz_hosp_provider_nodes')}</span>
                 </div>
               </div>
               <span className="text-[10px] font-mono text-nexora-info-status font-bold px-2 py-0.5 rounded bg-nexora-bg-surface border border-nexora-border-subtle">
-                W3C VC Verified
+                {t('viz_w3c_vc_verified')}
               </span>
             </div>
           </div>
@@ -399,14 +401,14 @@ export function NodeDiagram({
                 </div>
                 <div>
                   <div className="flex items-center gap-2">
-                    <span className="text-sm font-bold text-nexora-text-primary font-sans">Government Agent</span>
-                    <span className="text-[10px] font-mono text-nexora-green-status font-bold">ZK Gateway ✓</span>
+                    <span className="text-sm font-bold text-nexora-text-primary font-sans">{t('viz_government_agent')}</span>
+                    <span className="text-[10px] font-mono text-nexora-green-status font-bold">{t('viz_zk_gateway')}</span>
                   </div>
-                  <span className="text-[11px] text-nexora-text-secondary block">Instant subsidy & eligibility check</span>
+                  <span className="text-[11px] text-nexora-text-secondary block">{t('viz_subsidy_check')}</span>
                 </div>
               </div>
               <span className="text-[10px] font-mono text-nexora-green-status font-bold px-2 py-0.5 rounded bg-nexora-bg-surface border border-nexora-border-subtle">
-                Zero Data Exposed
+                {t('viz_zero_data_exposed')}
               </span>
             </div>
           </div>
@@ -417,7 +419,7 @@ export function NodeDiagram({
           <div className="h-[1px] flex-1 bg-gradient-to-r from-transparent via-nexora-green-status/40 to-transparent"></div>
           <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-nexora-bg-surface border border-nexora-green-status/40 text-[10px] font-mono font-bold text-nexora-green-status shadow-sm">
             <Lock className="w-3 h-3 text-nexora-green-status" />
-            <span>Cryptographic Consent Verification & Audit Log Commit</span>
+            <span>{t('viz_consent_audit_commit')}</span>
             <ArrowDown className="w-3 h-3 text-nexora-green-status" />
           </div>
           <div className="h-[1px] flex-1 bg-gradient-to-r from-transparent via-nexora-green-status/40 to-transparent"></div>
@@ -437,20 +439,20 @@ export function NodeDiagram({
               <div>
                 <div className="flex items-center gap-2">
                   <span className="text-sm font-mono font-bold text-nexora-text-primary uppercase tracking-wider">
-                    Blockchain Trust & Audit Layer
+                    {t('viz_blockchain_trust_layer')}
                   </span>
                   <span className="w-2 h-2 rounded-full bg-nexora-green-status"></span>
-                  <span className="text-[10px] font-mono text-nexora-green-status font-bold">Consensus Live ✓</span>
+                  <span className="text-[10px] font-mono text-nexora-green-status font-bold">{t('viz_consensus_live')}</span>
                 </div>
                 <p className="text-xs text-nexora-text-secondary font-sans mt-0.5">
-                  Smart Contracts • Zero-Knowledge Proofs • Immutable Audit Trail • W3C DIDs
+                  {t('viz_blockchain_subtitle')}
                 </p>
               </div>
             </div>
 
             <div className="flex items-center gap-2 shrink-0">
               <span className="px-3 py-1.5 rounded-lg bg-nexora-bg-surface text-xs font-mono text-nexora-text-secondary border border-nexora-border-subtle shadow-sm">
-                Off-Chain Medical Data: <strong className="text-nexora-green-status">100% Private</strong>
+                <strong className="text-nexora-green-status">{t('viz_offchain_private')}</strong>
               </span>
             </div>
           </div>

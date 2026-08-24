@@ -16,6 +16,7 @@ import {
   HeartPulse,
   Split
 } from 'lucide-react'
+import { useLanguage } from '@/lib/languageContext'
 
 type DemoState = 'idle' | 'filling' | 'hiding' | 'revealed'
 
@@ -26,6 +27,7 @@ interface HashResult {
 
 export function HashSplitDemo() {
   const shouldReduceMotion = useReducedMotion()
+  const { t } = useLanguage()
 
   const [state, setState] = useState<DemoState>('idle')
 
@@ -181,13 +183,13 @@ export function HashSplitDemo() {
         <div className="text-center max-w-3xl mx-auto space-y-3">
           <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-nexora-bg-elevated border border-nexora-border-strong text-nexora-steel-300 font-mono text-xs font-semibold">
             <Sparkles className="w-3.5 h-3.5 text-nexora-orange-400" />
-            <span>Interactive Zero-Trust Demonstration</span>
+            <span>{t('hash_demo_badge')}</span>
           </div>
           <h2 className="font-display font-black text-2xl sm:text-4xl text-nexora-text-primary tracking-tight">
-            See How Nexora Splits & Shields Your Data
+            {t('hash_demo_title')}
           </h2>
           <p className="font-sans text-sm sm:text-base text-nexora-text-secondary leading-relaxed">
-            Witness how demographic identity and clinical records separate into two independent, un-linkable cryptographic hashes. No raw personal data is ever combined or exposed.
+            {t('hash_demo_desc')}
           </p>
         </div>
 
@@ -211,7 +213,7 @@ export function HashSplitDemo() {
                       <div className="flex items-center justify-between pb-3 border-b border-nexora-border-subtle">
                         <div className="flex items-center gap-2 text-nexora-orange-400 font-display font-bold text-base">
                           <User className="w-4 h-4" />
-                          <span>Identity Details</span>
+                          <span>{t('hash_panel_a')}</span>
                         </div>
                         <span className="text-[10px] font-mono text-nexora-orange-400 font-bold px-2 py-0.5 rounded bg-[rgba(224,130,31,0.12)] border border-nexora-orange-500/30">
                           Panel A
@@ -220,7 +222,7 @@ export function HashSplitDemo() {
 
                       <div className="space-y-3 text-xs font-sans">
                         <div className="space-y-1">
-                          <label className="text-[11px] font-mono text-nexora-text-secondary font-semibold block">Full Legal Name:</label>
+                          <label className="text-[11px] font-mono text-nexora-text-secondary font-semibold block">{t('hash_full_name')}</label>
                           <input
                             type="text"
                             value={state === 'hiding' ? scrambledName : name}
@@ -232,7 +234,7 @@ export function HashSplitDemo() {
                         </div>
 
                         <div className="space-y-1">
-                          <label className="text-[11px] font-mono text-nexora-text-secondary font-semibold block">Date of Birth:</label>
+                          <label className="text-[11px] font-mono text-nexora-text-secondary font-semibold block">{t('hash_dob')}</label>
                           <input
                             type="text"
                             value={state === 'hiding' ? scrambledDob : dob}
@@ -244,7 +246,7 @@ export function HashSplitDemo() {
                         </div>
 
                         <div className="space-y-1">
-                          <label className="text-[11px] font-mono text-nexora-text-secondary font-semibold block">Email Address:</label>
+                          <label className="text-[11px] font-mono text-nexora-text-secondary font-semibold block">{t('hash_email')}</label>
                           <input
                             type="email"
                             value={state === 'hiding' ? scrambledEmail : email}
@@ -259,7 +261,7 @@ export function HashSplitDemo() {
 
                     <div className="pt-2 text-[10px] font-mono text-nexora-text-muted flex items-center gap-1.5">
                       <Lock className="w-3 h-3 text-nexora-orange-400" />
-                      <span>Stored strictly in sovereign person enclave</span>
+                      <span>{t('hash_linked_note')}</span>
                     </div>
                   </div>
 
@@ -269,7 +271,7 @@ export function HashSplitDemo() {
                       <div className="flex items-center justify-between pb-3 border-b border-nexora-border-subtle">
                         <div className="flex items-center gap-2 text-nexora-green-status font-display font-bold text-base">
                           <HeartPulse className="w-4 h-4" />
-                          <span>Medical Details</span>
+                          <span>{t('hash_panel_b')}</span>
                         </div>
                         <span className="text-[10px] font-mono text-nexora-green-status font-bold px-2 py-0.5 rounded bg-nexora-green-status/10 border border-nexora-green-status/30">
                           Panel B
@@ -278,7 +280,7 @@ export function HashSplitDemo() {
 
                       <div className="space-y-3 text-xs font-sans">
                         <div className="space-y-1">
-                          <label className="text-[11px] font-mono text-nexora-text-secondary font-semibold block">Clinical Condition / Observation:</label>
+                          <label className="text-[11px] font-mono text-nexora-text-secondary font-semibold block">{t('hash_condition')}</label>
                           <input
                             type="text"
                             value={state === 'hiding' ? scrambledCondition : condition}
@@ -290,7 +292,7 @@ export function HashSplitDemo() {
                         </div>
 
                         <div className="space-y-1">
-                          <label className="text-[11px] font-mono text-nexora-text-secondary font-semibold block">Attending Physician:</label>
+                          <label className="text-[11px] font-mono text-nexora-text-secondary font-semibold block">{t('hash_doctor')}</label>
                           <input
                             type="text"
                             value={state === 'hiding' ? scrambledDoctor : doctorName}
@@ -302,7 +304,7 @@ export function HashSplitDemo() {
                         </div>
 
                         <div className="space-y-1">
-                          <label className="text-[11px] font-mono text-nexora-text-secondary font-semibold block">Diagnostic Clinical Notes:</label>
+                          <label className="text-[11px] font-mono text-nexora-text-secondary font-semibold block">{t('hash_notes')}</label>
                           <input
                             type="text"
                             value={state === 'hiding' ? scrambledNotes : notes}
@@ -317,7 +319,7 @@ export function HashSplitDemo() {
 
                     <div className="pt-2 text-[10px] font-mono text-nexora-text-muted flex items-center gap-1.5">
                       <ShieldCheck className="w-3 h-3 text-nexora-green-status" />
-                      <span>Zero personal identifiers stored in clinical record</span>
+                      <span>{t('hash_linked_note')}</span>
                     </div>
                   </div>
                 </div>
@@ -330,12 +332,8 @@ export function HashSplitDemo() {
                     className="px-10 py-4 rounded-xl bg-nexora-green-status hover:bg-[#1b8552] text-white font-bold text-xs uppercase tracking-wider transition-all shadow-xl hover:shadow-emerald-950/50 flex items-center justify-center gap-2.5 mx-auto active:scale-[0.99] disabled:opacity-75"
                   >
                     <Lock className={`w-4 h-4 ${state === 'hiding' ? 'animate-pulse' : ''}`} />
-                    <span>{state === 'hiding' ? 'Scrambling & Hiding Data...' : 'Hide My Data'}</span>
+                    <span>{state === 'hiding' ? t('hash_hiding_btn') : t('hash_hide_btn')}</span>
                   </button>
-
-                  <p className="text-xs font-sans text-nexora-text-muted">
-                    Demo only — nothing you type here is stored. Computed live, discarded on refresh.
-                  </p>
                 </div>
               </motion.div>
             ) : (
@@ -355,16 +353,12 @@ export function HashSplitDemo() {
                       <div className="flex items-center justify-between pb-3 border-b border-nexora-border-subtle">
                         <div className="flex items-center gap-2 text-nexora-orange-400 font-display font-bold text-base">
                           <KeyRound className="w-4 h-4" />
-                          <span>Person Hash</span>
+                          <span>{t('hash_person_hash')}</span>
                         </div>
                         <span className="text-[10px] font-mono text-nexora-orange-400 font-bold px-2 py-0.5 rounded bg-[rgba(224,130,31,0.12)] border border-nexora-orange-500/30">
-                          Identity Fields Only
+                          Panel A
                         </span>
                       </div>
-
-                      <p className="text-xs font-sans text-nexora-text-secondary">
-                        Deterministic cryptographic hash derived exclusively from identity demographics:
-                      </p>
 
                       <div className="p-3.5 rounded-xl bg-nexora-bg-elevated-2 border border-nexora-border-subtle flex items-center justify-between gap-2">
                         <span className="font-mono text-xs text-nexora-orange-400 font-bold select-all truncate">
@@ -377,7 +371,7 @@ export function HashSplitDemo() {
                           title="Copy Full Hash"
                         >
                           {copiedPerson ? <Check className="w-3.5 h-3.5 text-nexora-green-status" /> : <Copy className="w-3.5 h-3.5" />}
-                          <span>{copiedPerson ? 'Copied' : 'Copy'}</span>
+                          <span>{copiedPerson ? t('hash_copied') : t('hash_copy')}</span>
                         </button>
                       </div>
                     </div>
@@ -393,16 +387,12 @@ export function HashSplitDemo() {
                       <div className="flex items-center justify-between pb-3 border-b border-nexora-border-subtle">
                         <div className="flex items-center gap-2 text-nexora-green-status font-display font-bold text-base">
                           <Activity className="w-4 h-4" />
-                          <span>Medical Data Hash</span>
+                          <span>{t('hash_medical_hash')}</span>
                         </div>
                         <span className="text-[10px] font-mono text-nexora-green-status font-bold px-2 py-0.5 rounded bg-nexora-green-status/10 border border-nexora-green-status/30">
-                          Medical Fields Only
+                          Panel B
                         </span>
                       </div>
-
-                      <p className="text-xs font-sans text-nexora-text-secondary">
-                        Cryptographic hash generated strictly from clinical parameters without names:
-                      </p>
 
                       <div className="p-3.5 rounded-xl bg-nexora-bg-elevated-2 border border-nexora-border-subtle flex items-center justify-between gap-2">
                         <span className="font-mono text-xs text-nexora-green-status font-bold select-all truncate">
@@ -415,7 +405,7 @@ export function HashSplitDemo() {
                           title="Copy Full Hash"
                         >
                           {copiedMedical ? <Check className="w-3.5 h-3.5 text-nexora-green-status" /> : <Copy className="w-3.5 h-3.5" />}
-                          <span>{copiedMedical ? 'Copied' : 'Copy'}</span>
+                          <span>{copiedMedical ? t('hash_copied') : t('hash_copy')}</span>
                         </button>
                       </div>
                     </div>
@@ -429,7 +419,7 @@ export function HashSplitDemo() {
                 {/* CONNECTOR STRIP */}
                 <div className="p-3.5 rounded-xl bg-nexora-bg-elevated border border-dashed border-nexora-border-strong text-center text-xs font-mono text-nexora-text-secondary flex items-center justify-center gap-2 shadow-inner">
                   <Split className="w-4 h-4 text-nexora-orange-400 shrink-0" />
-                  <span>Linked only by a hash — never by name or email.</span>
+                  <span>{t('hash_linked_note')}</span>
                 </div>
 
                 {/* TRY AGAIN RESET BUTTON */}
@@ -439,7 +429,7 @@ export function HashSplitDemo() {
                     className="px-7 py-3 rounded-xl bg-nexora-bg-elevated hover:bg-nexora-bg-elevated-2 text-nexora-text-primary border border-nexora-border-strong text-xs font-mono font-bold transition-all shadow-md inline-flex items-center gap-2"
                   >
                     <RotateCcw className="w-3.5 h-3.5 text-nexora-orange-400" />
-                    <span>Try Again with New Values</span>
+                    <span>{t('hash_try_again')}</span>
                   </button>
                 </div>
               </motion.div>

@@ -4,9 +4,11 @@ import { AuthProvider } from '@/lib/authContext'
 import { UserDataProvider } from '@/lib/userDataContext'
 import { WalletProvider } from '@/lib/walletContext'
 import { LanguageProvider } from '@/lib/languageContext'
+import { SettingsProvider } from '@/lib/settingsContext'
 import { DevRoleSwitcher } from '@/components/ui/DevRoleSwitcher'
 import { OnboardingModal } from '@/components/onboarding/OnboardingModal'
 import { LanguagePromptModal } from '@/components/ui/LanguagePromptModal'
+import { SmoothScroll } from '@/components/ui/SmoothScroll'
 
 export const metadata: Metadata = {
   title: 'Nexora — Privacy-First Multi-Agent Healthcare Network',
@@ -21,19 +23,24 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <body className="bg-background text-text-primary min-h-screen antialiased selection:bg-portal-orange/20 selection:text-portal-orange">
-        <LanguageProvider>
-          <AuthProvider>
-            <UserDataProvider>
-              <WalletProvider>
-                {children}
-                <OnboardingModal />
-                <DevRoleSwitcher />
-                <LanguagePromptModal />
-              </WalletProvider>
-            </UserDataProvider>
-          </AuthProvider>
-        </LanguageProvider>
+        <SmoothScroll>
+          <SettingsProvider>
+            <LanguageProvider>
+              <AuthProvider>
+                <UserDataProvider>
+                  <WalletProvider>
+                    {children}
+                    <OnboardingModal />
+                    <DevRoleSwitcher />
+                    <LanguagePromptModal />
+                  </WalletProvider>
+                </UserDataProvider>
+              </AuthProvider>
+            </LanguageProvider>
+          </SettingsProvider>
+        </SmoothScroll>
       </body>
     </html>
   )
 }
+
