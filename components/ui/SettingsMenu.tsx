@@ -15,8 +15,6 @@ import {
   Microscope,
   Stethoscope,
   ChevronRight,
-  Shield,
-  Layers,
 } from 'lucide-react'
 import { useLanguage, Language } from '@/lib/languageContext'
 import { useSettings } from '@/lib/settingsContext'
@@ -58,7 +56,7 @@ export function SettingsMenu({ className = '' }: { className?: string }) {
       icon: UserCheck,
       link: '/dashboard',
       badge: 'Patient Enclave',
-      color: 'from-blue-500/20 to-cyan-500/20 text-blue-400 border-blue-500/40',
+      color: 'bg-blue-600/30 text-blue-300 border-blue-400/50',
     },
     {
       id: 'doctor-tushar',
@@ -69,7 +67,7 @@ export function SettingsMenu({ className = '' }: { className?: string }) {
       icon: Stethoscope,
       link: '/hospital-portal/doctor-demo-tushar',
       badge: 'Doctor Queue',
-      color: 'from-amber-500/20 to-orange-500/20 text-amber-400 border-amber-500/40',
+      color: 'bg-amber-600/30 text-amber-300 border-amber-400/50',
     },
     {
       id: 'admin-vance',
@@ -80,7 +78,7 @@ export function SettingsMenu({ className = '' }: { className?: string }) {
       icon: Building2,
       link: '/hospital-portal/ai-training',
       badge: 'Hospital Admin',
-      color: 'from-emerald-500/20 to-teal-500/20 text-emerald-400 border-emerald-500/40',
+      color: 'bg-emerald-600/30 text-emerald-300 border-emerald-400/50',
     },
     {
       id: 'gov-sophia',
@@ -91,7 +89,7 @@ export function SettingsMenu({ className = '' }: { className?: string }) {
       icon: Landmark,
       link: '/gov-portal',
       badge: 'Gov Agency',
-      color: 'from-purple-500/20 to-violet-500/20 text-purple-400 border-purple-500/40',
+      color: 'bg-purple-600/30 text-purple-300 border-purple-400/50',
     },
     {
       id: 'res-patel',
@@ -102,7 +100,7 @@ export function SettingsMenu({ className = '' }: { className?: string }) {
       icon: Microscope,
       link: '/research',
       badge: 'Researcher',
-      color: 'from-teal-500/20 to-emerald-500/20 text-teal-400 border-teal-500/40',
+      color: 'bg-teal-600/30 text-teal-300 border-teal-400/50',
     },
   ]
 
@@ -130,8 +128,8 @@ export function SettingsMenu({ className = '' }: { className?: string }) {
         onClick={() => setIsOpen(!isOpen)}
         className={`group inline-flex items-center gap-1.5 px-3 py-1.5 sm:py-2 rounded-xl text-xs font-mono font-bold transition-all duration-200 border shadow-sm ${
           isOpen
-            ? 'bg-nexora-orange-500/20 border-nexora-orange-500 text-nexora-orange-400 shadow-orange-950/30'
-            : 'bg-[#0F172A]/80 hover:bg-[#1E293B] border-white/15 text-neutral-200 hover:text-white hover:border-nexora-orange-500/40'
+            ? 'bg-nexora-orange-500/30 border-nexora-orange-500 text-nexora-orange-400 shadow-orange-950/40'
+            : 'bg-[#0F172A] hover:bg-[#1E293B] border-white/20 text-neutral-200 hover:text-white hover:border-nexora-orange-500/50'
         }`}
         aria-label="Settings"
         title="Settings, Demo Roles & Language"
@@ -143,27 +141,27 @@ export function SettingsMenu({ className = '' }: { className?: string }) {
         )}
       </button>
 
-      {/* Popover Dropdown Panel */}
+      {/* Popover Dropdown Panel — 100% Solid Fully Opaque Dark Card */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, scale: 0.94, y: 8 }}
+            initial={{ opacity: 0, scale: 0.95, y: 6 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.94, y: 8 }}
-            transition={{ duration: 0.18, ease: 'easeOut' }}
-            className="absolute right-0 mt-2.5 w-[330px] sm:w-[380px] rounded-2xl bg-[#08122B]/98 border border-white/15 shadow-2xl backdrop-blur-2xl p-4 z-50 space-y-3.5 text-white max-h-[85vh] overflow-y-auto scrollbar-thin scrollbar-thumb-white/10"
+            exit={{ opacity: 0, scale: 0.95, y: 6 }}
+            transition={{ duration: 0.16, ease: 'easeOut' }}
+            className="absolute right-0 mt-2.5 w-[330px] sm:w-[380px] rounded-2xl bg-[#091530] border-2 border-white/25 shadow-[0_25px_70px_rgba(0,0,0,0.95)] p-4 z-[9999] space-y-3.5 text-white max-h-[85vh] overflow-y-auto scrollbar-thin scrollbar-thumb-white/20"
           >
             {/* Header */}
-            <div className="flex items-center justify-between border-b border-white/10 pb-3">
+            <div className="flex items-center justify-between border-b border-white/15 pb-3">
               <div className="flex items-center gap-2">
-                <div className="p-1.5 rounded-lg bg-nexora-orange-500/20 text-nexora-orange-400 border border-nexora-orange-500/30">
+                <div className="p-1.5 rounded-lg bg-nexora-orange-500/25 text-nexora-orange-400 border border-nexora-orange-500/40">
                   <Settings className="w-3.5 h-3.5" />
                 </div>
                 <div>
                   <span className="font-display font-black text-xs uppercase tracking-wider text-white block">
                     Settings & Quick Access
                   </span>
-                  <span className="text-[10px] font-mono text-neutral-400 block">
+                  <span className="text-[10px] font-mono text-neutral-300 block">
                     Active: <span className="text-nexora-orange-400 font-bold">{user?.name || 'Guest'}</span>
                   </span>
                 </div>
@@ -171,14 +169,14 @@ export function SettingsMenu({ className = '' }: { className?: string }) {
               <button
                 type="button"
                 onClick={() => setIsOpen(false)}
-                className="p-1 rounded-lg hover:bg-white/10 text-neutral-400 hover:text-white transition-colors"
+                className="p-1 rounded-lg bg-white/5 hover:bg-white/15 text-neutral-300 hover:text-white transition-colors"
               >
                 <X className="w-3.5 h-3.5" />
               </button>
             </div>
 
             {/* Navigation Tabs inside Settings */}
-            <div className="flex rounded-xl bg-white/[0.04] p-1 border border-white/10 text-xs font-mono">
+            <div className="flex rounded-xl bg-[#060D1E] p-1 border border-white/15 text-xs font-mono">
               <button
                 type="button"
                 onClick={() => setActiveTab('personas')}
@@ -208,12 +206,12 @@ export function SettingsMenu({ className = '' }: { className?: string }) {
             {/* TAB 1: DEMO PERSONA 1-CLICK LOGIN SWITCHER */}
             {activeTab === 'personas' && (
               <div className="space-y-2">
-                <div className="flex items-center justify-between text-[11px] font-mono text-neutral-400 px-1">
-                  <span>Switch identity & open dashboard:</span>
-                  <span className="text-emerald-400 font-bold">Zero Setup Required</span>
+                <div className="flex items-center justify-between text-[11px] font-mono text-neutral-300 px-1">
+                  <span>Switch identity & open portal:</span>
+                  <span className="text-emerald-400 font-bold">1-Click Fast Auth</span>
                 </div>
 
-                <div className="space-y-1.5">
+                <div className="space-y-2">
                   {demoPersonas.map((persona) => {
                     const Icon = persona.icon
                     const isCurrent = user?.name?.includes(persona.name) || user?.role === persona.role
@@ -223,14 +221,14 @@ export function SettingsMenu({ className = '' }: { className?: string }) {
                         key={persona.id}
                         type="button"
                         onClick={() => handleSelectPersona(persona)}
-                        className={`w-full text-left p-2.5 sm:p-3 rounded-xl border transition-all flex items-start gap-3 group relative overflow-hidden ${
+                        className={`w-full text-left p-3 rounded-xl border transition-all flex items-start gap-3 group relative shadow-md ${
                           isCurrent
-                            ? 'bg-[#102454] border-nexora-orange-500 shadow-md shadow-orange-950/30'
-                            : 'bg-white/[0.02] border-white/10 hover:border-white/25 hover:bg-white/[0.06]'
+                            ? 'bg-[#122A5E] border-2 border-nexora-orange-500 shadow-orange-950/50'
+                            : 'bg-[#0E1E40] border-white/15 hover:border-white/35 hover:bg-[#132854]'
                         }`}
                       >
                         <div
-                          className={`p-2 rounded-xl border shrink-0 bg-gradient-to-br ${persona.color} group-hover:scale-105 transition-transform`}
+                          className={`p-2 rounded-xl border shrink-0 ${persona.color} group-hover:scale-105 transition-transform`}
                         >
                           <Icon className="w-4 h-4" />
                         </div>
@@ -240,21 +238,21 @@ export function SettingsMenu({ className = '' }: { className?: string }) {
                             <span className="font-display font-bold text-xs text-white truncate group-hover:text-nexora-orange-300 transition-colors">
                               {persona.name}
                             </span>
-                            <span className="px-1.5 py-0.5 rounded text-[9px] font-mono font-bold bg-white/10 text-neutral-300 shrink-0">
+                            <span className="px-1.5 py-0.5 rounded text-[9px] font-mono font-bold bg-[#070E22] text-neutral-300 border border-white/10 shrink-0">
                               {persona.badge}
                             </span>
                           </div>
 
-                          <div className="text-[10px] font-mono text-nexora-orange-400/90 font-medium truncate">
+                          <div className="text-[10px] font-mono text-nexora-orange-400 font-bold truncate">
                             {persona.title}
                           </div>
 
-                          <p className="text-[11px] font-sans text-neutral-400 line-clamp-1 mt-0.5">
+                          <p className="text-[11px] font-sans text-neutral-300 line-clamp-1 mt-0.5">
                             {persona.desc}
                           </p>
                         </div>
 
-                        <ChevronRight className="w-4 h-4 text-neutral-500 group-hover:text-white group-hover:translate-x-0.5 transition-all shrink-0 mt-2" />
+                        <ChevronRight className="w-4 h-4 text-neutral-400 group-hover:text-white group-hover:translate-x-0.5 transition-all shrink-0 mt-2" />
                       </button>
                     )
                   })}
@@ -266,7 +264,7 @@ export function SettingsMenu({ className = '' }: { className?: string }) {
             {activeTab === 'display' && (
               <div className="space-y-3.5 animate-in fade-in duration-150">
                 {/* Hero 3D Background Entity Toggle */}
-                <div className="space-y-2 p-3 rounded-xl bg-white/[0.03] border border-white/10">
+                <div className="space-y-2 p-3.5 rounded-xl bg-[#0E1E40] border border-white/15 shadow-sm">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
                       <Sparkles className="w-3.5 h-3.5 text-nexora-orange-400" />
@@ -291,15 +289,15 @@ export function SettingsMenu({ className = '' }: { className?: string }) {
                     </button>
                   </div>
 
-                  <p className="text-[11px] font-sans text-neutral-400 leading-relaxed">
+                  <p className="text-[11px] font-sans text-neutral-300 leading-relaxed">
                     {hero3DEnabled
                       ? '3D cryptographic particle mesh active behind dot matrix'
                       : 'Disabled for a minimal, clean dot matrix background'}
                   </p>
 
                   <div className="pt-1 flex items-center justify-between text-[10px] font-mono">
-                    <span className="text-neutral-500">Visual Mode:</span>
-                    <span className={`font-bold ${hero3DEnabled ? 'text-nexora-orange-400' : 'text-neutral-400'}`}>
+                    <span className="text-neutral-400">Visual Mode:</span>
+                    <span className={`font-bold ${hero3DEnabled ? 'text-nexora-orange-400' : 'text-neutral-300'}`}>
                       {hero3DEnabled ? 'Interactive 3D Active' : 'Clean Dot Matrix Only'}
                     </span>
                   </div>
@@ -307,7 +305,7 @@ export function SettingsMenu({ className = '' }: { className?: string }) {
 
                 {/* Language Selection */}
                 <div className="space-y-2">
-                  <div className="flex items-center gap-2 text-xs font-sans font-bold text-neutral-300 px-1">
+                  <div className="flex items-center gap-2 text-xs font-sans font-bold text-neutral-200 px-1">
                     <Globe className="w-3.5 h-3.5 text-blue-400" />
                     <span>Select Language</span>
                   </div>
@@ -320,10 +318,10 @@ export function SettingsMenu({ className = '' }: { className?: string }) {
                           key={opt.code}
                           type="button"
                           onClick={() => setLanguage(opt.code)}
-                          className={`w-full text-left px-3 py-2 rounded-xl text-xs font-sans font-medium flex items-center justify-between transition-all border ${
+                          className={`w-full text-left px-3.5 py-2.5 rounded-xl text-xs font-sans font-medium flex items-center justify-between transition-all border ${
                             isSelected
-                              ? 'bg-nexora-orange-500/20 border-nexora-orange-500/60 text-white font-bold shadow-sm'
-                              : 'bg-white/[0.02] border-white/5 text-neutral-300 hover:text-white hover:bg-white/[0.06]'
+                              ? 'bg-nexora-orange-500/25 border-nexora-orange-500 text-white font-bold shadow-md'
+                              : 'bg-[#0E1E40] border-white/15 text-neutral-200 hover:text-white hover:bg-[#132854]'
                           }`}
                         >
                           <div className="flex items-center gap-2">
