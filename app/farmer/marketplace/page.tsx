@@ -12,8 +12,10 @@ import {
   Award,
   Filter,
   X,
-  ArrowRight
+  ArrowRight,
+  CreditCard
 } from 'lucide-react'
+import RazorpayCheckoutModal from '@/components/payments/RazorpayCheckoutModal'
 
 export default function MarketplacePage() {
   const [listings, setListings] = useState([
@@ -63,6 +65,7 @@ export default function MarketplacePage() {
   const [newQty, setNewQty] = useState('')
   const [newPrice, setNewPrice] = useState('')
   const [isOrganic, setIsOrganic] = useState(false)
+  const [checkoutItem, setCheckoutItem] = useState<any>(null)
 
   const handleCreateListing = (e: React.FormEvent) => {
     e.preventDefault()
@@ -172,7 +175,19 @@ export default function MarketplacePage() {
                 <span className="text-xs font-mono text-blue-300/60"> / kg</span>
               </div>
 
-              <span className="text-xs font-mono text-blue-300/80">Baramati, MH</span>
+              <button
+                onClick={() => setCheckoutItem({
+                  id: `ord_${item.id}`,
+                  listingId: item.id,
+                  cropName: item.cropName,
+                  amount: item.pricePerKg * item.minOrderKg,
+                  quantityKg: item.minOrderKg,
+                })}
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-neutral-950 font-bold text-xs transition-all active:scale-95 shadow-md shadow-emerald-500/20"
+              >
+                <CreditCard className="w-3.5 h-3.5" />
+                <span>Buy Lot (₹{(item.pricePerKg * item.minOrderKg).toLocaleString()})</span>
+              </button>
             </div>
           </div>
         ))}
@@ -261,6 +276,23 @@ export default function MarketplacePage() {
             </form>
           </div>
         </div>
+      )}
+
+      {/* Razorpay Checkout Modal */}
+      {checkoutItem && (
+        <RazorpayCheckoutModal
+          isOpen={!!checkoutItem}
+          onClose={() => setCheckoutItem(null)}
+          orderId={checkoutItem.id}
+          orderType="MARKETPLACE_ORDER"
+          title="Crop Produce Lot Purchase"
+          description={`${checkoutItem.cropName} (${checkoutItem.quantityKg} kg)`}
+          displayAmount={checkoutItem.amount}
+          onSuccess={(res) => {
+            alert(`Order Placed Successfully! Payment confirmed for ${checkoutItem.cropName}.`);
+            setCheckoutItem(null);
+          }}
+        />
       )}
 
     </div>

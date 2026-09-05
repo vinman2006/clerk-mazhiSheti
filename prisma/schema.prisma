@@ -27,6 +27,7 @@ model User {
   organizationMembers OrganizationMember[]
   auditLogs           AuditLog[]
   notifications       Notification[]
+  payments            Payment[]
 
   @@index([clerkUserId])
   @@index([role])
@@ -413,6 +414,8 @@ model EquipmentBooking {
   createdAt       DateTime    @default(now())
   updatedAt       DateTime    @updatedAt
 
+  payments        Payment[]
+
   @@index([farmerId, status])
   @@index([equipmentId])
 }
@@ -458,6 +461,8 @@ model MarketplaceOrder {
   status          String             @default("PENDING") // PENDING, CONFIRMED, IN_TRANSIT, DELIVERED, CANCELLED
   orderedAt       DateTime           @default(now())
   updatedAt       DateTime           @updatedAt
+
+  payments        Payment[]
 
   @@index([listingId])
   @@index([buyerUserId])
@@ -575,4 +580,61 @@ model Notification {
   createdAt    DateTime  @default(now())
 
   @@index([userId, read])
+}
+
+// ==============================================================================
+// 14. PRODUCTION RAZORPAY PAYMENT SYSTEM & WEBHOOK IDEMPOTENCY
+// ==============================================================================
+
+model Payment {
+  id                 String            @id @default(cuid())
+  orderId            String            // Business order ID (EquipmentBooking or MarketplaceOrder)
+  orderType          String            @default("EQUIPMENT_BOOKING") // EQUIPMENT_BOOKING, MARKETPLACE_ORDER, SERVICE_ORDER
+  userId             String
+  user               User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  razorpayOrderId    String            @unique
+  razorpayPaymentId  String?           @unique
+  razorpaySignature  String?
+  
+  amount             Float             // Authoritative INR amount (e.g. 6800.0)
+  amountPaise        Int               // Smallest currency unit integer (e.g. 680000)
+  currency           String            @default("INR")
+  status             String            @default("CREATED") // CREATED, AUTHORIZED, CAPTURED, FAILED, CANCELLED, REFUNDED, PARTIALLY_REFUNDED
+  method             String?           // UPI, CARD, NETBANKING, WALLET
+  
+  signatureVerified  Boolean           @default(false)
+  failureReason      String?
+  
+  refundStatus       String            @default("NONE") // NONE, PENDING, REFUNDED, PARTIALLY_REFUNDED
+  refundAmount       Float?            @default(0.0)
+  
+  // Optional direct relations to business orders
+  equipmentBookingId String?
+  equipmentBooking   EquipmentBooking? @relation(fields: [equipmentBookingId], references: [id], onDelete: SetNull)
+  marketplaceOrderId String?
+  marketplaceOrder   MarketplaceOrder? @relation(fields: [marketplaceOrderId], references: [id], onDelete: SetNull)
+  
+  createdAt          DateTime          @default(now())
+  updatedAt          DateTime          @updatedAt
+  paidAt             DateTime?
+
+  @@index([orderId, orderType])
+  @@index([userId])
+  @@index([razorpayOrderId])
+  @@index([razorpayPaymentId])
+  @@index([status])
+}
+
+model RazorpayWebhookEvent {
+  id          String   @id @default(cuid())
+  eventId     String   @unique
+  eventType   String
+  status      String   @default("PROCESSED") // PROCESSED, FAILED, SKIPPED
+  payload     String?  // Sanitized summary/metadata
+  processedAt DateTime @default(now())
+  createdAt   DateTime @default(now())
+
+  @@index([eventId])
+  @@index([eventType])
 }

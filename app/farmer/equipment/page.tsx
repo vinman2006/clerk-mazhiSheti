@@ -12,8 +12,10 @@ import {
   ArrowRight, 
   ShieldCheck,
   Wrench,
-  X
+  X,
+  CreditCard
 } from 'lucide-react'
+import RazorpayCheckoutModal from '@/components/payments/RazorpayCheckoutModal'
 
 export default function EquipmentRentalPage() {
   const [equipmentList] = useState([
@@ -87,6 +89,7 @@ export default function EquipmentRentalPage() {
   const [selectedEquipment, setSelectedEquipment] = useState<any>(null)
   const [hours, setHours] = useState('6')
   const [bookingDate, setBookingDate] = useState('2026-09-08')
+  const [paymentModalBooking, setPaymentModalBooking] = useState<any>(null)
 
   const handleCreateBooking = (e: React.FormEvent) => {
     e.preventDefault()
@@ -143,11 +146,25 @@ export default function EquipmentRentalPage() {
                     <span className="text-white font-bold block">₹{bk.amount.toLocaleString()} ({bk.hours}h)</span>
                     <span className="text-blue-300/60 text-[10px]">Ph: {bk.providerContact}</span>
                   </div>
-                  <span className={`px-2.5 py-1 rounded-full text-[10px] font-bold ${
-                    bk.status === 'ACCEPTED' ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30' : 'bg-orange-500/20 text-orange-400'
-                  }`}>
-                    {bk.status}
-                  </span>
+                  {bk.status === 'ACCEPTED' ? (
+                    <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 flex items-center gap-1">
+                      <CheckCircle2 className="w-3 h-3" />
+                      <span>PAID & CONFIRMED</span>
+                    </span>
+                  ) : (
+                    <div className="flex items-center gap-2">
+                      <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-orange-500/20 text-orange-400">
+                        {bk.status}
+                      </span>
+                      <button
+                        onClick={() => setPaymentModalBooking(bk)}
+                        className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-neutral-950 font-bold text-xs transition-all active:scale-95 shadow-md shadow-emerald-500/20"
+                      >
+                        <CreditCard className="w-3.5 h-3.5" />
+                        <span>Pay with Razorpay</span>
+                      </button>
+                    </div>
+                  )}
                 </div>
               </div>
             ))}
@@ -271,6 +288,27 @@ export default function EquipmentRentalPage() {
             </form>
           </div>
         </div>
+      )}
+
+      {/* Razorpay Checkout Modal */}
+      {paymentModalBooking && (
+        <RazorpayCheckoutModal
+          isOpen={!!paymentModalBooking}
+          onClose={() => setPaymentModalBooking(null)}
+          orderId={paymentModalBooking.id}
+          orderType="EQUIPMENT_BOOKING"
+          title="Tractor & Machinery Rental Payment"
+          description={`${paymentModalBooking.equipment} (${paymentModalBooking.hours} Hours)`}
+          displayAmount={paymentModalBooking.amount}
+          onSuccess={(res) => {
+            setActiveBookings((prev) =>
+              prev.map((b) =>
+                b.id === paymentModalBooking.id ? { ...b, status: 'ACCEPTED', paid: true } : b
+              )
+            );
+            setPaymentModalBooking(null);
+          }}
+        />
       )}
 
     </div>
