@@ -1,18 +1,10 @@
+import { ClerkProvider } from '@clerk/nextjs';
 import type { Metadata } from 'next'
 import './globals.css'
-import { AuthProvider } from '@/lib/authContext'
-import { UserDataProvider } from '@/lib/userDataContext'
-import { WalletProvider } from '@/lib/walletContext'
-import { LanguageProvider } from '@/lib/languageContext'
-import { SettingsProvider } from '@/lib/settingsContext'
-import { DevRoleSwitcher } from '@/components/ui/DevRoleSwitcher'
-import { OnboardingModal } from '@/components/onboarding/OnboardingModal'
-import { LanguagePromptModal } from '@/components/ui/LanguagePromptModal'
-import { SmoothScroll } from '@/components/ui/SmoothScroll'
 
 export const metadata: Metadata = {
-  title: 'Nexora — Privacy-First Multi-Agent Healthcare Network',
-  description: 'Healthcare access, multi-agent AI orchestration, and cryptographic trust infrastructure powered by decentralized identity, zero-knowledge proofs, and federated learning.',
+  title: 'Mazhi Sheti — Smart Agriculture Platform',
+  description: 'Intelligent farming advisory, mandi price trends, and farmer network with modern interactive technology.',
 }
 
 export default function RootLayout({
@@ -22,25 +14,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="dark">
-      <body className="bg-background text-text-primary min-h-screen antialiased selection:bg-portal-orange/20 selection:text-portal-orange">
-        <SmoothScroll>
-          <SettingsProvider>
-            <LanguageProvider>
-              <AuthProvider>
-                <UserDataProvider>
-                  <WalletProvider>
-                    {children}
-                    <OnboardingModal />
-                    <DevRoleSwitcher />
-                    <LanguagePromptModal />
-                  </WalletProvider>
-                </UserDataProvider>
-              </AuthProvider>
-            </LanguageProvider>
-          </SettingsProvider>
-        </SmoothScroll>
+      <body className="bg-[#0B0E17] text-[#F4F6FB] min-h-screen antialiased selection:bg-orange-500/25 selection:text-orange-400 overflow-x-hidden">
+        <ClerkProvider>
+          {children}
+        </ClerkProvider>
       </body>
     </html>
   )
 }
-

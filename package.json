@@ -6,10 +6,16 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
+    "test": "npx tsx scripts/test_security_suite.ts && npx tsx scripts/test_observability_suite.ts",
+    "test:security": "npx tsx scripts/test_security_suite.ts",
+    "test:observability": "npx tsx scripts/test_observability_suite.ts",
+    "seed:mazhi": "npx tsx scripts/seed_mazhi_sheti.ts",
     "seed:demo": "node scripts/seed_demo_tokens.js"
   },
   "dependencies": {
+    "@clerk/nextjs": "^7.9.1",
+    "@prisma/client": "5.22.0",
+    "@sentry/nextjs": "^10.73.0",
     "@types/three": "^0.185.4",
     "clsx": "^2.1.1",
     "firebase": "^12.18.0",
@@ -21,11 +27,14 @@
     "mongodb": "^7.5.0",
     "mongoose": "^9.9.3",
     "next": "^14.2.24",
+    "prisma": "5.22.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "recharts": "^2.15.1",
+    "svix": "^2.3.0",
     "tailwind-merge": "^2.6.0",
-    "three": "^0.185.1"
+    "three": "^0.185.1",
+    "zod": "^4.5.4"
   },
   "devDependencies": {
     "@types/node": "^20.17.19",

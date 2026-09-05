@@ -50,6 +50,15 @@ Thumbs.db
 *.pem
 *.key
 
+# Database
+*.db
+*.db-journal
+*.sqlite
+*.sqlite3
+dev.db
+prisma/*.db
+prisma/*.db-journal
+
 # Compact & ZK local cache
 .compact/
 /build/
