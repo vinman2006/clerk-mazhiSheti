@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { auth, currentUser } from '@clerk/nextjs/server';
 import prisma from '@/lib/db/prisma';
+import { getRolePortalPath, toPrimaryRole } from '@/lib/auth/roles';
 
 export const dynamic = 'force-dynamic';
 
@@ -36,6 +37,7 @@ export async function GET() {
             email: primaryEmail,
             phone: primaryPhone,
             name: fullName,
+            status: 'ACTIVE',
           },
           include: {
             farmerProfile: true,
@@ -57,14 +59,24 @@ export async function GET() {
       }
     }
 
+    if (!dbUser) {
+      return NextResponse.json({ authenticated: false, error: 'User record not found' }, { status: 404 });
+    }
+
+    const primaryRole = toPrimaryRole(dbUser.role);
+    const portalPath = getRolePortalPath(dbUser.role);
+
     return NextResponse.json({
       authenticated: true,
       clerkUserId: userId,
-      email: user?.emailAddresses?.[0]?.emailAddress || dbUser?.email,
-      name: user?.firstName ? `${user.firstName} ${user.lastName || ''}`.trim() : dbUser?.name,
-      role: dbUser?.role || 'FARMER',
-      farmer: dbUser?.farmerProfile,
-      organizations: dbUser?.organizationMembers?.map((m) => ({
+      email: user?.emailAddresses?.[0]?.emailAddress || dbUser.email,
+      name: user?.firstName ? `${user.firstName} ${user.lastName || ''}`.trim() : dbUser.name,
+      role: dbUser.role,
+      primaryRole,
+      status: dbUser.status,
+      portalPath,
+      farmer: dbUser.farmerProfile,
+      organizations: dbUser.organizationMembers?.map((m) => ({
         id: m.organization.id,
         name: m.organization.name,
         role: m.role,
