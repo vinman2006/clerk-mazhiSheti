@@ -6,6 +6,9 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { ArrowRight, Menu, X, LogIn, Settings, Sprout, CloudSun, TrendingUp, ShieldCheck } from 'lucide-react'
 import { FarmerLogo } from '@/components/ui/FarmerLogo'
 import { SignInButton, SignUpButton, Show, UserButton } from '@clerk/nextjs'
+import dynamic from 'next/dynamic'
+
+const NotificationInbox = dynamic(() => import('@/components/ui/NotificationInbox'), { ssr: false })
 
 interface TaskbarProps {
   onSettingsClick?: () => void
@@ -138,6 +141,9 @@ export function Taskbar({ onSettingsClick }: TaskbarProps) {
               <span>Settings</span>
               <span className="w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_8px_#34D399] animate-pulse" />
             </button>
+
+            {/* Novu Notification Inbox */}
+            <NotificationInbox />
 
             {/* Clerk Authentication Controls */}
             <Show when="signed-out">

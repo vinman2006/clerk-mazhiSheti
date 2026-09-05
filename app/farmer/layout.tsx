@@ -22,6 +22,9 @@ import {
 } from 'lucide-react'
 import { FarmerLogo } from '@/components/ui/FarmerLogo'
 import { UserButton } from '@clerk/nextjs'
+import dynamic from 'next/dynamic'
+
+const NotificationInbox = dynamic(() => import('@/components/ui/NotificationInbox'), { ssr: false })
 
 interface FarmerLayoutProps {
   children: React.ReactNode
@@ -77,6 +80,9 @@ export default function FarmerLayout({ children }: FarmerLayoutProps) {
             <ArrowLeft className="w-3.5 h-3.5" />
             <span>Portal Home</span>
           </Link>
+
+          {/* Novu Notification Inbox */}
+          <NotificationInbox />
 
           <UserButton 
             appearance={{
