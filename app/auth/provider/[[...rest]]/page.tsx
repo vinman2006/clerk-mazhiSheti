@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
-import { SignIn, SignUp, useUser, ClerkLoaded, ClerkLoading } from '@clerk/nextjs'
+import { SignIn, SignUp, useUser } from '@clerk/nextjs'
 import { Tractor, ArrowLeft, CheckCircle2, Wrench } from 'lucide-react'
 import { MazhiShetiLogo } from '@/components/ui/MazhiShetiLogo'
 import dynamic from 'next/dynamic'
@@ -99,132 +99,113 @@ export default function ProviderAuthPage() {
           </div>
 
           <div className="flex justify-center w-full min-h-[380px] items-center">
-            {/* Loading state while Clerk initializes */}
-            <ClerkLoading>
-              <div className="w-full max-w-md rounded-2xl bg-[#0F1C3F] border border-orange-500/20 p-8 text-center space-y-4 shadow-xl">
-                <div className="w-9 h-9 border-2 border-orange-400 border-t-transparent rounded-full animate-spin mx-auto" />
-                <p className="text-xs font-mono text-blue-200">Connecting to Clerk Security Enclave...</p>
-                <Link
-                  href="/provider/dashboard"
-                  className="inline-block mt-2 px-3 py-1.5 rounded-lg bg-orange-500/20 text-orange-400 border border-orange-500/30 text-xs font-mono font-bold hover:bg-orange-500/30 transition-colors"
-                >
-                  Direct Sandbox Access →
-                </Link>
+            {isSignedIn && user ? (
+              <div className="w-full max-w-md rounded-2xl bg-[#0F1C3F] border border-orange-500/30 p-6 sm:p-8 shadow-2xl text-center space-y-6 backdrop-blur-xl">
+                <div className="w-16 h-16 mx-auto rounded-2xl bg-orange-500/20 border border-orange-500/30 flex items-center justify-center font-bold text-2xl text-orange-400 shadow-md">
+                  {user.firstName ? user.firstName[0] : '✓'}
+                </div>
+                <div className="space-y-1.5">
+                  <span className="px-2.5 py-0.5 rounded-full bg-orange-500/20 text-orange-300 font-mono text-[10px] font-bold border border-orange-500/30">
+                    CLERK SESSION ACTIVE
+                  </span>
+                  <h2 className="text-xl font-bold text-white">
+                    {user.fullName || user.firstName}
+                  </h2>
+                  <p className="text-xs font-mono text-blue-200/70 truncate">
+                    {user.primaryEmailAddress?.emailAddress}
+                  </p>
+                </div>
+                <div className="space-y-2.5 pt-2">
+                  <Link
+                    href="/provider/dashboard"
+                    className="w-full py-3 rounded-xl bg-orange-600 hover:bg-orange-500 text-white font-sans font-bold text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-2 shadow-lg shadow-orange-950/50"
+                  >
+                    <span>Enter Fleet Dashboard →</span>
+                  </Link>
+                  <Link
+                    href="/auth/select"
+                    className="w-full py-2.5 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] text-blue-200 text-xs font-mono transition-colors block border border-white/10"
+                  >
+                    Switch to Another Role
+                  </Link>
+                </div>
               </div>
-            </ClerkLoading>
-
-            {/* Clerk Loaded Content */}
-            <ClerkLoaded>
-              {isSignedIn && user ? (
-                <div className="w-full max-w-md rounded-2xl bg-[#0F1C3F] border border-orange-500/30 p-6 sm:p-8 shadow-2xl text-center space-y-6 backdrop-blur-xl">
-                  <div className="w-16 h-16 mx-auto rounded-2xl bg-orange-500/20 border border-orange-500/30 flex items-center justify-center font-bold text-2xl text-orange-400 shadow-md">
-                    {user.firstName ? user.firstName[0] : '✓'}
-                  </div>
-                  <div className="space-y-1.5">
-                    <span className="px-2.5 py-0.5 rounded-full bg-orange-500/20 text-orange-300 font-mono text-[10px] font-bold border border-orange-500/30">
-                      CLERK SESSION ACTIVE
-                    </span>
-                    <h2 className="text-xl font-bold text-white">
-                      {user.fullName || user.firstName}
-                    </h2>
-                    <p className="text-xs font-mono text-blue-200/70 truncate">
-                      {user.primaryEmailAddress?.emailAddress}
-                    </p>
-                  </div>
-                  <div className="space-y-2.5 pt-2">
-                    <Link
-                      href="/provider/dashboard"
-                      className="w-full py-3 rounded-xl bg-orange-600 hover:bg-orange-500 text-white font-sans font-bold text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-2 shadow-lg shadow-orange-950/50"
-                    >
-                      <span>Enter Fleet Dashboard →</span>
-                    </Link>
-                    <Link
-                      href="/auth/select"
-                      className="w-full py-2.5 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] text-blue-200 text-xs font-mono transition-colors block border border-white/10"
-                    >
-                      Switch to Another Role
-                    </Link>
-                  </div>
+            ) : (
+              <div className="w-full max-w-md flex flex-col items-center">
+                {/* Mode Tab Switcher */}
+                <div className="w-full grid grid-cols-2 p-1 rounded-xl bg-white/[0.04] border border-white/10 mb-4 text-xs font-semibold">
+                  <button
+                    type="button"
+                    onClick={() => setIsSignUp(false)}
+                    className={`py-2 rounded-lg text-center transition-all ${
+                      !isSignUp
+                        ? 'bg-orange-600 text-white font-bold shadow-md shadow-orange-950/40'
+                        : 'text-neutral-400 hover:text-white'
+                    }`}
+                  >
+                    Sign In
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setIsSignUp(true)}
+                    className={`py-2 rounded-lg text-center transition-all ${
+                      isSignUp
+                        ? 'bg-orange-600 text-white font-bold shadow-md shadow-orange-950/40'
+                        : 'text-neutral-400 hover:text-white'
+                    }`}
+                  >
+                    Create Account
+                  </button>
                 </div>
-              ) : (
-                <div className="w-full max-w-md flex flex-col items-center">
-                  {/* Mode Tab Switcher */}
-                  <div className="w-full grid grid-cols-2 p-1 rounded-xl bg-white/[0.04] border border-white/10 mb-4 text-xs font-semibold">
-                    <button
-                      type="button"
-                      onClick={() => setIsSignUp(false)}
-                      className={`py-2 rounded-lg text-center transition-all ${
-                        !isSignUp
-                          ? 'bg-orange-600 text-white font-bold shadow-md shadow-orange-950/40'
-                          : 'text-neutral-400 hover:text-white'
-                      }`}
-                    >
-                      Sign In
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => setIsSignUp(true)}
-                      className={`py-2 rounded-lg text-center transition-all ${
-                        isSignUp
-                          ? 'bg-orange-600 text-white font-bold shadow-md shadow-orange-950/40'
-                          : 'text-neutral-400 hover:text-white'
-                      }`}
-                    >
-                      Create Account
-                    </button>
-                  </div>
 
-                  {!isSignUp ? (
-                    <SignIn 
-                      routing="hash"
-                      fallbackRedirectUrl="/provider/dashboard"
-                      signUpUrl="/auth/provider?mode=signup"
-                      appearance={{
-                        elements: {
-                          rootBox: 'w-full max-w-md',
-                          card: 'bg-[#0F1C3F] border border-orange-500/20 shadow-2xl text-white rounded-2xl',
-                          headerTitle: 'text-white font-display text-xl',
-                          headerSubtitle: 'text-blue-200/70 text-xs',
-                          socialButtonsBlockButton: 'bg-white/5 border-white/10 text-white hover:bg-white/10',
-                          formFieldLabel: 'text-blue-200 text-xs font-mono',
-                          formFieldInput: 'bg-[#0B152E] border-white/10 text-white focus:border-orange-400',
-                          formButtonPrimary: 'bg-orange-600 hover:bg-orange-500 text-white font-bold text-xs uppercase tracking-wider',
-                          footerActionLink: 'text-orange-400 hover:text-orange-300 font-bold',
-                        }
-                      }}
-                    />
-                  ) : (
-                    <SignUp 
-                      routing="hash"
-                      fallbackRedirectUrl="/provider/dashboard"
-                      signInUrl="/auth/provider?mode=signin"
-                      appearance={{
-                        elements: {
-                          rootBox: 'w-full max-w-md',
-                          card: 'bg-[#0F1C3F] border border-orange-500/20 shadow-2xl text-white rounded-2xl',
-                          headerTitle: 'text-white font-display text-xl',
-                          headerSubtitle: 'text-blue-200/70 text-xs',
-                          socialButtonsBlockButton: 'bg-white/5 border-white/10 text-white hover:bg-white/10',
-                          formFieldLabel: 'text-blue-200 text-xs font-mono',
-                          formFieldInput: 'bg-[#0B152E] border-white/10 text-white focus:border-orange-400',
-                          formButtonPrimary: 'bg-orange-600 hover:bg-orange-500 text-white font-bold text-xs uppercase tracking-wider',
-                          footerActionLink: 'text-orange-400 hover:text-orange-300 font-bold',
-                        }
-                      }}
-                    />
-                  )}
+                {!isSignUp ? (
+                  <SignIn 
+                    routing="hash"
+                    fallbackRedirectUrl="/provider/dashboard"
+                    appearance={{
+                      elements: {
+                        rootBox: 'w-full max-w-md',
+                        card: 'bg-[#0F1C3F] border border-orange-500/20 shadow-2xl text-white rounded-2xl',
+                        headerTitle: 'text-white font-display text-xl',
+                        headerSubtitle: 'text-blue-200/70 text-xs',
+                        socialButtonsBlockButton: 'bg-white/5 border-white/10 text-white hover:bg-white/10',
+                        formFieldLabel: 'text-blue-200 text-xs font-mono',
+                        formFieldInput: 'bg-[#0B152E] border-white/10 text-white focus:border-orange-400',
+                        formButtonPrimary: 'bg-orange-600 hover:bg-orange-500 text-white font-bold text-xs uppercase tracking-wider',
+                        footerActionLink: 'text-orange-400 hover:text-orange-300 font-bold',
+                      }
+                    }}
+                  />
+                ) : (
+                  <SignUp 
+                    routing="hash"
+                    fallbackRedirectUrl="/provider/dashboard"
+                    appearance={{
+                      elements: {
+                        rootBox: 'w-full max-w-md',
+                        card: 'bg-[#0F1C3F] border border-orange-500/20 shadow-2xl text-white rounded-2xl',
+                        headerTitle: 'text-white font-display text-xl',
+                        headerSubtitle: 'text-blue-200/70 text-xs',
+                        socialButtonsBlockButton: 'bg-white/5 border-white/10 text-white hover:bg-white/10',
+                        formFieldLabel: 'text-blue-200 text-xs font-mono',
+                        formFieldInput: 'bg-[#0B152E] border-white/10 text-white focus:border-orange-400',
+                        formButtonPrimary: 'bg-orange-600 hover:bg-orange-500 text-white font-bold text-xs uppercase tracking-wider',
+                        footerActionLink: 'text-orange-400 hover:text-orange-300 font-bold',
+                      }
+                    }}
+                  />
+                )}
 
-                  <div className="pt-4 text-center">
-                    <Link
-                      href="/provider/dashboard"
-                      className="text-xs font-mono text-orange-400/80 hover:text-orange-300 hover:underline"
-                    >
-                      Bypass to Provider Sandbox →
-                    </Link>
-                  </div>
+                <div className="pt-4 text-center">
+                  <Link
+                    href="/provider/dashboard"
+                    className="text-xs font-mono text-orange-400/80 hover:text-orange-300 hover:underline"
+                  >
+                    Bypass to Provider Sandbox →
+                  </Link>
                 </div>
-              )}
-            </ClerkLoaded>
+              </div>
+            )}
           </div>
 
         </div>
