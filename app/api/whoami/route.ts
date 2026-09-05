@@ -1,19 +1,42 @@
-import { NextRequest, NextResponse } from 'next/server'
-import { verifyRequest } from '@/lib/auth/verifyRequest'
+import { NextResponse } from 'next/server';
+import { auth, currentUser } from '@clerk/nextjs/server';
+import prisma from '@/lib/db/prisma';
 
-export const dynamic = 'force-dynamic'
+export const dynamic = 'force-dynamic';
 
-export async function GET(req: NextRequest) {
+export async function GET() {
   try {
-    const authUser = await verifyRequest(req)
+    const { userId } = await auth();
+
+    if (!userId) {
+      return NextResponse.json({ authenticated: false, error: 'Unauthorized' }, { status: 401 });
+    }
+
+    const user = await currentUser();
+    const dbUser = await prisma.user.findUnique({
+      where: { clerkUserId: userId },
+      include: {
+        farmerProfile: true,
+        organizationMembers: {
+          include: { organization: true },
+        },
+      },
+    });
+
     return NextResponse.json({
       authenticated: true,
-      uid: authUser.uid,
-      email: authUser.email,
-      name: authUser.name
-    })
+      clerkUserId: userId,
+      email: user?.emailAddresses?.[0]?.emailAddress || dbUser?.email,
+      name: user?.firstName ? `${user.firstName} ${user.lastName || ''}`.trim() : dbUser?.name,
+      role: dbUser?.role || 'FARMER',
+      farmer: dbUser?.farmerProfile,
+      organizations: dbUser?.organizationMembers?.map((m) => ({
+        id: m.organization.id,
+        name: m.organization.name,
+        role: m.role,
+      })) || [],
+    });
   } catch (err: any) {
-    if (err instanceof Response) return err
-    return NextResponse.json({ error: err.message || 'Unauthorized' }, { status: 401 })
+    return NextResponse.json({ error: err.message || 'Internal Server Error' }, { status: 500 });
   }
 }
