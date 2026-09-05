@@ -27,7 +27,7 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* Col 1: Brand & Sovereign Seal */}
           <div className="space-y-3">
-            <MazhiShetiLogo size={36} showText={true} showBadge={true} subtitle="SOVEREIGN AGRI PLATFORM" />
+            <MazhiShetiLogo size={36} showText={true} showBadge={false} subtitle="SOVEREIGN AGRI PLATFORM" />
             <p className="font-sans text-xs text-slate-300 leading-relaxed">
               Intelligent farming telemetry, verified crop advisory, and institutional credit collaboration built for Indian agriculture.
             </p>

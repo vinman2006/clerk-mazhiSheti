@@ -10,7 +10,7 @@ export function PortalHeader() {
     <div className="bg-[#0B152E]/90 text-white h-20 sm:h-[90px] px-4 sm:px-8 flex items-center justify-between border-b border-white/10 shadow-sm backdrop-blur-md">
       {/* Left: Master Mazhi Sheti Brand */}
       <Link href="/" className="group">
-        <MazhiShetiLogo size={42} showText={true} showBadge={true} subtitle="Sovereign Agriculture Platform" />
+        <MazhiShetiLogo size={42} showText={true} showBadge={false} subtitle="Sovereign Agriculture Platform" />
       </Link>
 
       {/* Right: Partner / Standard Verification Badges */}

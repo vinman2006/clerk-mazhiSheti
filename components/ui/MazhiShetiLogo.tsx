@@ -104,7 +104,7 @@ export function MazhiShetiLogo({
   variant = 'wordmark',
   theme = 'dark',
   showText = true,
-  showBadge = true,
+  showBadge = false,
   roleLabel,
   subtitle,
 }: MazhiShetiLogoProps) {

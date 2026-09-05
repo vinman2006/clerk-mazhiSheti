@@ -111,7 +111,7 @@ export default function AuthSelectPage() {
       {/* Top Header */}
       <header className="relative z-10 py-6 px-6 sm:px-12 border-b border-white/10 bg-[#0B1736]/70 backdrop-blur-xl flex items-center justify-between">
         <Link href="/" className="flex items-center gap-3">
-          <MazhiShetiLogo size={36} showText={true} showBadge={true} subtitle="SOVEREIGN AGRI PLATFORM" />
+          <MazhiShetiLogo size={36} showText={true} showBadge={false} subtitle="SOVEREIGN AGRI PLATFORM" />
         </Link>
 
         <div className="flex items-center gap-3 text-xs font-mono text-blue-200">

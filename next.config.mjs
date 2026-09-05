@@ -18,6 +18,11 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: false,
   },
+  env: {
+    NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY:
+      process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY ||
+      'pk_test_cmVzdGVkLXN0dXJnZW9uLTg3MjQuY2xlcmsuYWNjb3VudHMuZGV2JA',
+  },
 };
 
 const sentryWebpackPluginOptions = {

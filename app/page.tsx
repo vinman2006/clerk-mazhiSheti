@@ -256,7 +256,7 @@ export default function HomePage() {
               <MazhiShetiLogo
                 size={38}
                 showText={true}
-                showBadge={true}
+                showBadge={false}
                 subtitle="SOVEREIGN AGRI PLATFORM"
                 className="bg-[#0A1735]/80 px-4 py-2 rounded-2xl border border-white/10 backdrop-blur-md shadow-lg"
               />
@@ -670,7 +670,7 @@ export default function HomePage() {
         <footer className="bg-[#050811] border-t border-white/10 py-12 text-xs font-mono text-slate-500">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-6">
             <div className="flex items-center gap-3">
-              <MazhiShetiLogo size={32} showText={true} showBadge={true} subtitle="SOVEREIGN AGRI PLATFORM" />
+              <MazhiShetiLogo size={32} showText={true} showBadge={false} subtitle="SOVEREIGN AGRI PLATFORM" />
             </div>
 
             <div className="flex flex-wrap items-center gap-6">

@@ -108,8 +108,8 @@ export function Taskbar({ onSettingsClick }: TaskbarProps) {
         >
           <div className="flex items-center justify-between">
             {/* Master Mazhi Sheti Brand Logo */}
-            <Link href="/" className="group shrink-0 relative z-10 flex items-center">
-              <MazhiShetiLogo size={34} showText={true} showBadge={true} subtitle="SOVEREIGN AGRI PLATFORM" />
+            <Link href="/" className="group shrink-0 relative z-10 flex items-center" aria-label="Mazhi Sheti Home">
+              <MazhiShetiLogo size={32} showText={true} showBadge={false} />
             </Link>
 
             {/* Desktop Navigation Links with Smooth Animated Pill */}

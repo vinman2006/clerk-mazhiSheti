@@ -1,8 +1,8 @@
 'use client'
 
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
-import { SignIn, useUser, ClerkLoaded, ClerkLoading } from '@clerk/nextjs'
+import { SignIn, SignUp, useUser, ClerkLoaded, ClerkLoading } from '@clerk/nextjs'
 import { Sprout, ShieldCheck, ArrowLeft, CheckCircle2, Smartphone } from 'lucide-react'
 import { MazhiShetiLogo } from '@/components/ui/MazhiShetiLogo'
 import dynamic from 'next/dynamic'
@@ -11,6 +11,18 @@ const DotGrid = dynamic(() => import('@/components/ui/DotGrid'), { ssr: false })
 
 export default function FarmerAuthPage() {
   const { user, isSignedIn } = useUser()
+  const [isSignUp, setIsSignUp] = useState(false)
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search)
+      if (params.get('mode') === 'signup' || window.location.hash.includes('sign-up')) {
+        setIsSignUp(true)
+      } else if (params.get('mode') === 'signin') {
+        setIsSignUp(false)
+      }
+    }
+  }, [])
 
   return (
     <div className="min-h-screen bg-[#0A0F1E] text-slate-100 flex flex-col relative overflow-hidden selection:bg-orange-500/25 selection:text-orange-400">
@@ -27,7 +39,7 @@ export default function FarmerAuthPage() {
 
       <header className="relative z-10 py-5 px-6 sm:px-12 border-b border-white/10 bg-[#0B1736]/70 backdrop-blur-xl flex items-center justify-between">
         <Link href="/" className="flex items-center gap-3">
-          <MazhiShetiLogo size={36} showText={true} showBadge={true} roleLabel="Farmer" subtitle="SOVEREIGN AGRI PLATFORM" />
+          <MazhiShetiLogo size={36} showText={true} showBadge={false} roleLabel="Farmer" subtitle="SOVEREIGN AGRI PLATFORM" />
         </Link>
 
         <Link
@@ -136,25 +148,72 @@ export default function FarmerAuthPage() {
                 </div>
               ) : (
                 <div className="w-full max-w-md flex flex-col items-center">
-                  <SignIn 
-                    path="/auth/farmer"
-                    routing="path"
-                    fallbackRedirectUrl="/farmer/dashboard"
-                    signUpUrl="/auth/farmer"
-                    appearance={{
-                      elements: {
-                        rootBox: 'w-full max-w-md',
-                        card: 'bg-[#0F1C3F] border border-white/10 shadow-2xl text-white rounded-2xl',
-                        headerTitle: 'text-white font-display text-xl',
-                        headerSubtitle: 'text-blue-200/70 text-xs',
-                        socialButtonsBlockButton: 'bg-white/5 border-white/10 text-white hover:bg-white/10',
-                        formFieldLabel: 'text-blue-200 text-xs font-mono',
-                        formFieldInput: 'bg-[#0B152E] border-white/10 text-white focus:border-emerald-400',
-                        formButtonPrimary: 'bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs uppercase tracking-wider',
-                        footerActionLink: 'text-emerald-400 hover:text-emerald-300 font-bold',
-                      }
-                    }}
-                  />
+                  {/* Mode Tab Switcher */}
+                  <div className="w-full grid grid-cols-2 p-1 rounded-xl bg-white/[0.04] border border-white/10 mb-4 text-xs font-semibold">
+                    <button
+                      type="button"
+                      onClick={() => setIsSignUp(false)}
+                      className={`py-2 rounded-lg text-center transition-all ${
+                        !isSignUp
+                          ? 'bg-emerald-600 text-white font-bold shadow-md shadow-emerald-950/40'
+                          : 'text-neutral-400 hover:text-white'
+                      }`}
+                    >
+                      Sign In
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setIsSignUp(true)}
+                      className={`py-2 rounded-lg text-center transition-all ${
+                        isSignUp
+                          ? 'bg-emerald-600 text-white font-bold shadow-md shadow-emerald-950/40'
+                          : 'text-neutral-400 hover:text-white'
+                      }`}
+                    >
+                      Create Account
+                    </button>
+                  </div>
+
+                  {!isSignUp ? (
+                    <SignIn 
+                      routing="hash"
+                      fallbackRedirectUrl="/farmer/dashboard"
+                      signUpUrl="/auth/farmer?mode=signup"
+                      appearance={{
+                        elements: {
+                          rootBox: 'w-full max-w-md',
+                          card: 'bg-[#0F1C3F] border border-white/10 shadow-2xl text-white rounded-2xl',
+                          headerTitle: 'text-white font-display text-xl',
+                          headerSubtitle: 'text-blue-200/70 text-xs',
+                          socialButtonsBlockButton: 'bg-white/5 border-white/10 text-white hover:bg-white/10',
+                          formFieldLabel: 'text-blue-200 text-xs font-mono',
+                          formFieldInput: 'bg-[#0B152E] border-white/10 text-white focus:border-emerald-400',
+                          formButtonPrimary: 'bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs uppercase tracking-wider',
+                          footerActionLink: 'text-emerald-400 hover:text-emerald-300 font-bold',
+                        }
+                      }}
+                    />
+                  ) : (
+                    <SignUp 
+                      routing="hash"
+                      fallbackRedirectUrl="/farmer/dashboard"
+                      signInUrl="/auth/farmer?mode=signin"
+                      appearance={{
+                        elements: {
+                          rootBox: 'w-full max-w-md',
+                          card: 'bg-[#0F1C3F] border border-white/10 shadow-2xl text-white rounded-2xl',
+                          headerTitle: 'text-white font-display text-xl',
+                          headerSubtitle: 'text-blue-200/70 text-xs',
+                          socialButtonsBlockButton: 'bg-white/5 border-white/10 text-white hover:bg-white/10',
+                          formFieldLabel: 'text-blue-200 text-xs font-mono',
+                          formFieldInput: 'bg-[#0B152E] border-white/10 text-white focus:border-emerald-400',
+                          formButtonPrimary: 'bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs uppercase tracking-wider',
+                          footerActionLink: 'text-emerald-400 hover:text-emerald-300 font-bold',
+                        }
+                      }}
+                    />
+                  )}
+
                   <div className="pt-4 text-center">
                     <Link
                       href="/farmer/dashboard"
