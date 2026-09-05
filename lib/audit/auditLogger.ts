@@ -33,8 +33,23 @@ export async function createAuditLog(entry: AuditLogEntry): Promise<void> {
   const sanitizedMeta = entry.metadata ? sanitizeLogData(entry.metadata) : undefined;
   const sanitizedDetails = entry.details ? sanitizeLogData(entry.details) : undefined;
 
+  // 2. Dispatch sanitized audit log stream to Better Stack
+  logger.info(`AUDIT: ${entry.action}`, {
+    auditAction: entry.action,
+    actorId: entry.actorId,
+    actorRole: entry.actorRole,
+    actorName: entry.actorName,
+    actorOrganizationId: entry.actorOrganizationId,
+    resource: entry.resource,
+    resourceId: entry.resourceId,
+    purpose: entry.purpose,
+    details: sanitizedDetails,
+    ipAddress: entry.ipAddress,
+    category: 'AUDIT_TRAIL',
+  });
+
   try {
-    // 2. Persist to authoritative database
+    // 3. Persist to authoritative database
     await prisma.auditLog.create({
       data: {
         actorId: entry.actorId,
@@ -53,23 +68,8 @@ export async function createAuditLog(entry: AuditLogEntry): Promise<void> {
         metadata: sanitizedMeta ? JSON.stringify(sanitizedMeta) : undefined,
       },
     });
-
-    // 3. Send sanitized audit log stream to Better Stack
-    logger.info(`AUDIT: ${entry.action}`, {
-      auditAction: entry.action,
-      actorId: entry.actorId,
-      actorRole: entry.actorRole,
-      actorName: entry.actorName,
-      actorOrganizationId: entry.actorOrganizationId,
-      resource: entry.resource,
-      resourceId: entry.resourceId,
-      purpose: entry.purpose,
-      details: sanitizedDetails,
-      ipAddress: entry.ipAddress,
-      category: 'AUDIT_TRAIL',
-    });
   } catch (error: any) {
-    // Never crash the primary business transaction if audit writing fails, but log severe error
+    // Never crash the primary business transaction if database writing fails, but log error
     logger.error('Failed to write authoritative audit log to database', {
       action: entry.action,
       resource: entry.resource,

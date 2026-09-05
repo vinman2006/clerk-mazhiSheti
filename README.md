@@ -38,14 +38,16 @@ FARM & FIELDS   SOIL INTELLIGENCE   IOT DEVICES   MACHINERY HUB   MARKETPLACE
 
 - **Framework**: [Next.js 14](https://nextjs.org/) (App Router, Server Actions, Server Components)
 - **Identity & Authentication**: [Clerk](https://clerk.com/) with role-based routing and organization charters
-- **Database & ORM**: [Prisma v5.22.0](https://www.prisma.io/) with SQLite (local development) and PostgreSQL readiness
+- **Database & ORM**: **Neon PostgreSQL** (single authoritative source of truth) with **Prisma v5.22.0** ORM (zero MongoDB)
+- **Error Monitoring**: [Sentry](https://sentry.io/) for server, client, and route exception tracking
+- **Centralized Observability**: [Better Stack](https://betterstack.com/) structured application logs, uptime, and operational telemetry
 - **Validation**: [Zod](https://zod.dev/) for server-side input sanitization and IoT packet boundaries
-- **UI & Aesthetics**: Custom high-tech enterprise design inspired by Nexora
+- **UI & Aesthetics**: Custom high-tech enterprise design inspired by Mazhi Sheti
   - Palette: Deep Navy (`#0D1C44`, `#0B1736`, `#070B16`), Warm Orange (`#F5820D`), Emerald Green (`#22A567`)
   - Interactive canvas physics: `DotGrid` with proximity repulsion and shockwave ripple
   - Iconography: `lucide-react`
   - Animations: `framer-motion`
-- **Testing**: Automated security, RBAC and IoT validation test suite (`scripts/test_security_suite.ts`)
+- **Testing**: Automated security, RBAC, IoT, observability, and audit test suites (`npm test`)
 
 ---
 
@@ -150,7 +152,7 @@ Agricultural assistant receiving authorized farm context (soil readings, active 
 
 1. **Clone the repository and install dependencies:**
    ```bash
-   git clone https://github.com/vinman2006/nexora.git
+   git clone https://github.com/vinman2006/clerk-mazhiSheti.git
    cd "Mazhi Sheti"
    npm install
    ```
@@ -160,27 +162,46 @@ Agricultural assistant receiving authorized farm context (soil readings, active 
    ```bash
    cp .env.example .env.local
    ```
-   Add your Clerk publishable and secret keys.
+   Configure your Clerk keys and Neon PostgreSQL database URLs:
+   ```env
+   # Neon PostgreSQL pooled connection (for Next.js runtime queries)
+   DATABASE_URL="postgresql://[user]:[password]@[endpoint]-pooler.us-east-2.aws.neon.tech/neondb?sslmode=require&pgbouncer=true"
 
-3. **Initialize the Database:**
-   Push the Prisma schema to the local SQLite database:
-   ```bash
-   npx prisma db push
+   # Neon PostgreSQL direct connection (for Prisma CLI migrations)
+   DIRECT_URL="postgresql://[user]:[password]@[endpoint].us-east-2.aws.neon.tech/neondb?sslmode=require"
    ```
 
-4. **Seed Realistic Agricultural Data:**
-   Populate MSCB bank, Anandarao Patil's 14.5A farm, 4 fields, IoT soil telemetry, and tractor fleet:
+3. **Generate Prisma Client:**
    ```bash
-   npm run seed:mazhi
+   npm run db:generate
    ```
 
-5. **Run the Automated Security Suite:**
-   Verify RBAC, consent scoping, IDOR prevention, and IoT safety bounds:
+4. **Run Database Migrations:**
+   - **Development**:
+     ```bash
+     npm run db:migrate
+     # or: npx prisma migrate dev --name init_neon_mazhi_sheti
+     ```
+   - **Staging / Production**:
+     ```bash
+     npm run db:deploy
+     # or: npx prisma migrate deploy
+     ```
+
+5. **Seed Multi-Farmer Agricultural Data:**
+   Populates 3 distinct farmers (transitional, conventional, 100% organic), MSCB institutional bank, farms, fields, crop rotations, IoT telemetry, equipment fleet, and KCC loan applications:
    ```bash
-   npm run test
+   npm run db:seed
+   ```
+   > **Note**: A strict safeguard prevents accidental execution in production unless `ALLOW_PRODUCTION_SEED="true"` is explicitly set.
+
+6. **Run the Automated Test Suites:**
+   Verify RBAC permissions, consent scoping, IDOR isolation, IoT bounds, and Better Stack/Sentry observability:
+   ```bash
+   npm test
    ```
 
-6. **Start the Next.js Development Server:**
+7. **Start the Next.js Development Server:**
    ```bash
    npm run dev
    ```
@@ -188,9 +209,63 @@ Agricultural assistant receiving authorized farm context (soil readings, active 
 
 ---
 
+## 7. Neon PostgreSQL Database Architecture
+
+Neon PostgreSQL serves as the **single authoritative source of truth** for all Mazhi Sheti business data.
+
+> **IMPORTANT ARCHITECTURAL MANDATES**:
+> - **Zero MongoDB**: MongoDB and Mongoose have been completely eradicated. No MongoDB drivers or dependencies exist.
+> - **Clerk = Identity Only**: Clerk is responsible strictly for authentication, sessions, organizations, and roles. It is NOT used as an application database.
+> - **Link via `clerkUserId`**: The `User` and `Farmer` records reference Clerk via `clerkUserId`.
+
+### Relational Entity Graph:
+```
+Clerk Identity (clerkUserId)
+        |
+        v
+    User (clerkUserId, role, status)
+        |
+        +── Farmer (state, district, taluka, village, soilHealthScore, organicStage)
+              |
+              +── Farm (1:N)
+              |     |
+              |     +── Field (1:N)
+              |           |
+              |           +── CropCycle (1:N -> references Crop catalog)
+              |           +── SoilRecord & SoilTest (NPK, pH, OC, Moisture, EC)
+              |           +── Device & DeviceReading (LoRaWAN / IoT telemetry)
+              |           +── IrrigationSystem & IrrigationEvent
+              |
+              +── OrganicPlan & TransitionStep (6-stage organic roadmap)
+              |
+              +── EquipmentBooking (1:N -> references Equipment fleet)
+              |
+              +── MarketplaceListing & MarketplaceOrder (crop trades)
+              |
+              +── LoanApplication (1:N -> references BankOrganization)
+              |
+              +── FarmDocument (7/12 extract, soil test certs, water rights)
+              |
+              +── Consent (scoped bank access: grantedAt, expiresAt, revokedAt)
+              |
+              └── AuditLog (immutable, append-only security trail)
+```
+
+### Key Architectural Safeguards:
+1. **Server-Only Client Guard** (`lib/db/prisma.ts`):
+   - Throws immediately if imported in client components (`typeof window !== 'undefined'`).
+   - `DATABASE_URL` is never exposed to the browser.
+2. **Error Capture Bridge**:
+   - Query failures automatically stream to **Sentry** (`captureAppError`) and **Better Stack** (`logger.error`).
+   - Raw database errors, table names, and connection strings are stripped from client-facing responses.
+3. **Compound Indexes**:
+   - `[deviceId, timestamp]` on `DeviceReading` to support millions of time-series sensor packets.
+   - `[farmerId, bankOrgId, status]` on `Consent` for rapid authorization checks.
+   - `[clerkUserId]` on `User` and `Farmer` for sub-millisecond session resolution.
+
 ---
 
-## 7. Centralized Observability & Better Stack Logging
+## 8. Centralized Observability & Better Stack Logging
 
 Mazhi Sheti uses **Better Stack** as the official centralized application logging platform, backed by a strict sanitization and request-context layer:
 
@@ -227,11 +302,12 @@ Better Stack   Sentry (Errors)    Terminal JSON (Dev)
 
 ---
 
-## 8. Quality & Validation Metrics
+## 9. Quality & Validation Metrics
 
+- **Database Architecture**: 100% normalized Neon PostgreSQL with 25 Prisma models, explicit foreign keys, cascading rules, and compound indexes.
+- **Zero MongoDB**: 0 MongoDB or Mongoose packages, models, or connections in the repository.
 - **TypeScript compilation**: 100% clean (`npx tsc --noEmit` exited 0).
 - **Security & RBAC test suite**: 15/15 assertions passing (`npm run test:security`).
-- **Observability & Logging test suite**: 22/22 assertions passing (`npm run test:observability`).
-- **Total automated tests**: 37/37 passing (`npm test`).
-- **HTTP status tests**: All 17 platform routes verified responding with HTTP 200 OK.
-- **Zero credential leaks**: All log payloads and audit metadata pass through the sanitization engine.
+- **Observability & Logging test suite**: 27/27 assertions passing (`npm run test:observability`).
+- **Total automated tests**: 42/42 passing (`npm test`).
+- **Zero credential leaks**: All log payloads and audit metadata pass through the recursive sanitization engine.

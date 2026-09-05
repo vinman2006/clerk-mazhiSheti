@@ -1,16 +1,21 @@
 datasource db {
-  provider = "sqlite"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 generator client {
   provider = "prisma-client-js"
 }
 
+// ==============================================================================
+// 1. IDENTITY & USER PROFILES (CLERK LINKED VIA clerkUserId)
+// ==============================================================================
+
 model User {
   id            String    @id @default(cuid())
   clerkUserId   String    @unique
-  role          String    @default("FARMER") // FARMER, BANK_LOAN_OFFICER, BANK_ADMIN, PROVIDER_OWNER, AGRICULTURE_EXPERT, ADMIN
+  role          String    @default("FARMER") // FARMER, BANK_LOAN_OFFICER, BANK_ADMIN, PROVIDER_OWNER, AGRICULTURE_EXPERT, ADMIN, SUPER_ADMIN
   name          String?
   email         String?   @unique
   phone         String?   @unique
@@ -18,9 +23,13 @@ model User {
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
 
-  farmerProfile Farmer?
-  auditLogs     AuditLog[]
-  notifications Notification[]
+  farmerProfile       Farmer?
+  organizationMembers OrganizationMember[]
+  auditLogs           AuditLog[]
+  notifications       Notification[]
+
+  @@index([clerkUserId])
+  @@index([role])
 }
 
 model Farmer {
@@ -58,13 +67,60 @@ model Farmer {
   createdAt          DateTime  @default(now())
   updatedAt          DateTime  @updatedAt
 
-  farms              Farm[]
-  organicPlans       OrganicPlan[]
-  consents           Consent[]
-  loanApplications   LoanApplication[]
-  equipmentBookings  EquipmentBooking[]
+  farms               Farm[]
+  documents           FarmDocument[]
+  organicPlans        OrganicPlan[]
+  consents            Consent[]
+  loanApplications    LoanApplication[]
+  equipmentBookings   EquipmentBooking[]
   marketplaceListings MarketplaceListing[]
+
+  @@index([clerkUserId])
+  @@index([phone])
+  @@index([district, taluka])
 }
+
+// ==============================================================================
+// 2. INSTITUTIONAL ORGANIZATIONS (BANKS, FLEETS, COOPERATIVES)
+// ==============================================================================
+
+model BankOrganization {
+  id                String            @id @default(cuid())
+  name              String
+  institutionType   String            @default("COOPERATIVE_BANK") // COOPERATIVE_BANK, PUBLIC_SECTOR_BANK, RRB, NBFC
+  branchName        String
+  registrationNo    String            @unique
+  officialEmail     String
+  phone             String
+  status            String            @default("VERIFIED") // PENDING_VERIFICATION, VERIFIED, SUSPENDED
+  createdAt         DateTime          @default(now())
+
+  members           OrganizationMember[]
+  loans             LoanApplication[]
+  consents          Consent[]
+
+  @@index([status])
+  @@index([registrationNo])
+}
+
+model OrganizationMember {
+  id             String           @id @default(cuid())
+  organizationId String
+  organization   BankOrganization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  userId         String
+  user           User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  role           String           @default("BANK_LOAN_OFFICER") // BANK_ADMIN, BANK_LOAN_OFFICER, BANK_VERIFICATION_OFFICER, BANK_MANAGER
+  status         String           @default("ACTIVE") // ACTIVE, SUSPENDED
+  joinedAt       DateTime         @default(now())
+
+  @@unique([organizationId, userId])
+  @@index([userId])
+  @@index([organizationId])
+}
+
+// ==============================================================================
+// 3. FARM & FIELD SPATIAL HIERARCHY
+// ==============================================================================
 
 model Farm {
   id              String    @id @default(cuid())
@@ -79,9 +135,12 @@ model Farm {
   createdAt       DateTime  @default(now())
   updatedAt       DateTime  @updatedAt
 
-  fields          Field[]
-  devices         Device[]
+  fields            Field[]
+  documents         FarmDocument[]
+  devices           Device[]
   irrigationSystems IrrigationSystem[]
+
+  @@index([farmerId])
 }
 
 model Field {
@@ -101,11 +160,57 @@ model Field {
   createdAt           DateTime  @default(now())
   updatedAt           DateTime  @updatedAt
 
+  cropCycles          CropCycle[]
   soilRecords         SoilRecord[]
   soilTests           SoilTest[]
   devices             Device[]
   irrigationEvents    IrrigationEvent[]
+
+  @@index([farmId])
 }
+
+// ==============================================================================
+// 4. CROPS & CROPPING CYCLES
+// ==============================================================================
+
+model Crop {
+  id                  String    @id @default(cuid())
+  name                String    @unique // Sugarcane (ऊस), Soybean (सोयाबीन), etc.
+  scientificName      String?
+  season              String    @default("KHARIF") // KHARIF, RABI, ZAID, PERENNIAL
+  defaultDurationDays Int       @default(120)
+  waterRequirement    String    @default("MEDIUM") // LOW, MEDIUM, HIGH
+  createdAt           DateTime  @default(now())
+
+  cycles              CropCycle[]
+
+  @@index([season])
+}
+
+model CropCycle {
+  id                  String    @id @default(cuid())
+  fieldId             String
+  field               Field     @relation(fields: [fieldId], references: [id], onDelete: Cascade)
+  cropId              String
+  crop                Crop      @relation(fields: [cropId], references: [id], onDelete: Restrict)
+  variety             String?
+  sowingDate          DateTime  @default(now())
+  expectedHarvestDate DateTime?
+  actualHarvestDate   DateTime?
+  targetYieldKg       Float?
+  actualYieldKg       Float?
+  farmingMethod       String    @default("CONVENTIONAL") // CONVENTIONAL, TRANSITIONAL, ORGANIC, NO_TILL
+  status              String    @default("SOWN") // SOWN, VEGETATIVE, FLOWERING, HARVEST_READY, HARVESTED, FAILED
+  createdAt           DateTime  @default(now())
+  updatedAt           DateTime  @updatedAt
+
+  @@index([fieldId, status])
+  @@index([cropId])
+}
+
+// ==============================================================================
+// 5. PRECISION SOIL HEALTH & LABORATORY ASSAYS
+// ==============================================================================
 
 model SoilRecord {
   id                     String    @id @default(cuid())
@@ -125,6 +230,8 @@ model SoilRecord {
   healthScore            Float     @default(74.0) // 0 - 100
   trend                  String    @default("IMPROVING") // IMPROVING, STABLE, DEGRADED
   recommendation         String?
+
+  @@index([fieldId, recordedAt])
 }
 
 model SoilTest {
@@ -143,7 +250,14 @@ model SoilTest {
   organicCarbon          Float
   micronutrients         String?
   createdAt              DateTime  @default(now())
+
+  @@index([fieldId])
+  @@index([sampleId])
 }
+
+// ==============================================================================
+// 6. SMART IOT TELEMETRY & AUTOMATED IRRIGATION
+// ==============================================================================
 
 model Device {
   id                String    @id @default(cuid())
@@ -162,6 +276,11 @@ model Device {
 
   readings          DeviceReading[]
   irrigationSystems IrrigationSystem[]
+
+  @@index([deviceCode])
+  @@index([farmId])
+  @@index([fieldId])
+  @@index([status])
 }
 
 model DeviceReading {
@@ -175,6 +294,8 @@ model DeviceReading {
   ph          Float?
   battery     Float?
   rawPayload  String?
+
+  @@index([deviceId, timestamp])
 }
 
 model IrrigationSystem {
@@ -194,6 +315,9 @@ model IrrigationSystem {
   createdAt            DateTime  @default(now())
 
   events               IrrigationEvent[]
+
+  @@index([farmId])
+  @@index([deviceId])
 }
 
 model IrrigationEvent {
@@ -209,7 +333,13 @@ model IrrigationEvent {
   waterVolumeLiters  Float             @default(0.0)
   status             String            @default("COMPLETED") // IN_PROGRESS, COMPLETED, EMERGENCY_ABORTED
   notes              String?
+
+  @@index([systemId, startTime])
 }
+
+// ==============================================================================
+// 7. ORGANIC TRANSITION ROADMAP (6-STAGE BIOLOGICAL PROGRESSION)
+// ==============================================================================
 
 model OrganicPlan {
   id                String            @id @default(cuid())
@@ -223,6 +353,8 @@ model OrganicPlan {
   updatedAt         DateTime          @updatedAt
 
   steps             TransitionStep[]
+
+  @@index([farmerId])
 }
 
 model TransitionStep {
@@ -236,7 +368,13 @@ model TransitionStep {
   targetDate     DateTime?
   completedDate  DateTime?
   evidenceNotes  String?
+
+  @@index([planId, stageNumber])
 }
+
+// ==============================================================================
+// 8. TRACTOR & AGRICULTURAL MACHINERY RENTAL
+// ==============================================================================
 
 model Equipment {
   id              String             @id @default(cuid())
@@ -254,6 +392,9 @@ model Equipment {
   createdAt       DateTime           @default(now())
 
   bookings        EquipmentBooking[]
+
+  @@index([category, status])
+  @@index([providerUserId])
 }
 
 model EquipmentBooking {
@@ -271,7 +412,14 @@ model EquipmentBooking {
   notes           String?
   createdAt       DateTime    @default(now())
   updatedAt       DateTime    @updatedAt
+
+  @@index([farmerId, status])
+  @@index([equipmentId])
 }
+
+// ==============================================================================
+// 9. CROP MARKETPLACE & DIRECT ORDERS
+// ==============================================================================
 
 model MarketplaceListing {
   id                String    @id @default(cuid())
@@ -289,22 +437,36 @@ model MarketplaceListing {
   status            String    @default("ACTIVE") // ACTIVE, SOLD, EXPIRED
   createdAt         DateTime  @default(now())
   updatedAt         DateTime  @updatedAt
+
+  orders            MarketplaceOrder[]
+
+  @@index([cropName, status])
+  @@index([farmerId])
 }
 
-model BankOrganization {
-  id                String            @id @default(cuid())
-  name              String
-  institutionType   String            @default("COOPERATIVE_BANK") // COOPERATIVE_BANK, PUBLIC_SECTOR_BANK, RRB, NBFC
-  branchName        String
-  registrationNo    String            @unique
-  officialEmail     String
-  phone             String
-  status            String            @default("VERIFIED") // PENDING_VERIFICATION, VERIFIED, SUSPENDED
-  createdAt         DateTime          @default(now())
+model MarketplaceOrder {
+  id              String             @id @default(cuid())
+  listingId       String
+  listing         MarketplaceListing @relation(fields: [listingId], references: [id], onDelete: Restrict)
+  buyerUserId     String
+  buyerName       String
+  buyerContact    String
+  quantityKg      Float
+  pricePerKg      Float
+  totalAmount     Float
+  deliveryAddress String
+  status          String             @default("PENDING") // PENDING, CONFIRMED, IN_TRANSIT, DELIVERED, CANCELLED
+  orderedAt       DateTime           @default(now())
+  updatedAt       DateTime           @updatedAt
 
-  loans             LoanApplication[]
-  consents          Consent[]
+  @@index([listingId])
+  @@index([buyerUserId])
+  @@index([status])
 }
+
+// ==============================================================================
+// 10. BANK LOAN APPLICATIONS & FARM DOCUMENTS
+// ==============================================================================
 
 model LoanApplication {
   id                 String            @id @default(cuid())
@@ -322,7 +484,33 @@ model LoanApplication {
   reviewNotes        String?
   appliedDate        DateTime          @default(now())
   updatedDate        DateTime          @updatedAt
+
+  @@index([farmerId, status])
+  @@index([bankOrgId, status])
+  @@index([applicationNo])
 }
+
+model FarmDocument {
+  id                 String    @id @default(cuid())
+  farmerId           String
+  farmer             Farmer    @relation(fields: [farmerId], references: [id], onDelete: Cascade)
+  farmId             String?
+  farm               Farm?     @relation(fields: [farmId], references: [id], onDelete: SetNull)
+  title              String
+  documentType       String    // LAND_7_12, SOIL_TEST_REPORT, WATER_RIGHTS, AADHAAR_IDENTITY, BANK_PASSBOOK, ORGANIC_CERTIFICATE
+  fileUrl            String
+  mimeType           String    @default("application/pdf")
+  fileSizeBytes      Int?
+  verificationStatus String    @default("PENDING") // PENDING, VERIFIED, REJECTED
+  uploadedAt         DateTime  @default(now())
+
+  @@index([farmerId])
+  @@index([documentType])
+}
+
+// ==============================================================================
+// 11. FARMER DATA CONSENT ARCHITECTURE
+// ==============================================================================
 
 model Consent {
   id             String            @id @default(cuid())
@@ -331,12 +519,18 @@ model Consent {
   bankOrgId      String
   bank           BankOrganization  @relation(fields: [bankOrgId], references: [id], onDelete: Cascade)
   purpose        String            @default("Credit Underwriting & Farm Verification")
-  scopes         String            @default("farm_ownership,soil_health,crop_history") // Comma-separated or JSON list
+  scopes         String            @default("farm_ownership,soil_health,crop_history") // Comma-separated list
   status         String            @default("ACTIVE") // ACTIVE, REVOKED, EXPIRED
   grantedAt      DateTime          @default(now())
   expiresAt      DateTime?
   revokedAt      DateTime?
+
+  @@index([farmerId, bankOrgId, status])
 }
+
+// ==============================================================================
+// 12. IMMUTABLE AUDIT LOGGING (SECURITY & COMPLIANCE)
+// ==============================================================================
 
 model AuditLog {
   id                  String    @id @default(cuid())
@@ -345,7 +539,7 @@ model AuditLog {
   actorOrganizationId String?
   actorRole           String
   actorName           String?
-  action              String    // FARM_CREATED, CONSENT_GRANTED, BANK_VIEWED_FARMER_DATA, etc.
+  action              String    // FARM_CREATED, CONSENT_GRANTED, BANK_VIEWED_SOIL_DATA, etc.
   resource            String    // FARM, SOIL, LOAN, IRRIGATION, USER
   resourceType        String?
   resourceId          String?
@@ -362,7 +556,12 @@ model AuditLog {
   @@index([actorId])
   @@index([action])
   @@index([timestamp])
+  @@index([resource, resourceId])
 }
+
+// ==============================================================================
+// 13. NOTIFICATIONS SYSTEM
+// ==============================================================================
 
 model Notification {
   id           String    @id @default(cuid())
@@ -374,4 +573,6 @@ model Notification {
   read         Boolean   @default(false)
   link         String?
   createdAt    DateTime  @default(now())
+
+  @@index([userId, read])
 }
