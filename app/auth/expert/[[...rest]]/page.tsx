@@ -1,17 +1,43 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 import Link from 'next/link'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { SignIn, SignUp, useUser } from '@clerk/nextjs'
-import { Microscope, ArrowLeft, CheckCircle2, FlaskConical } from 'lucide-react'
+import { Microscope, ArrowLeft, CheckCircle2, FlaskConical, Loader2 } from 'lucide-react'
 import { MazhiShetiLogo } from '@/components/ui/MazhiShetiLogo'
 import dynamic from 'next/dynamic'
 
 const DotGrid = dynamic(() => import('@/components/ui/DotGrid'), { ssr: false })
 
 export default function ExpertAuthPage() {
-  const { user, isSignedIn } = useUser()
+  const router = useRouter()
+  const searchParams = useSearchParams()
+  const { user, isSignedIn, isLoaded } = useUser()
   const [isSignUp, setIsSignUp] = useState(false)
+
+  // Determine sanitized redirect destination
+  const redirectTarget = useMemo(() => {
+    const rawRedirect = searchParams?.get('redirect_url')
+    if (rawRedirect) {
+      try {
+        if (!rawRedirect.includes('/auth') && !rawRedirect.includes('/sign-in') && !rawRedirect.includes('/sign-up')) {
+          const parsed = new URL(rawRedirect, typeof window !== 'undefined' ? window.location.origin : 'http://localhost:3000')
+          return parsed.pathname + parsed.search
+        }
+      } catch {
+        // fallback
+      }
+    }
+    return '/expert/dashboard'
+  }, [searchParams])
+
+  // Instant automatic redirect once user identity is verified
+  useEffect(() => {
+    if (isLoaded && isSignedIn && user) {
+      router.replace(redirectTarget)
+    }
+  }, [isLoaded, isSignedIn, user, router, redirectTarget])
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -99,28 +125,48 @@ export default function ExpertAuthPage() {
           </div>
 
           <div className="flex justify-center w-full min-h-[380px] items-center">
-            {isSignedIn && user ? (
-              <div className="w-full max-w-md rounded-2xl bg-[#0F1C3F] border border-purple-500/30 p-6 sm:p-8 shadow-2xl text-center space-y-6 backdrop-blur-xl">
-                <div className="w-16 h-16 mx-auto rounded-2xl bg-purple-500/20 border border-purple-500/30 flex items-center justify-center font-bold text-2xl text-purple-400 shadow-md">
-                  {user.firstName ? user.firstName[0] : '✓'}
+            {!isLoaded ? (
+              <div className="w-full max-w-md rounded-2xl bg-[#0F1C3F] border border-purple-500/30 p-8 shadow-2xl text-center space-y-4 backdrop-blur-xl">
+                <div className="w-12 h-12 mx-auto rounded-xl bg-purple-500/15 border border-purple-500/30 flex items-center justify-center text-purple-400">
+                  <Loader2 className="w-6 h-6 animate-spin" />
+                </div>
+                <div className="space-y-1">
+                  <p className="text-xs font-mono font-bold tracking-widest text-purple-400 uppercase">
+                    Verifying Identity
+                  </p>
+                  <p className="text-xs text-blue-200/70">
+                    Connecting to secure sovereign gateway...
+                  </p>
+                </div>
+              </div>
+            ) : isSignedIn && user ? (
+              <div className="w-full max-w-md rounded-2xl bg-[#0F1C3F] border border-purple-500/30 p-6 sm:p-8 shadow-2xl text-center space-y-5 backdrop-blur-xl animate-in fade-in zoom-in-95 duration-300">
+                <div className="w-14 h-14 mx-auto rounded-2xl bg-purple-500/20 border border-purple-500/40 flex items-center justify-center font-bold text-2xl text-purple-400 shadow-md">
+                  <CheckCircle2 className="w-8 h-8 text-emerald-400" />
                 </div>
                 <div className="space-y-1.5">
-                  <span className="px-2.5 py-0.5 rounded-full bg-purple-500/20 text-purple-300 font-mono text-[10px] font-bold border border-purple-500/30">
-                    CLERK SESSION ACTIVE
+                  <span className="px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 font-mono text-[10px] font-bold border border-emerald-500/30">
+                    IDENTITY VERIFIED • ACCESS GRANTED
                   </span>
                   <h2 className="text-xl font-bold text-white">
-                    {user.fullName || user.firstName}
+                    Welcome, {user.fullName || user.firstName || 'Agronomist'}
                   </h2>
                   <p className="text-xs font-mono text-blue-200/70 truncate">
                     {user.primaryEmailAddress?.emailAddress}
                   </p>
                 </div>
-                <div className="space-y-2.5 pt-2">
+
+                <div className="p-3 rounded-xl bg-purple-500/10 border border-purple-500/20 text-xs font-mono text-purple-300 flex items-center justify-center gap-2">
+                  <Loader2 className="w-3.5 h-3.5 animate-spin text-purple-400 shrink-0" />
+                  <span>Entering Expert Portal...</span>
+                </div>
+
+                <div className="space-y-2 pt-1">
                   <Link
-                    href="/expert/dashboard"
+                    href={redirectTarget}
                     className="w-full py-3 rounded-xl bg-purple-600 hover:bg-purple-500 text-white font-sans font-bold text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-2 shadow-lg shadow-purple-950/50"
                   >
-                    <span>Enter Expert Portal →</span>
+                    <span>Enter Immediately →</span>
                   </Link>
                   <Link
                     href="/auth/select"
@@ -161,7 +207,10 @@ export default function ExpertAuthPage() {
                 {!isSignUp ? (
                   <SignIn 
                     routing="hash"
-                    fallbackRedirectUrl="/expert/dashboard"
+                    forceRedirectUrl={redirectTarget}
+                    fallbackRedirectUrl={redirectTarget}
+                    signUpForceRedirectUrl={redirectTarget}
+                    signUpFallbackRedirectUrl={redirectTarget}
                     appearance={{
                       elements: {
                         rootBox: 'w-full max-w-md',
@@ -179,7 +228,10 @@ export default function ExpertAuthPage() {
                 ) : (
                   <SignUp 
                     routing="hash"
-                    fallbackRedirectUrl="/expert/dashboard"
+                    forceRedirectUrl={redirectTarget}
+                    fallbackRedirectUrl={redirectTarget}
+                    signInForceRedirectUrl={redirectTarget}
+                    signInFallbackRedirectUrl={redirectTarget}
                     appearance={{
                       elements: {
                         rootBox: 'w-full max-w-md',

@@ -26,6 +26,37 @@ export default hasClerkKeys
       const { userId } = await auth();
       const pathname = req.nextUrl.pathname;
 
+      // 1. If user is ALREADY authenticated and visits an auth gateway, redirect immediately to role dashboard
+      if (userId && pathname.startsWith('/auth/')) {
+        const parts = pathname.split('/').filter(Boolean);
+        const role = parts[1];
+        const validRoles: Record<string, string> = {
+          farmer: '/farmer/dashboard',
+          bank: '/bank/dashboard',
+          provider: '/provider/dashboard',
+          expert: '/expert/dashboard',
+          admin: '/admin/dashboard',
+        };
+
+        if (role && validRoles[role] && !req.nextUrl.searchParams.has('switch')) {
+          const rawRedirect = req.nextUrl.searchParams.get('redirect_url');
+          if (
+            rawRedirect &&
+            !rawRedirect.includes('/auth') &&
+            !rawRedirect.includes('/sign-in') &&
+            !rawRedirect.includes('/sign-up')
+          ) {
+            try {
+              const parsed = new URL(rawRedirect, req.url);
+              return NextResponse.redirect(parsed);
+            } catch {
+              // fallback
+            }
+          }
+          return NextResponse.redirect(new URL(validRoles[role], req.url));
+        }
+      }
+
       // Check if accessing a protected role portal
       for (const [prefix, redirectAuthPath] of Object.entries(PROTECTED_PORTAL_ROUTES)) {
         if (pathname.startsWith(prefix)) {
