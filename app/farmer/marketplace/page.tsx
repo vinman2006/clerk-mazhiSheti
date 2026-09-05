@@ -66,6 +66,7 @@ export default function MarketplacePage() {
   const [newPrice, setNewPrice] = useState('')
   const [isOrganic, setIsOrganic] = useState(false)
   const [checkoutItem, setCheckoutItem] = useState<any>(null)
+  const [toastMessage, setToastMessage] = useState<string | null>(null)
 
   const handleCreateListing = (e: React.FormEvent) => {
     e.preventDefault()
@@ -87,11 +88,24 @@ export default function MarketplacePage() {
     setNewCrop('')
     setNewQty('')
     setNewPrice('')
+    setToastMessage(`New crop listing for ${newL.cropName} (${newL.quantityKg} kg @ ₹${newL.pricePerKg}/kg) published to marketplace!`)
+    setTimeout(() => setToastMessage(null), 5000)
   }
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-8 relative">
       
+      {/* Toast Notification Banner */}
+      {toastMessage && (
+        <div className="fixed top-20 right-6 z-50 p-4 rounded-2xl bg-[#0C1A38] border border-emerald-500/40 text-emerald-200 shadow-2xl flex items-center gap-3 text-xs font-mono animate-in slide-in-from-top duration-300">
+          <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+          <span>{toastMessage}</span>
+          <button onClick={() => setToastMessage(null)} className="text-slate-400 hover:text-white ml-2">
+            <X className="w-3.5 h-3.5" />
+          </button>
+        </div>
+      )}
+
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
@@ -289,8 +303,9 @@ export default function MarketplacePage() {
           description={`${checkoutItem.cropName} (${checkoutItem.quantityKg} kg)`}
           displayAmount={checkoutItem.amount}
           onSuccess={(res) => {
-            alert(`Order Placed Successfully! Payment confirmed for ${checkoutItem.cropName}.`);
+            setToastMessage(`Order Placed Successfully! Payment confirmed for ${checkoutItem.cropName} (${checkoutItem.quantityKg} kg).`);
             setCheckoutItem(null);
+            setTimeout(() => setToastMessage(null), 5000);
           }}
         />
       )}

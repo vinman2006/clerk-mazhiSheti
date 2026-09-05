@@ -90,6 +90,7 @@ export default function EquipmentRentalPage() {
   const [hours, setHours] = useState('6')
   const [bookingDate, setBookingDate] = useState('2026-09-08')
   const [paymentModalBooking, setPaymentModalBooking] = useState<any>(null)
+  const [toastMessage, setToastMessage] = useState<string | null>(null)
 
   const handleCreateBooking = (e: React.FormEvent) => {
     e.preventDefault()
@@ -105,12 +106,24 @@ export default function EquipmentRentalPage() {
     }
     setActiveBookings([newBk, ...activeBookings])
     setSelectedEquipment(null)
-    alert('Booking Request Sent to Provider! The fleet manager will verify machinery availability and confirm dispatch.')
+    setToastMessage(`Booking Request for ${newBk.equipment} (${newBk.hours}h) sent to fleet provider!`)
+    setTimeout(() => setToastMessage(null), 5000)
   }
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-8 relative">
       
+      {/* Toast Notification Banner */}
+      {toastMessage && (
+        <div className="fixed top-20 right-6 z-50 p-4 rounded-2xl bg-[#0C1A38] border border-orange-500/40 text-orange-200 shadow-2xl flex items-center gap-3 text-xs font-mono animate-in slide-in-from-top duration-300">
+          <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+          <span>{toastMessage}</span>
+          <button onClick={() => setToastMessage(null)} className="text-slate-400 hover:text-white ml-2">
+            <X className="w-3.5 h-3.5" />
+          </button>
+        </div>
+      )}
+
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>

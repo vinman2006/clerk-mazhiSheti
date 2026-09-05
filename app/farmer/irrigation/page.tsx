@@ -13,7 +13,8 @@ import {
   Clock,
   Cpu,
   Sliders,
-  Power
+  Power,
+  X
 } from 'lucide-react'
 
 export default function IrrigationPage() {
@@ -23,10 +24,22 @@ export default function IrrigationPage() {
   const [maxThreshold, setMaxThreshold] = useState(55)
   const [maxDurationMinutes, setMaxDurationMinutes] = useState(45)
   const [activeZone, setActiveZone] = useState('Field 02 — Automated Micro-Sprinkler')
+  const [toastMessage, setToastMessage] = useState<string | null>(null)
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-8 relative">
       
+      {/* Toast Notification Banner */}
+      {toastMessage && (
+        <div className="fixed top-20 right-6 z-50 p-4 rounded-2xl bg-[#1A0C16] border border-red-500/40 text-red-200 shadow-2xl flex items-center gap-3 text-xs font-mono animate-in slide-in-from-top duration-300">
+          <AlertTriangle className="w-4 h-4 text-red-400 shrink-0" />
+          <span>{toastMessage}</span>
+          <button onClick={() => setToastMessage(null)} className="text-slate-400 hover:text-white ml-2">
+            <X className="w-3.5 h-3.5" />
+          </button>
+        </div>
+      )}
+
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
@@ -46,7 +59,8 @@ export default function IrrigationPage() {
         <button
           onClick={() => {
             setIsRunning(false)
-            alert('CRITICAL SAFETY OVERRIDE: Emergency cut-off signal broadcast to all solenoid valves.')
+            setToastMessage('CRITICAL SAFETY OVERRIDE: Emergency cut-off signal broadcast to all solenoid valves.')
+            setTimeout(() => setToastMessage(null), 5000)
           }}
           className="px-4 py-2 rounded-xl bg-red-500/20 hover:bg-red-600 text-red-300 hover:text-white border border-red-500/40 text-xs font-mono font-bold uppercase tracking-wider transition-all flex items-center gap-2 self-start sm:self-auto shadow-lg shadow-red-950/40"
         >

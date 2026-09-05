@@ -153,6 +153,9 @@ export default function AdminDashboardPage() {
     },
   ])
 
+  const [isRefreshing, setIsRefreshing] = useState(false)
+  const [toastMessage, setToastMessage] = useState<string | null>(null)
+
   const handleUpdateOrgStatus = (id: string, newStatus: 'VERIFIED' | 'SUSPENDED') => {
     setOrgs(orgs.map((o) => (o.id === id ? { ...o, status: newStatus } : o)))
     // Add an audit log entry for this action
@@ -167,13 +170,66 @@ export default function AdminDashboardPage() {
       status: newStatus === 'VERIFIED' ? 'SUCCESS' : 'ALERT',
     }
     setAuditLogs([newLog, ...auditLogs])
+    setToastMessage(`Organization status changed to ${newStatus}. Audit event #log-${Date.now()} recorded.`)
+    setTimeout(() => setToastMessage(null), 4000)
+  }
+
+  const handleRefreshStream = () => {
+    setIsRefreshing(true)
+    setTimeout(() => {
+      setIsRefreshing(false)
+      const freshLog: AuditEntry = {
+        id: `log-${Date.now()}`,
+        timestamp: 'Just now',
+        actorName: 'Audit Stream Heartbeat',
+        actorRole: 'SYSTEM_DAEMON',
+        action: 'METRICS_SYNC_CHECK',
+        resource: 'KAFKA_TELEMETRY_BUS',
+        details: 'Verified continuous packet stream across all active LoRaWAN IoT nodes and banks.',
+        status: 'INFO',
+      }
+      setAuditLogs([freshLog, ...auditLogs])
+      setToastMessage('Live cluster metrics and audit telemetry stream synchronized successfully.')
+      setTimeout(() => setToastMessage(null), 4000)
+    }, 800)
+  }
+
+  const handleExportAuditCSV = () => {
+    const headers = 'ID,Timestamp,Actor,Role,Action,Resource,Status,Details\n'
+    const rows = auditLogs.map(l => 
+      `"${l.id}","${l.timestamp}","${l.actorName}","${l.actorRole}","${l.action}","${l.resource}","${l.status}","${l.details.replace(/"/g, '""')}"`
+    ).join('\n')
+
+    const blob = new Blob([headers + rows], { type: 'text/csv;charset=utf-8;' })
+    const url = URL.createObjectURL(blob)
+    const link = document.createElement('a')
+    link.href = url
+    link.download = `MazhiSheti_Audit_Trail_${Date.now()}.csv`
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+    URL.revokeObjectURL(url)
+
+    setToastMessage('Security Audit Log CSV exported and downloaded successfully.')
+    setTimeout(() => setToastMessage(null), 4000)
   }
 
   const filteredOrgs = orgs.filter((o) => (filterType === 'ALL' ? true : o.type === filterType))
 
   return (
-    <div className="min-h-screen bg-[#070B16] text-slate-100 flex flex-col selection:bg-rose-500/25 selection:text-rose-400">
+    <div className="min-h-screen bg-[#070B16] text-slate-100 flex flex-col selection:bg-rose-500/25 selection:text-rose-400 relative">
       
+      {/* Toast Notification Banner */}
+      {toastMessage && (
+        <div className="fixed top-20 right-6 z-50 p-4 rounded-2xl bg-[#1C0F1C] border border-rose-500/40 text-rose-200 shadow-2xl flex items-center gap-3 text-xs font-mono animate-in slide-in-from-top duration-300">
+          <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+          <span>{toastMessage}</span>
+          <button onClick={() => setToastMessage(null)} className="text-slate-400 hover:text-white ml-2">
+            <X className="w-3.5 h-3.5" />
+          </button>
+        </div>
+      )}
+
       {/* Top Admin Navigation Header */}
       <header className="sticky top-0 z-40 bg-[#0B152E]/95 backdrop-blur-xl border-b border-rose-500/20 px-6 sm:px-10 py-3.5 flex items-center justify-between shadow-xl">
         <div className="flex items-center gap-6">
@@ -235,11 +291,21 @@ export default function AdminDashboardPage() {
 
           <div className="flex items-center gap-2">
             <button
-              onClick={() => alert('Refreshing live metrics and audit telemetry stream...')}
-              className="px-3.5 py-2 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] text-slate-200 text-xs font-mono border border-white/10 flex items-center gap-2 transition-all active:scale-95"
+              onClick={handleRefreshStream}
+              disabled={isRefreshing}
+              className="px-3.5 py-2 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] text-slate-200 text-xs font-mono border border-white/10 flex items-center gap-2 transition-all active:scale-95 disabled:opacity-50"
             >
-              <RefreshCw className="w-3.5 h-3.5 text-rose-400" />
-              <span>Refresh Stream</span>
+              <RefreshCw className={`w-3.5 h-3.5 text-rose-400 ${isRefreshing ? 'animate-spin' : ''}`} />
+              <span>{isRefreshing ? 'Syncing...' : 'Refresh Stream'}</span>
+            </button>
+
+            <button
+              onClick={handleExportAuditCSV}
+              className="px-3.5 py-2 rounded-xl bg-rose-500/15 hover:bg-rose-500/25 text-rose-300 text-xs font-mono border border-rose-500/30 flex items-center gap-2 transition-all active:scale-95"
+              title="Download Compliance Audit Logs as CSV"
+            >
+              <FileCheck className="w-3.5 h-3.5" />
+              <span className="hidden sm:inline">Export Audit CSV</span>
             </button>
           </div>
         </div>
