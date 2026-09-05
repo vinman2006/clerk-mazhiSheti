@@ -10,10 +10,19 @@ export interface NotificationInboxProps {
 }
 
 export default function NotificationInbox({ subscriberId: explicitSubscriberId }: NotificationInboxProps) {
-  const { user, isLoaded } = useUser()
+  const { user, isLoaded, isSignedIn } = useUser()
 
   const applicationIdentifier = process.env.NEXT_PUBLIC_NOVU_APPLICATION_IDENTIFIER || 'hC214Re-oCCB'
-  const subscriberId = explicitSubscriberId || (isLoaded && user ? user.id : '6a9bbf1c1748f79b990ddc87')
+
+  if (!isLoaded) {
+    return null
+  }
+
+  const subscriberId = explicitSubscriberId || (isSignedIn && user ? user.id : null)
+
+  if (!subscriberId) {
+    return null
+  }
 
   return (
     <Inbox
