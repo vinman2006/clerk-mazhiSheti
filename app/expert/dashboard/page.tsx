@@ -13,9 +13,11 @@ import {
   FileText
 } from 'lucide-react'
 import { FarmerLogo } from '@/components/ui/FarmerLogo'
-import { UserButton } from '@clerk/nextjs'
+import { UserButton, useUser } from '@clerk/nextjs'
+import PitchRoleSwitcher from '@/components/ui/PitchRoleSwitcher'
 
 export default function ExpertDashboardPage() {
+  const { user } = useUser()
   const [consultations] = useState([
     {
       id: 'c-01',
@@ -52,21 +54,33 @@ export default function ExpertDashboardPage() {
           <div className="hidden lg:flex items-center gap-2 px-3 py-1 rounded-xl bg-purple-500/10 border border-purple-500/20 text-xs font-mono">
             <Microscope className="w-3.5 h-3.5 text-purple-400" />
             <span className="text-purple-200">Expert:</span>
-            <span className="font-bold text-white">Dr. Vikrant Kadam, Ph.D. (Soil Science)</span>
+            <span className="font-bold text-white">
+              {user?.fullName ? `Dr. ${user.fullName}` : 'Dr. Vikrant Kadam, Ph.D.'} (Soil Science)
+            </span>
             <span className="px-2 py-0.2 rounded bg-emerald-500/20 text-emerald-400 font-bold ml-1 text-[10px]">
               VERIFIED
             </span>
           </div>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2.5 sm:gap-3">
           <Link
             href="/"
             className="px-3 py-1.5 rounded-xl bg-white/[0.05] hover:bg-white/[0.1] border border-white/10 text-xs font-sans font-semibold text-blue-100"
           >
-            ← Portal Home
+            ← Home
           </Link>
-          <UserButton />
+
+          {/* Pitch Role Switcher */}
+          <PitchRoleSwitcher currentRole="expert" />
+
+          <UserButton 
+            appearance={{
+              elements: {
+                userButtonAvatarBox: 'w-8 h-8 rounded-xl border border-purple-500/40 shadow-sm',
+              }
+            }}
+          />
         </div>
       </header>
 

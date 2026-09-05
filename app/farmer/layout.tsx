@@ -21,8 +21,9 @@ import {
   Wind
 } from 'lucide-react'
 import { FarmerLogo } from '@/components/ui/FarmerLogo'
-import { UserButton } from '@clerk/nextjs'
+import { UserButton, useUser } from '@clerk/nextjs'
 import dynamic from 'next/dynamic'
+import PitchRoleSwitcher from '@/components/ui/PitchRoleSwitcher'
 
 const NotificationInbox = dynamic(() => import('@/components/ui/NotificationInbox'), { ssr: false })
 
@@ -32,6 +33,7 @@ interface FarmerLayoutProps {
 
 export default function FarmerLayout({ children }: FarmerLayoutProps) {
   const pathname = usePathname()
+  const { user } = useUser()
 
   const navItems = [
     { href: '/farmer/dashboard', label: 'Command Center', icon: Activity, badge: 'Live' },
@@ -60,13 +62,15 @@ export default function FarmerLayout({ children }: FarmerLayoutProps) {
           {/* Farm Switcher / Badge */}
           <div className="hidden lg:flex items-center gap-2 px-3 py-1 rounded-xl bg-white/[0.04] border border-white/10 text-xs font-mono">
             <span className="text-blue-300">Active Farm:</span>
-            <span className="font-bold text-white">Patil Krishi Sanjivani (14.5 Acres)</span>
+            <span className="font-bold text-white">
+              {user?.fullName ? `${user.fullName}'s Farm` : 'Patil Krishi Sanjivani'} (14.5 Acres)
+            </span>
             <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse ml-1" />
           </div>
         </div>
 
         {/* Right Status Controls */}
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2.5 sm:gap-3">
           {/* Quick Weather Snapshot */}
           <div className="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-xl bg-white/[0.04] border border-white/10 text-xs font-mono text-blue-100">
             <span>Baramati: 28°C</span>
@@ -78,11 +82,14 @@ export default function FarmerLayout({ children }: FarmerLayoutProps) {
             className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white/[0.05] hover:bg-white/[0.1] border border-white/10 text-blue-100 text-xs font-sans transition-all"
           >
             <ArrowLeft className="w-3.5 h-3.5" />
-            <span>Portal Home</span>
+            <span>Home</span>
           </Link>
 
           {/* Novu Notification Inbox */}
           <NotificationInbox />
+
+          {/* Pitch Role Switcher */}
+          <PitchRoleSwitcher currentRole="farmer" />
 
           <UserButton 
             appearance={{

@@ -2,7 +2,7 @@
 
 import React from 'react'
 import Link from 'next/link'
-import { SignIn } from '@clerk/nextjs'
+import { SignIn, useUser } from '@clerk/nextjs'
 import { ShieldAlert, ArrowLeft, Lock, Terminal, ShieldCheck } from 'lucide-react'
 import { FarmerLogo } from '@/components/ui/FarmerLogo'
 import dynamic from 'next/dynamic'
@@ -10,6 +10,7 @@ import dynamic from 'next/dynamic'
 const DotGrid = dynamic(() => import('@/components/ui/DotGrid'), { ssr: false })
 
 export default function AdminAuthPage() {
+  const { user, isSignedIn } = useUser()
   return (
     <div className="min-h-screen bg-[#07090F] text-slate-100 flex flex-col relative overflow-hidden selection:bg-red-500/25 selection:text-red-400">
       <div className="absolute inset-0 z-0 opacity-60 pointer-events-none">
@@ -87,24 +88,57 @@ export default function AdminAuthPage() {
           </div>
 
           <div className="flex justify-center w-full">
-            <SignIn 
-              routing="hash"
-              forceRedirectUrl="/admin/dashboard"
-              signUpUrl="/auth/admin"
-              appearance={{
-                elements: {
-                  rootBox: 'w-full max-w-md',
-                  card: 'bg-[#0E1322] border border-red-500/20 shadow-2xl text-white rounded-2xl',
-                  headerTitle: 'text-white font-display text-xl',
-                  headerSubtitle: 'text-neutral-400 text-xs',
-                  socialButtonsBlockButton: 'bg-white/5 border-white/10 text-white hover:bg-white/10',
-                  formFieldLabel: 'text-neutral-300 text-xs font-mono',
-                  formFieldInput: 'bg-[#070A12] border-white/10 text-white focus:border-red-400',
-                  formButtonPrimary: 'bg-red-600 hover:bg-red-500 text-white font-bold text-xs uppercase tracking-wider',
-                  footerActionLink: 'text-red-400 hover:text-red-300 font-bold',
-                }
-              }}
-            />
+            {isSignedIn && user ? (
+              <div className="w-full max-w-md rounded-2xl bg-[#0E1322] border border-red-500/30 p-6 sm:p-8 shadow-2xl text-center space-y-6 backdrop-blur-xl">
+                <div className="w-16 h-16 mx-auto rounded-2xl bg-red-500/20 border border-red-500/30 flex items-center justify-center font-bold text-2xl text-red-400 shadow-md">
+                  {user.firstName ? user.firstName[0] : '✓'}
+                </div>
+                <div className="space-y-1.5">
+                  <span className="px-2.5 py-0.5 rounded-full bg-red-500/20 text-red-300 font-mono text-[10px] font-bold border border-red-500/30">
+                    CLERK SESSION ACTIVE
+                  </span>
+                  <h2 className="text-xl font-bold text-white">
+                    {user.fullName || user.firstName}
+                  </h2>
+                  <p className="text-xs font-mono text-neutral-400 truncate">
+                    {user.primaryEmailAddress?.emailAddress}
+                  </p>
+                </div>
+                <div className="space-y-2.5 pt-2">
+                  <Link
+                    href="/admin/dashboard"
+                    className="w-full py-3 rounded-xl bg-red-600 hover:bg-red-500 text-white font-sans font-bold text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-2 shadow-lg shadow-red-950/50"
+                  >
+                    <span>Enter Governance Console →</span>
+                  </Link>
+                  <Link
+                    href="/auth/select"
+                    className="w-full py-2.5 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] text-neutral-300 text-xs font-mono transition-colors block border border-white/10"
+                  >
+                    Switch to Another Role
+                  </Link>
+                </div>
+              </div>
+            ) : (
+              <SignIn 
+                routing="hash"
+                forceRedirectUrl="/admin/dashboard"
+                signUpUrl="/auth/admin"
+                appearance={{
+                  elements: {
+                    rootBox: 'w-full max-w-md',
+                    card: 'bg-[#0E1322] border border-red-500/20 shadow-2xl text-white rounded-2xl',
+                    headerTitle: 'text-white font-display text-xl',
+                    headerSubtitle: 'text-neutral-400 text-xs',
+                    socialButtonsBlockButton: 'bg-white/5 border-white/10 text-white hover:bg-white/10',
+                    formFieldLabel: 'text-neutral-300 text-xs font-mono',
+                    formFieldInput: 'bg-[#070A12] border-white/10 text-white focus:border-red-400',
+                    formButtonPrimary: 'bg-red-600 hover:bg-red-500 text-white font-bold text-xs uppercase tracking-wider',
+                    footerActionLink: 'text-red-400 hover:text-red-300 font-bold',
+                  }
+                }}
+              />
+            )}
           </div>
 
         </div>

@@ -22,12 +22,58 @@ import {
   ExternalLink
 } from 'lucide-react'
 
+import { FarmerLogo } from '@/components/ui/FarmerLogo'
+import { useUser } from '@clerk/nextjs'
+
 export default function FarmerDashboardPage() {
+  const { user } = useUser()
   const [irrigationRunning, setIrrigationRunning] = useState(false)
   const [emergencyModal, setEmergencyModal] = useState(false)
 
   return (
     <div className="space-y-8">
+      
+      {/* Authenticated Clerk User Greeting Banner */}
+      <div className="p-5 sm:p-6 rounded-3xl bg-gradient-to-r from-[#0B1736]/90 via-[#0E204E]/80 to-[#0B152E]/90 border border-emerald-500/30 backdrop-blur-xl shadow-2xl flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+        <div className="flex items-center gap-4">
+          <div className="w-14 h-14 rounded-2xl bg-gradient-to-tr from-emerald-600 to-teal-500 p-0.5 shadow-lg shadow-emerald-950/50 shrink-0">
+            <div className="w-full h-full rounded-[14px] bg-[#0A0F1E] flex items-center justify-center font-display font-black text-2xl text-emerald-400">
+              {user?.firstName ? user.firstName[0] : 'आ'}
+            </div>
+          </div>
+          <div className="space-y-1">
+            <div className="flex flex-wrap items-center gap-2">
+              <h1 className="font-display font-black text-xl sm:text-2xl text-white tracking-tight">
+                Namaskar, {user?.fullName || user?.firstName || 'Anandarao Patil'}!
+              </h1>
+              <span className="px-2.5 py-0.5 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 text-[10px] font-mono font-bold flex items-center gap-1">
+                <ShieldCheck className="w-3 h-3" />
+                CLERK VERIFIED FARMER
+              </span>
+            </div>
+            <p className="text-xs font-sans text-blue-100/80">
+              Baramati Agronomic Cluster • Live IoT telemetry active • 4 Soil sensors online • 6-Stage organic transition Phase 2
+            </p>
+          </div>
+        </div>
+
+        <div className="flex items-center gap-2 self-stretch md:self-auto justify-end">
+          <Link
+            href="/farmer/irrigation"
+            className="px-3.5 py-2 rounded-xl bg-emerald-500/15 hover:bg-emerald-500/25 border border-emerald-500/30 text-emerald-300 text-xs font-mono font-bold transition-all flex items-center gap-1.5 whitespace-nowrap"
+          >
+            <Droplets className="w-3.5 h-3.5" />
+            <span>Auto Irrigation</span>
+          </Link>
+          <Link
+            href="/farmer/equipment"
+            className="px-3.5 py-2 rounded-xl bg-orange-500/15 hover:bg-orange-500/25 border border-orange-500/30 text-orange-300 text-xs font-mono font-bold transition-all flex items-center gap-1.5 whitespace-nowrap"
+          >
+            <Tractor className="w-3.5 h-3.5" />
+            <span>Rent Tractor</span>
+          </Link>
+        </div>
+      </div>
       
       {/* Real-time Status Alert Banner */}
       <div className="p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-orange-500/15 via-amber-500/10 to-transparent border border-orange-500/30 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 backdrop-blur-md shadow-lg">

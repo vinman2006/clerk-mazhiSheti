@@ -17,9 +17,11 @@ import {
   X
 } from 'lucide-react'
 import { FarmerLogo } from '@/components/ui/FarmerLogo'
-import { UserButton } from '@clerk/nextjs'
+import { UserButton, useUser } from '@clerk/nextjs'
+import PitchRoleSwitcher from '@/components/ui/PitchRoleSwitcher'
 
 export default function BankDashboardPage() {
+  const { user } = useUser()
   const [applications, setApplications] = useState([
     {
       id: 'app-01',
@@ -74,22 +76,34 @@ export default function BankDashboardPage() {
 
           <div className="hidden lg:flex items-center gap-2 px-3 py-1 rounded-xl bg-blue-500/10 border border-blue-500/20 text-xs font-mono">
             <Landmark className="w-3.5 h-3.5 text-blue-400" />
-            <span className="text-blue-200">Organization:</span>
-            <span className="font-bold text-white">Maharashtra State Cooperative Bank (Baramati)</span>
+            <span className="text-blue-200">Officer:</span>
+            <span className="font-bold text-white">
+              {user?.fullName || 'Ramesh Kulkarni'} (MSCB Agri Credit)
+            </span>
             <span className="px-2 py-0.2 rounded bg-emerald-500/20 text-emerald-400 font-bold ml-1 text-[10px]">
               VERIFIED
             </span>
           </div>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2.5 sm:gap-3">
           <Link
             href="/"
             className="px-3 py-1.5 rounded-xl bg-white/[0.05] hover:bg-white/[0.1] border border-white/10 text-xs font-sans font-semibold text-blue-100"
           >
-            ← Portal Home
+            ← Home
           </Link>
-          <UserButton />
+
+          {/* Pitch Role Switcher */}
+          <PitchRoleSwitcher currentRole="bank" />
+
+          <UserButton 
+            appearance={{
+              elements: {
+                userButtonAvatarBox: 'w-8 h-8 rounded-xl border border-blue-500/40 shadow-sm',
+              }
+            }}
+          />
         </div>
       </header>
 

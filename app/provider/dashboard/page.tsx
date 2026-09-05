@@ -15,9 +15,11 @@ import {
   CheckCircle2
 } from 'lucide-react'
 import { FarmerLogo } from '@/components/ui/FarmerLogo'
-import { UserButton } from '@clerk/nextjs'
+import { UserButton, useUser } from '@clerk/nextjs'
+import PitchRoleSwitcher from '@/components/ui/PitchRoleSwitcher'
 
 export default function ProviderDashboardPage() {
+  const { user } = useUser()
   const [fleet] = useState([
     {
       id: 'eq-1',
@@ -74,19 +76,31 @@ export default function ProviderDashboardPage() {
           </Link>
           <div className="hidden lg:flex items-center gap-2 px-3 py-1 rounded-xl bg-orange-500/10 border border-orange-500/20 text-xs font-mono">
             <Tractor className="w-3.5 h-3.5 text-orange-400" />
-            <span className="text-orange-200">Business:</span>
-            <span className="font-bold text-white">Baramati Agro Fleet Services</span>
+            <span className="text-orange-200">Manager:</span>
+            <span className="font-bold text-white">
+              {user?.fullName || 'Vikram Patil'} (Baramati Fleet Hub)
+            </span>
           </div>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2.5 sm:gap-3">
           <Link
             href="/"
             className="px-3 py-1.5 rounded-xl bg-white/[0.05] hover:bg-white/[0.1] border border-white/10 text-xs font-sans font-semibold text-blue-100"
           >
-            ← Portal Home
+            ← Home
           </Link>
-          <UserButton />
+
+          {/* Pitch Role Switcher */}
+          <PitchRoleSwitcher currentRole="provider" />
+
+          <UserButton 
+            appearance={{
+              elements: {
+                userButtonAvatarBox: 'w-8 h-8 rounded-xl border border-orange-500/40 shadow-sm',
+              }
+            }}
+          />
         </div>
       </header>
 

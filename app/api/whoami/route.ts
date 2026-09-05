@@ -13,7 +13,7 @@ export async function GET() {
     }
 
     const user = await currentUser();
-    const dbUser = await prisma.user.findUnique({
+    let dbUser = await prisma.user.findUnique({
       where: { clerkUserId: userId },
       include: {
         farmerProfile: true,
@@ -22,6 +22,40 @@ export async function GET() {
         },
       },
     });
+
+    if (!dbUser && user) {
+      try {
+        const primaryEmail = user.emailAddresses?.[0]?.emailAddress;
+        const primaryPhone = user.phoneNumbers?.[0]?.phoneNumber;
+        const fullName = [user.firstName, user.lastName].filter(Boolean).join(' ') || 'Farmer User';
+
+        dbUser = await prisma.user.create({
+          data: {
+            clerkUserId: userId,
+            role: 'FARMER',
+            email: primaryEmail,
+            phone: primaryPhone,
+            name: fullName,
+          },
+          include: {
+            farmerProfile: true,
+            organizationMembers: {
+              include: { organization: true },
+            },
+          },
+        });
+      } catch {
+        dbUser = await prisma.user.findUnique({
+          where: { clerkUserId: userId },
+          include: {
+            farmerProfile: true,
+            organizationMembers: {
+              include: { organization: true },
+            },
+          },
+        });
+      }
+    }
 
     return NextResponse.json({
       authenticated: true,

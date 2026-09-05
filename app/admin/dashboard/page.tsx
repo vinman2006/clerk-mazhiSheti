@@ -26,7 +26,8 @@ import {
   Server
 } from 'lucide-react'
 import { FarmerLogo } from '@/components/ui/FarmerLogo'
-import { UserButton } from '@clerk/nextjs'
+import { UserButton, useUser } from '@clerk/nextjs'
+import PitchRoleSwitcher from '@/components/ui/PitchRoleSwitcher'
 
 interface OrganizationItem {
   id: string
@@ -51,6 +52,7 @@ interface AuditEntry {
 }
 
 export default function AdminDashboardPage() {
+  const { user } = useUser()
   const [activeTab, setActiveTab] = useState<'verifications' | 'audit' | 'system'>('verifications')
   const [filterType, setFilterType] = useState<'ALL' | 'BANK' | 'PROVIDER' | 'EXPERT'>('ALL')
 
@@ -190,16 +192,25 @@ export default function AdminDashboardPage() {
           </Link>
         </div>
 
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-3">
           <Link
-            href="/farmer/dashboard"
+            href="/"
             className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/[0.04] hover:bg-white/[0.08] text-slate-300 text-xs font-mono transition-colors border border-white/10"
           >
             <ArrowLeft className="w-3.5 h-3.5" />
-            <span>Farmer OS View</span>
+            <span>Portal Home</span>
           </Link>
-          <div className="h-6 w-px bg-white/10" />
-          <UserButton />
+
+          {/* Pitch Role Switcher */}
+          <PitchRoleSwitcher currentRole="admin" />
+
+          <UserButton 
+            appearance={{
+              elements: {
+                userButtonAvatarBox: 'w-8 h-8 rounded-xl border border-rose-500/40 shadow-sm',
+              }
+            }}
+          />
         </div>
       </header>
 
@@ -216,7 +227,7 @@ export default function AdminDashboardPage() {
               </span>
             </h1>
             <p className="text-sm text-blue-200/70 mt-1 font-sans">
-              Real-time oversight over 1,420 registered farmers, institutional bank charters, IoT sensor telemetry, and access consent audits.
+              Operated by <span className="text-rose-400 font-bold font-mono">{user?.fullName || user?.primaryEmailAddress?.emailAddress || 'Super Administrator'}</span> • Real-time oversight over 1,420 registered farmers, institutional bank charters, IoT sensor telemetry, and access consent audits.
             </p>
           </div>
 

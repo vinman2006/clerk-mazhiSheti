@@ -9,6 +9,7 @@ import { SignInButton, SignUpButton, Show, UserButton } from '@clerk/nextjs'
 import dynamic from 'next/dynamic'
 
 const NotificationInbox = dynamic(() => import('@/components/ui/NotificationInbox'), { ssr: false })
+import PitchRoleSwitcher from '@/components/ui/PitchRoleSwitcher'
 
 interface TaskbarProps {
   onSettingsClick?: () => void
@@ -144,6 +145,8 @@ export function Taskbar({ onSettingsClick }: TaskbarProps) {
 
             {/* Novu Notification Inbox */}
             <NotificationInbox />
+
+            <PitchRoleSwitcher currentRole="portal" />
 
             {/* Clerk Authentication Controls */}
             <Show when="signed-out">

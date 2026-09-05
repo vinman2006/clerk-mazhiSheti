@@ -14,11 +14,13 @@ import {
   Lock
 } from 'lucide-react'
 import { FarmerLogo } from '@/components/ui/FarmerLogo'
+import { useUser, UserButton } from '@clerk/nextjs'
 import dynamic from 'next/dynamic'
 
 const DotGrid = dynamic(() => import('@/components/ui/DotGrid'), { ssr: false })
 
 export default function AuthSelectPage() {
+  const { user, isSignedIn } = useUser()
   const roles = [
     {
       id: 'farmer',
@@ -123,11 +125,12 @@ export default function AuthSelectPage() {
           >
             ← Back to Home
           </Link>
+          {isSignedIn && <UserButton />}
         </div>
       </header>
 
       {/* Main Content Area */}
-      <main className="relative z-10 flex-1 max-w-6xl mx-auto w-full px-4 sm:px-6 py-12 flex flex-col justify-center space-y-10">
+      <main className="relative z-10 flex-1 max-w-6xl mx-auto w-full px-4 sm:px-6 py-12 flex flex-col justify-center space-y-8">
         <div className="text-center max-w-3xl mx-auto space-y-3">
           <span className="px-3 py-1 rounded-full bg-orange-500/15 border border-orange-500/30 text-orange-400 text-xs font-mono font-bold tracking-wide">
             ENTERPRISE IDENTITY SYSTEM
@@ -139,6 +142,39 @@ export default function AuthSelectPage() {
             Mazhi Sheti provides tailored authentication environments for farmers, financial partners, equipment providers, and agricultural experts.
           </p>
         </div>
+
+        {/* Active Clerk Session Banner */}
+        {isSignedIn && user && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.98 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-emerald-500/15 via-blue-500/10 to-transparent border border-emerald-500/30 flex flex-col sm:flex-row items-center justify-between gap-4 backdrop-blur-xl shadow-xl"
+          >
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center font-bold text-emerald-400">
+                {user.firstName ? user.firstName[0] : 'U'}
+              </div>
+              <div>
+                <div className="flex items-center gap-2">
+                  <span className="text-xs font-mono font-bold text-emerald-400">ACTIVE CLERK SESSION</span>
+                  <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                </div>
+                <p className="text-sm font-sans text-white font-medium">
+                  Authenticated as <span className="font-bold text-emerald-300">{user.fullName || user.firstName}</span> ({user.primaryEmailAddress?.emailAddress})
+                </p>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-2">
+              <Link
+                href="/farmer/dashboard"
+                className="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-sans font-bold text-xs uppercase tracking-wider transition-all shadow-md flex items-center gap-1.5"
+              >
+                <span>Launch Farmer OS →</span>
+              </Link>
+            </div>
+          </motion.div>
+        )}
 
         {/* Role Cards Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
