@@ -176,13 +176,28 @@ export default function AuthSelectPage() {
                   </p>
                 </div>
 
-                <Link
-                  href={role.href}
-                  className="w-full py-3 rounded-xl bg-white/[0.06] hover:bg-orange-500 text-white font-sans font-bold text-xs uppercase tracking-wider transition-all duration-200 flex items-center justify-center gap-2 border border-white/10 group-hover:border-orange-400 group-hover:shadow-lg group-hover:shadow-orange-950/50"
-                >
-                  <span>{role.ctaText}</span>
-                  <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
-                </Link>
+                <div className="space-y-2">
+                  <Link
+                    href={role.href}
+                    className="w-full py-2.5 rounded-xl bg-white/[0.06] hover:bg-orange-500 text-white font-sans font-bold text-xs uppercase tracking-wider transition-all duration-200 flex items-center justify-center gap-2 border border-white/10 group-hover:border-orange-400 group-hover:shadow-lg group-hover:shadow-orange-950/50"
+                  >
+                    <span>{role.ctaText}</span>
+                    <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+                  </Link>
+
+                  <Link
+                    href={
+                      role.id === 'farmer' ? '/farmer/dashboard' :
+                      role.id === 'bank' ? '/bank/dashboard' :
+                      role.id === 'provider' ? '/provider/dashboard' :
+                      role.id === 'expert' ? '/expert/dashboard' : '/admin/dashboard'
+                    }
+                    className="w-full py-1.5 rounded-lg bg-white/[0.02] hover:bg-white/[0.08] text-blue-200/60 hover:text-white text-[11px] font-mono font-medium transition-colors flex items-center justify-center gap-1.5"
+                  >
+                    <span>Instant Pitch Demo</span>
+                    <span>→</span>
+                  </Link>
+                </div>
               </motion.div>
             )
           })}

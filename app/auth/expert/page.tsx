@@ -72,9 +72,17 @@ export default function ExpertAuthPage() {
               </div>
             </div>
 
-            <div className="p-3.5 rounded-xl bg-white/[0.04] border border-white/5 font-mono text-[11px] text-blue-200/70 flex items-center gap-2">
-              <Award className="w-4 h-4 text-purple-400 shrink-0" />
-              <span>Agronomy credentials verified by platform administration</span>
+            <div className="p-3.5 rounded-xl bg-white/[0.04] border border-white/5 font-mono text-[11px] text-blue-200/70 flex items-center justify-between gap-2">
+              <div className="flex items-center gap-2">
+                <Award className="w-4 h-4 text-purple-400 shrink-0" />
+                <span>Agronomist credentials or instant pitch sandbox.</span>
+              </div>
+              <Link
+                href="/expert/dashboard"
+                className="px-2.5 py-1 rounded bg-purple-500/20 hover:bg-purple-500/30 text-purple-400 font-bold border border-purple-500/30 transition-colors whitespace-nowrap"
+              >
+                Inspect Expert →
+              </Link>
             </div>
           </div>
 

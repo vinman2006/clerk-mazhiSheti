@@ -167,6 +167,14 @@ export function Taskbar({ onSettingsClick }: TaskbarProps) {
 
             <Show when="signed-in">
               <div className="flex items-center gap-2 pl-1">
+                <Link
+                  href="/farmer/dashboard"
+                  className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-500/15 hover:bg-emerald-500/25 border border-emerald-500/30 text-emerald-400 text-xs font-mono font-bold transition-all shadow-sm"
+                >
+                  <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                  <span>Farm OS</span>
+                </Link>
+
                 <UserButton 
                   appearance={{
                     elements: {

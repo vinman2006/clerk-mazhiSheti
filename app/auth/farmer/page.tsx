@@ -79,9 +79,17 @@ export default function FarmerAuthPage() {
               </div>
             </div>
 
-            <div className="p-3.5 rounded-xl bg-white/[0.04] border border-white/5 font-mono text-[11px] text-blue-200/70 flex items-center gap-2">
-              <ShieldCheck className="w-4 h-4 text-emerald-400 shrink-0" />
-              <span>First time farmer? Complete sign up to begin 3-step farm onboarding.</span>
+            <div className="p-3.5 rounded-xl bg-white/[0.04] border border-white/5 font-mono text-[11px] text-blue-200/70 flex items-center justify-between gap-2">
+              <div className="flex items-center gap-2">
+                <ShieldCheck className="w-4 h-4 text-emerald-400 shrink-0" />
+                <span>First time farmer? Sign up or launch live demo directly.</span>
+              </div>
+              <Link
+                href="/farmer/dashboard"
+                className="px-2.5 py-1 rounded bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-400 font-bold border border-emerald-500/30 transition-colors whitespace-nowrap"
+              >
+                Launch Demo →
+              </Link>
             </div>
           </div>
 

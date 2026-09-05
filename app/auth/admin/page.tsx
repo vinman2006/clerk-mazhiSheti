@@ -72,9 +72,17 @@ export default function AdminAuthPage() {
               </div>
             </div>
 
-            <div className="p-3.5 rounded-xl bg-red-500/10 border border-red-500/20 font-mono text-[11px] text-red-300 flex items-center gap-2">
-              <Lock className="w-4 h-4 text-red-400 shrink-0" />
-              <span>Multi-factor authentication (MFA) strictly enforced</span>
+            <div className="p-3.5 rounded-xl bg-red-500/10 border border-red-500/20 font-mono text-[11px] text-red-300 flex items-center justify-between gap-2">
+              <div className="flex items-center gap-2">
+                <Lock className="w-4 h-4 text-red-400 shrink-0" />
+                <span>Privileged root session or instant pitch sandbox.</span>
+              </div>
+              <Link
+                href="/admin/dashboard"
+                className="px-2.5 py-1 rounded bg-red-500/20 hover:bg-red-500/30 text-red-400 font-bold border border-red-500/30 transition-colors whitespace-nowrap"
+              >
+                Inspect Admin →
+              </Link>
             </div>
           </div>
 

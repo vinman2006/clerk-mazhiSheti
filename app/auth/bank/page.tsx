@@ -77,9 +77,17 @@ export default function BankAuthPage() {
               </div>
             </div>
 
-            <div className="p-3.5 rounded-xl bg-white/[0.04] border border-white/5 font-mono text-[11px] text-blue-200/70 flex items-center gap-2">
-              <Lock className="w-4 h-4 text-blue-400 shrink-0" />
-              <span>Use your official institutional email (@mscb.org.in, @sbi.co.in, etc.)</span>
+            <div className="p-3.5 rounded-xl bg-white/[0.04] border border-white/5 font-mono text-[11px] text-blue-200/70 flex items-center justify-between gap-2">
+              <div className="flex items-center gap-2">
+                <Lock className="w-4 h-4 text-blue-400 shrink-0" />
+                <span>Officer credentials or instant pitch sandbox.</span>
+              </div>
+              <Link
+                href="/bank/dashboard"
+                className="px-2.5 py-1 rounded bg-blue-500/20 hover:bg-blue-500/30 text-blue-400 font-bold border border-blue-500/30 transition-colors whitespace-nowrap"
+              >
+                Inspect Bank →
+              </Link>
             </div>
           </div>
 

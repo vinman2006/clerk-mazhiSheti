@@ -74,9 +74,17 @@ export default function ProviderAuthPage() {
               </div>
             </div>
 
-            <div className="p-3.5 rounded-xl bg-white/[0.04] border border-white/5 font-mono text-[11px] text-blue-200/70 flex items-center gap-2">
-              <Wrench className="w-4 h-4 text-orange-400 shrink-0" />
-              <span>Fleet operator login credentials managed via Clerk Organizations</span>
+            <div className="p-3.5 rounded-xl bg-white/[0.04] border border-white/5 font-mono text-[11px] text-blue-200/70 flex items-center justify-between gap-2">
+              <div className="flex items-center gap-2">
+                <Wrench className="w-4 h-4 text-orange-400 shrink-0" />
+                <span>Fleet operator login or instant pitch sandbox.</span>
+              </div>
+              <Link
+                href="/provider/dashboard"
+                className="px-2.5 py-1 rounded bg-orange-500/20 hover:bg-orange-500/30 text-orange-400 font-bold border border-orange-500/30 transition-colors whitespace-nowrap"
+              >
+                Inspect Fleet →
+              </Link>
             </div>
           </div>
 
