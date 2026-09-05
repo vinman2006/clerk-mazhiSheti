@@ -97,160 +97,124 @@ export function Taskbar({ onSettingsClick }: TaskbarProps) {
 
   return (
     <>
-      <header className="fixed top-3 sm:top-4 left-0 right-0 z-50 flex flex-col items-center px-3 sm:px-6 pointer-events-none transition-all duration-300">
-        {/* Floating Rounded Island Navbar */}
-        <div
-          className={`pointer-events-auto w-full max-w-6xl rounded-2xl transition-all duration-300 border backdrop-blur-xl shadow-2xl ${
-            scrolled
-              ? 'bg-[#0B1736]/95 border-orange-500/40 shadow-black/80 py-2 px-3 sm:px-4'
-              : 'bg-[#0B1736]/85 border-white/10 hover:border-orange-500/30 shadow-black/50 py-2.5 px-3.5 sm:px-5'
-          }`}
-        >
-          <div className="flex items-center justify-between">
-            {/* Master Mazhi Sheti Brand Logo */}
-            <Link href="/" className="group shrink-0 relative z-10 flex items-center" aria-label="Mazhi Sheti Home">
-              <MazhiShetiLogo size={32} showText={true} showBadge={false} />
+      <header
+        className={`fixed top-0 left-0 right-0 z-50 w-full transition-all duration-300 ${
+          scrolled
+            ? 'bg-[#070B16]/95 border-b border-white/10 shadow-2xl py-3.5 px-6 sm:px-12 backdrop-blur-xl'
+            : 'bg-[#070B16]/80 border-b border-white/5 py-4 sm:py-5 px-6 sm:px-12 backdrop-blur-lg'
+        }`}
+      >
+        <div className="max-w-7xl mx-auto flex items-center justify-between">
+          {/* Master Mazhi Sheti Brand Logo */}
+          <Link href="/" className="group shrink-0 relative z-10 flex items-center" aria-label="Mazhi Sheti Home">
+            <MazhiShetiLogo size={34} showText={true} showBadge={false} />
+          </Link>
+
+          {/* Desktop Navigation Links - Spacious & Clean */}
+          <nav className="hidden md:flex items-center gap-8 lg:gap-10">
+            {navLinks.map((link) => {
+              const isActive = activeTab === link.id
+              return (
+                <button
+                  key={link.id}
+                  onClick={() => handleNavClick(link.id)}
+                  className={`relative py-1 text-sm font-medium transition-colors select-none ${
+                    isActive ? 'text-white font-semibold' : 'text-slate-300 hover:text-white'
+                  }`}
+                >
+                  <span>{link.label}</span>
+                  {isActive && (
+                    <motion.span
+                      layoutId="taskbar-active-underline"
+                      className="absolute -bottom-1.5 left-0 right-0 h-0.5 bg-orange-400 rounded-full"
+                    />
+                  )}
+                </button>
+              )
+            })}
+          </nav>
+
+          {/* Right Actions: Clean, Spacious Controls */}
+          <div className="flex items-center gap-4 sm:gap-6">
+            {/* Novu Notification Inbox */}
+            <NotificationInbox />
+
+            {/* Role Portals Link */}
+            <Link
+              href="/auth/select"
+              className="hidden sm:inline-flex items-center gap-2 text-sm font-medium text-emerald-400 hover:text-emerald-300 transition-colors"
+              title="Select Role Portal"
+            >
+              <ShieldCheck className="w-4 h-4" />
+              <span>Role Portals</span>
             </Link>
 
-            {/* Desktop Navigation Links with Smooth Animated Pill */}
-            <nav
-              className="hidden md:flex items-center gap-1 p-1 rounded-xl bg-white/[0.04] border border-white/[0.08]"
-              onMouseLeave={() => setHoveredTab(null)}
+            {/* Settings Status */}
+            <button
+              onClick={() => {
+                if (onSettingsClick) onSettingsClick()
+                setActiveModal('settings')
+              }}
+              type="button"
+              className="hidden lg:inline-flex items-center gap-2 text-sm font-medium text-slate-300 hover:text-white transition-colors"
             >
-              {navLinks.map((link) => {
-                const isActive = activeTab === link.id
-                const isHovered = hoveredTab === link.id
+              <Settings className="w-4 h-4 text-slate-400" />
+              <span>Settings</span>
+            </button>
 
-                return (
-                  <button
-                    key={link.id}
-                    onClick={() => handleNavClick(link.id)}
-                    onMouseEnter={() => setHoveredTab(link.id)}
-                    className={`relative px-3.5 py-1.5 rounded-lg text-xs font-sans font-medium transition-colors duration-200 flex items-center gap-1.5 select-none ${
-                      isActive ? 'text-white font-bold' : 'text-blue-100/75 hover:text-white'
-                    }`}
-                  >
-                    {/* Sliding animated background capsule */}
-                    {(isHovered || (isActive && !hoveredTab)) && (
-                      <motion.div
-                        layoutId="taskbar-hover-pill"
-                        className={`absolute inset-0 rounded-lg -z-10 ${
-                          isActive
-                            ? 'bg-orange-500/20 border border-orange-500/40 shadow-sm shadow-orange-950/30'
-                            : 'bg-white/10 border border-white/10'
-                        }`}
-                        initial={false}
-                        transition={{
-                          type: 'spring',
-                          stiffness: 450,
-                          damping: 32,
-                        }}
-                      />
-                    )}
-
-                    <span>{link.label}</span>
-
-                    {link.badge && (
-                      <span className="px-1.5 py-0.5 rounded bg-white/10 text-orange-400 border border-white/10 text-[9px] font-mono font-bold tracking-tight">
-                        {link.badge}
-                      </span>
-                    )}
-
-                    {/* Active bottom glow indicator */}
-                    {isActive && (
-                      <motion.span
-                        layoutId="taskbar-active-dot"
-                        className="absolute bottom-0.5 left-1/2 -translate-x-1/2 w-2.5 h-0.5 rounded-full bg-orange-400 shadow-[0_0_8px_#F5820D]"
-                      />
-                    )}
-                  </button>
-                )
-              })}
-            </nav>
-
-            {/* Right Actions: Settings Status Pill + Clerk Auth Controls */}
-            <div className="flex items-center gap-2 sm:gap-2.5">
-              {/* Settings Status Pill */}
-              <button
-                onClick={() => {
-                  if (onSettingsClick) onSettingsClick()
-                  setActiveModal('settings')
-                }}
-                type="button"
-                className="hidden lg:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white/[0.05] hover:bg-white/[0.1] border border-white/10 text-blue-100/80 hover:text-white text-xs font-mono font-semibold transition-all shadow-sm group active:scale-95"
-              >
-                <Settings className="w-3.5 h-3.5 text-blue-200 group-hover:rotate-45 transition-transform duration-300" />
-                <span>Settings</span>
-                <span className="w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_8px_#34D399] animate-pulse" />
-              </button>
-
-              {/* Novu Notification Inbox */}
-              <NotificationInbox />
-
-              {/* Proper Role-Based Access Link */}
-              <Link
-                href="/auth/select"
-                className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white/[0.06] hover:bg-white/[0.1] border border-white/15 text-xs font-mono font-semibold text-blue-100 hover:text-white transition-all shadow-sm group"
-                title="Select Role Portal"
-              >
-                <ShieldCheck className="w-3.5 h-3.5 text-emerald-400 group-hover:scale-110 transition-transform" />
-                <span>Role Portals</span>
-              </Link>
-
-              {/* Clerk Authentication Controls */}
-              <Show when="signed-out">
+            {/* Clerk Authentication Controls */}
+            <Show when="signed-out">
+              <div className="flex items-center gap-3">
                 <Link
                   href="/auth/select"
-                  className="relative group inline-flex items-center gap-1.5 sm:gap-2 px-3.5 sm:px-4 py-1.5 sm:py-2 rounded-xl text-xs font-sans font-bold uppercase tracking-wider bg-gradient-to-r from-[#F5820D] to-[#E0821F] hover:from-[#FFA726] hover:to-[#F5820D] text-white shadow-md shadow-orange-950/50 border border-orange-400/40 hover:border-orange-300 transition-all duration-200 active:scale-[0.98] overflow-hidden"
+                  className="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl text-xs font-sans font-bold uppercase tracking-wider bg-[#F5820D] hover:bg-[#ff9326] text-white shadow-lg shadow-orange-950/40 transition-all duration-200 active:scale-[0.98]"
                 >
-                  <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/25 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-out pointer-events-none" />
-                  <LogIn className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+                  <LogIn className="w-3.5 h-3.5" />
                   <span>SIGN IN</span>
-                  <ArrowRight className="w-3 h-3 opacity-80 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
                 </Link>
 
                 <Link
                   href="/auth/select"
-                  className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white/[0.06] hover:bg-white/[0.12] border border-white/10 text-white text-xs font-sans font-bold uppercase tracking-wider transition-all duration-200 shadow-sm"
+                  className="hidden sm:inline-flex items-center px-5 py-2.5 rounded-xl border border-white/20 hover:border-white/40 text-white text-xs font-sans font-bold uppercase tracking-wider transition-all duration-200"
                 >
                   <span>REGISTER</span>
                 </Link>
-              </Show>
+              </div>
+            </Show>
 
-              <Show when="signed-in">
-                <div className="flex items-center gap-2 pl-1">
-                  <Link
-                    href="/farmer/dashboard"
-                    className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-500/15 hover:bg-emerald-500/25 border border-emerald-500/30 text-emerald-400 text-xs font-mono font-bold transition-all shadow-sm"
-                  >
-                    <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-                    <span>Farm OS</span>
-                  </Link>
+            <Show when="signed-in">
+              <div className="flex items-center gap-3">
+                <Link
+                  href="/farmer/dashboard"
+                  className="hidden sm:inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-emerald-500/15 hover:bg-emerald-500/25 border border-emerald-500/30 text-emerald-400 text-xs font-mono font-bold transition-all shadow-sm"
+                >
+                  <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                  <span>Farm OS</span>
+                </Link>
 
-                  <UserButton 
-                    appearance={{
-                      elements: {
-                        userButtonAvatarBox: 'w-8 h-8 rounded-xl border border-orange-500/40 shadow-md',
-                      }
-                    }}
-                  />
-                </div>
-              </Show>
+                <UserButton 
+                  appearance={{
+                    elements: {
+                      userButtonAvatarBox: 'w-9 h-9 rounded-xl border border-orange-500/40 shadow-md',
+                    }
+                  }}
+                />
+              </div>
+            </Show>
 
-              {/* Mobile Hamburger Toggle Button */}
-              <button
-                type="button"
-                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="md:hidden p-2 rounded-xl bg-white/5 border border-white/10 text-neutral-300 hover:text-white hover:bg-white/10 transition-colors"
-                aria-label="Toggle Menu"
-              >
-                {mobileMenuOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
-              </button>
-            </div>
-          </div>
+            {/* Mobile Hamburger Toggle Button */}
+            <button
+              type="button"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="md:hidden p-2.5 rounded-xl bg-white/5 border border-white/10 text-neutral-300 hover:text-white hover:bg-white/10 transition-colors"
+              aria-label="Toggle Menu"
+            >
+              {mobileMenuOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
+            </button>
+        </div>
 
-          {/* Mobile Dropdown Drawer */}
-          <AnimatePresence>
+        {/* Mobile Dropdown Drawer */}
+        <AnimatePresence>
             {mobileMenuOpen && (
               <motion.div
                 initial={{ opacity: 0, height: 0 }}

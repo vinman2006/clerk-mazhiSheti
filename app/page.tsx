@@ -135,8 +135,7 @@ export default function HomePage() {
     // 1. Coordinated Hero Entrance Timeline (Section 6)
     const heroTl = gsap.timeline({ defaults: { ease: 'power3.out' } })
     heroTl
-      .fromTo('#hero-brand', { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.4 }, 0.05)
-      .fromTo('#hero-eyebrow', { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.45 }, 0.12)
+      .fromTo('#hero-eyebrow', { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.45 }, 0.1)
       .fromTo('#hero-headline', { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.65 }, 0.2)
       .fromTo('#hero-description', { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.5 }, 0.32)
       .fromTo('#hero-cta', { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.45 }, 0.42)
@@ -232,7 +231,7 @@ export default function HomePage() {
             ============================================================ */}
         <section 
           ref={heroRef}
-          className="relative min-h-[90vh] pt-32 pb-16 md:pt-40 md:pb-24 overflow-hidden bg-[#0D1C44] bg-gradient-to-b from-[#0B1736] via-[#0E204E] to-[#070B16] flex flex-col justify-center"
+          className="relative min-h-[95vh] pt-40 pb-20 md:pt-48 md:pb-28 overflow-hidden bg-[#0D1C44] bg-gradient-to-b from-[#0B1736] via-[#0E204E] to-[#070B16] flex flex-col justify-center"
         >
           {/* Calm, GPU-Efficient DotGrid Background (Strictly 80% stable, 20% moving) */}
           <div className="absolute inset-0 z-0">
@@ -251,29 +250,18 @@ export default function HomePage() {
           {/* Main Hero Content */}
           <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full space-y-6 text-center">
             
-            {/* 1. Master Brand Anchor (Option 01 The Leaf) */}
-            <div id="hero-brand" className="flex justify-center">
-              <MazhiShetiLogo
-                size={38}
-                showText={true}
-                showBadge={false}
-                subtitle="SOVEREIGN AGRI PLATFORM"
-                className="bg-[#0A1735]/80 px-4 py-2 rounded-2xl border border-white/10 backdrop-blur-md shadow-lg"
-              />
-            </div>
-
-            {/* 2. Clean Eyebrow */}
-            <div id="hero-eyebrow">
-              <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/25 text-emerald-400 text-xs font-mono font-semibold">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+            {/* 1. Clean Typographic Eyebrow (No Capsule) */}
+            <div id="hero-eyebrow" className="mb-3">
+              <p className="text-emerald-400 font-mono text-xs sm:text-sm tracking-[0.25em] uppercase font-bold flex items-center justify-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
                 Role-Based Sovereign Agriculture Network
-              </span>
+              </p>
             </div>
 
-            {/* Two-Tone Headline (Order 3) */}
+            {/* Two-Tone Headline */}
             <h1 
               id="hero-headline"
-              className="font-display font-black text-4xl sm:text-6xl md:text-7xl tracking-tight text-white leading-[1.12] drop-shadow-md uppercase max-w-4xl mx-auto"
+              className="font-display font-black text-5xl sm:text-7xl md:text-8xl tracking-tight text-white leading-[1.06] drop-shadow-md uppercase max-w-5xl mx-auto my-6 sm:my-8"
             >
               Everything your farm needs, <br />
               <span className="text-[#F5820D] drop-shadow-sm">
@@ -281,30 +269,30 @@ export default function HomePage() {
               </span>
             </h1>
 
-            {/* Sub-headline (Order 4) */}
+            {/* Sub-headline */}
             <p 
               id="hero-description"
-              className="font-sans text-base sm:text-lg md:text-xl text-blue-100/85 max-w-2xl mx-auto leading-relaxed font-normal drop-shadow-sm"
+              className="font-sans text-lg sm:text-xl md:text-2xl text-blue-100/80 max-w-3xl mx-auto leading-relaxed font-normal mb-8"
             >
               Sovereign agricultural infrastructure with strict role-based access for farmers, lending institutions, equipment providers, agronomists, and administrators.
             </p>
 
-            {/* CTAs (Order 5) */}
+            {/* CTAs */}
             <div 
               id="hero-cta"
-              className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-4"
+              className="flex flex-col sm:flex-row items-center justify-center gap-5 sm:gap-6 my-4"
             >
               <a
                 href="#portals"
-                className="w-full sm:w-auto px-8 py-3.5 rounded-xl bg-[#22A567] hover:bg-[#1b8552] text-white font-black text-xs uppercase tracking-wider transition-all duration-200 shadow-xl hover:shadow-emerald-950/40 flex items-center justify-center gap-2.5 group hover:-translate-y-0.5 active:scale-[0.98]"
+                className="w-full sm:w-auto px-10 py-4 rounded-xl bg-[#22A567] hover:bg-[#1b8552] text-white font-black text-sm uppercase tracking-wider transition-all duration-200 shadow-xl hover:shadow-emerald-950/40 flex items-center justify-center gap-2.5 group hover:-translate-y-0.5 active:scale-[0.98]"
               >
                 <span>CHOOSE YOUR ROLE PORTAL</span>
-                <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </a>
 
               <Link
                 href="/auth/select"
-                className="w-full sm:w-auto px-7 py-3.5 rounded-xl bg-[#081228]/85 hover:bg-[#0E1F4B] text-orange-400 border-2 border-orange-500/70 hover:border-orange-400 text-xs font-mono font-bold transition-all duration-200 flex items-center justify-center gap-2 tracking-wide shadow-lg hover:-translate-y-0.5 active:scale-[0.98]"
+                className="w-full sm:w-auto px-9 py-4 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] text-orange-400 border-2 border-orange-500/70 hover:border-orange-400 text-sm font-mono font-bold transition-all duration-200 flex items-center justify-center gap-2 tracking-wide shadow-lg hover:-translate-y-0.5 active:scale-[0.98]"
               >
                 <ShieldCheck className="w-4 h-4 text-orange-400" />
                 <span>ROLE GATEWAYS</span>
@@ -312,27 +300,27 @@ export default function HomePage() {
               </Link>
             </div>
 
-            {/* Trust Highlights (Order 5b) */}
+            {/* Trust Highlights */}
             <div 
               id="hero-trust"
-              className="pt-3 flex flex-wrap items-center justify-center gap-6 text-xs font-mono text-blue-200/70"
+              className="py-6 flex flex-wrap items-center justify-center gap-8 sm:gap-12 text-sm font-mono text-blue-200/75"
             >
-              <span className="flex items-center gap-1.5">
+              <span className="flex items-center gap-2">
                 <CheckCircle2 className="w-4 h-4 text-emerald-400" />
                 Tenant-Isolated Access
               </span>
-              <span className="flex items-center gap-1.5">
+              <span className="flex items-center gap-2">
                 <CheckCircle2 className="w-4 h-4 text-emerald-400" />
                 Consent-Governed Data
               </span>
-              <span className="flex items-center gap-1.5">
+              <span className="flex items-center gap-2">
                 <CheckCircle2 className="w-4 h-4 text-emerald-400" />
                 Clerk Identity Protected
               </span>
             </div>
 
-            {/* Hero Live Telemetry Dashboard Panel (Order 6, Sections 6, 7, 8) */}
-            <div id="hero-telemetry">
+            {/* Hero Live Telemetry Dashboard Panel */}
+            <div id="hero-telemetry" className="pt-6">
               <HeroTelemetryCard />
             </div>
 
@@ -342,36 +330,36 @@ export default function HomePage() {
         {/* ============================================================
             2. ROLE-BASED ACCESS GATEWAYS (ONE PLATFORM. SCOPED PORTALS.)
             ============================================================ */}
-        <section id="portals" className="py-24 bg-[#070C1B] relative border-t border-white/10">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+        <section id="portals" className="py-28 sm:py-36 bg-[#070C1B] relative border-t border-white/10">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
             
             <div className="text-center max-w-3xl mx-auto space-y-4">
-              <span className="px-3 py-1 rounded-full bg-orange-500/15 border border-orange-500/30 text-orange-400 text-xs font-mono font-bold tracking-wide">
+              <p className="text-orange-400 font-mono text-xs sm:text-sm uppercase tracking-[0.25em] font-bold">
                 ROLE-BASED ACCESS CONTROL
-              </span>
-              <h2 className="text-3xl sm:text-5xl font-black text-white tracking-tight">
+              </p>
+              <h2 className="text-4xl sm:text-6xl font-black text-white tracking-tight">
                 One Platform. Scoped Portals.
               </h2>
-              <p className="text-slate-400 text-sm sm:text-base font-sans">
+              <p className="text-slate-300 text-base sm:text-lg font-sans leading-relaxed">
                 Access Mazhi Sheti through dedicated, secure portals with isolated permissions for every stakeholder in the agricultural economy.
               </p>
             </div>
 
             {/* Role Cards Grid with Distinct Calm Accents (Section 14) */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {roles.map((role) => {
                 const Icon = role.icon
                 return (
                   <div
                     key={role.id}
-                    className={`portal-card group relative rounded-2xl bg-[#0B152E]/80 border ${role.borderColor} p-6 backdrop-blur-xl shadow-xl hover:shadow-2xl transition-all duration-300 flex flex-col justify-between space-y-6 hover:-translate-y-1`}
+                    className={`portal-card group relative rounded-2xl bg-[#0B152E]/80 border ${role.borderColor} p-8 backdrop-blur-xl shadow-xl hover:shadow-2xl transition-all duration-300 flex flex-col justify-between space-y-8 hover:-translate-y-1`}
                   >
-                    <div className="space-y-4">
+                    <div className="space-y-5">
                       <div className="flex items-center justify-between">
-                        <div className={`w-12 h-12 rounded-xl ${role.bgColor} border border-white/10 flex items-center justify-center ${role.color} transition-colors`}>
-                          <Icon className="w-6 h-6" />
+                        <div className={`w-14 h-14 rounded-2xl ${role.bgColor} border border-white/10 flex items-center justify-center ${role.color} transition-colors`}>
+                          <Icon className="w-7 h-7" />
                         </div>
-                        <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold border ${role.badgeColor}`}>
+                        <span className={`px-3 py-1 rounded-lg text-xs font-mono font-bold border ${role.badgeColor}`}>
                           {role.badge}
                         </span>
                       </div>
@@ -431,17 +419,17 @@ export default function HomePage() {
         {/* ============================================================
             3. SUSTAINABLE FARMING JOURNEY (6-STAGE TRANSITION ROADMAP, Section 15)
             ============================================================ */}
-        <section id="transition-journey" className="py-24 bg-[#0A142D] border-t border-white/10 relative overflow-hidden">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12 relative z-10">
+        <section id="transition-journey" className="py-28 sm:py-36 bg-[#0A142D] border-t border-white/10 relative overflow-hidden">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16 relative z-10">
             
             <div className="text-center max-w-3xl mx-auto space-y-4">
-              <span className="px-3 py-1 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 text-xs font-mono font-bold tracking-wide">
+              <p className="text-emerald-400 font-mono text-xs sm:text-sm uppercase tracking-[0.25em] font-bold">
                 ORGANIC TRANSITION ENGINE
-              </span>
-              <h2 className="text-3xl sm:text-5xl font-black text-white tracking-tight">
+              </p>
+              <h2 className="text-4xl sm:text-6xl font-black text-white tracking-tight">
                 A Realistic Path to Sustainable Agriculture.
               </h2>
-              <p className="text-slate-300 text-sm sm:text-base font-sans leading-relaxed">
+              <p className="text-slate-300 text-base sm:text-lg font-sans leading-relaxed">
                 Non-dogmatic agronomic progression. Mazhi Sheti designs an individualized 6-stage biological journey tailored to your soil health score and economic yield requirements.
               </p>
             </div>
