@@ -101,10 +101,10 @@ export default function FarmerDashboardPage() {
           </Link>
           <Link
             href="/farmer/equipment"
-            className="px-3.5 py-2 rounded-xl bg-orange-500/15 hover:bg-orange-500/25 border border-orange-500/30 text-orange-300 text-xs font-mono font-bold transition-all flex items-center gap-1.5 whitespace-nowrap"
+            className="px-4 py-2.5 rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-400 hover:to-amber-400 text-neutral-950 text-xs font-sans font-bold transition-all flex items-center gap-2 whitespace-nowrap shadow-lg shadow-orange-500/25 active:scale-95"
           >
-            <Tractor className="w-3.5 h-3.5" />
-            <span>Rent Tractor</span>
+            <Tractor className="w-4 h-4" />
+            <span>Rent Equipment (Tractor Rental) →</span>
           </Link>
         </div>
       </div>
