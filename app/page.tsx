@@ -54,16 +54,17 @@ export default function HomePage() {
       <section className="relative min-h-screen pt-36 pb-20 md:pt-40 md:pb-28 overflow-hidden bg-[#0D1C44] bg-gradient-to-b from-[#0B1736] via-[#0E204E] to-[#070B16] flex flex-col justify-center">
         
         {/* Interactive Vivid DotGrid Background Canvas */}
-        <div className="absolute inset-0 z-0 opacity-80 pointer-events-none">
+        <div className="absolute inset-0 z-0">
           <DotGrid 
-            dotSize={3.5}
-            gap={24}
-            baseColor="#2A4880"
+            dotSize={6}
+            gap={28}
+            baseColor="#224275"
             activeColor={activeColorHex}
-            proximity={160}
-            shockRadius={260}
-            shockStrength={5}
-            returnDuration={1.2}
+            proximity={150}
+            shockRadius={250}
+            shockStrength={6}
+            resistance={750}
+            returnDuration={1.5}
           />
         </div>
 
