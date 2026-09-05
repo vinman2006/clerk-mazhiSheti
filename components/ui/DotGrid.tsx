@@ -226,24 +226,44 @@ export const DotGrid: React.FC<DotGridProps> = ({
       pr.y = e.clientY - rect.top
 
       for (const dot of dotsRef.current) {
-        const dist = Math.hypot(dot.cx - pr.x, dot.cy - pr.y)
-        if (speed > speedTrigger && dist < proximity && !dot._inertiaApplied) {
-          dot._inertiaApplied = true
+        const ddx = dot.cx - pr.x
+        const ddy = dot.cy - pr.y
+        const dist = Math.hypot(ddx, ddy)
+
+        if (dist < proximity) {
+          // Continuous repulsion: push away proportional to closeness, no speed gate
+          const falloff = 1 - dist / proximity          // 1 at center, 0 at edge
+          const repelX = (ddx / (dist || 1)) * falloff * proximity * 0.35
+          const repelY = (ddy / (dist || 1)) * falloff * proximity * 0.35
+
+          // Add velocity kick on fast swipes
+          const velKickX = speed > speedTrigger ? vx * 0.018 : 0
+          const velKickY = speed > speedTrigger ? vy * 0.018 : 0
+
+          const targetX = repelX + velKickX
+          const targetY = repelY + velKickY
+
           gsap.killTweensOf(dot)
-          const pushX = dot.cx - pr.x + vx * 0.005
-          const pushY = dot.cy - pr.y + vy * 0.005
+          dot._inertiaApplied = false
           gsap.to(dot, {
-            inertia: { xOffset: pushX, yOffset: pushY, resistance },
-            onComplete: () => {
-              gsap.to(dot, {
-                xOffset: 0,
-                yOffset: 0,
-                duration: returnDuration,
-                ease: 'elastic.out(1,0.75)'
-              })
-              dot._inertiaApplied = false
-            }
+            xOffset: targetX,
+            yOffset: targetY,
+            duration: 0.12,
+            ease: 'power2.out',
+            overwrite: true,
           })
+        } else if (!dot._inertiaApplied) {
+          // Return to origin when cursor leaves proximity
+          const currentOffset = Math.hypot(dot.xOffset, dot.yOffset)
+          if (currentOffset > 0.3) {
+            gsap.to(dot, {
+              xOffset: 0,
+              yOffset: 0,
+              duration: returnDuration,
+              ease: 'elastic.out(1, 0.6)',
+              overwrite: false,
+            })
+          }
         }
       }
     }
@@ -255,10 +275,10 @@ export const DotGrid: React.FC<DotGridProps> = ({
       const cy = e.clientY - rect.top
       for (const dot of dotsRef.current) {
         const dist = Math.hypot(dot.cx - cx, dot.cy - cy)
-        if (dist < shockRadius && !dot._inertiaApplied) {
+        if (dist < shockRadius) {
           dot._inertiaApplied = true
           gsap.killTweensOf(dot)
-          const falloff = Math.max(0, 1 - dist / shockRadius)
+          const falloff = Math.pow(Math.max(0, 1 - dist / shockRadius), 0.6) // exponential for punch
           const pushX = (dot.cx - cx) * shockStrength * falloff
           const pushY = (dot.cy - cy) * shockStrength * falloff
           gsap.to(dot, {
@@ -268,7 +288,7 @@ export const DotGrid: React.FC<DotGridProps> = ({
                 xOffset: 0,
                 yOffset: 0,
                 duration: returnDuration,
-                ease: 'elastic.out(1,0.75)'
+                ease: 'elastic.out(1, 0.5)',
               })
               dot._inertiaApplied = false
             }
@@ -277,7 +297,7 @@ export const DotGrid: React.FC<DotGridProps> = ({
       }
     }
 
-    const throttledMove = throttle(onMove, 50)
+    const throttledMove = throttle(onMove, 16)
     window.addEventListener('mousemove', throttledMove, { passive: true })
     window.addEventListener('click', onClick)
 

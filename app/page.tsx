@@ -57,14 +57,15 @@ export default function HomePage() {
         <div className="absolute inset-0 z-0">
           <DotGrid 
             dotSize={6}
-            gap={28}
+            gap={24}
             baseColor="#224275"
             activeColor={activeColorHex}
-            proximity={150}
-            shockRadius={250}
-            shockStrength={6}
-            resistance={750}
-            returnDuration={1.5}
+            proximity={180}
+            speedTrigger={30}
+            shockRadius={320}
+            shockStrength={10}
+            resistance={500}
+            returnDuration={1.2}
           />
         </div>
 

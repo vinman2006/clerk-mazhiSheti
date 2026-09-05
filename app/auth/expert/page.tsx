@@ -13,15 +13,15 @@ export default function ExpertAuthPage() {
   const { user, isSignedIn } = useUser()
   return (
     <div className="min-h-screen bg-[#0A0F1E] text-slate-100 flex flex-col relative overflow-hidden selection:bg-purple-500/25 selection:text-purple-400">
-      <div className="absolute inset-0 z-0 opacity-75 pointer-events-none">
+      <div className="absolute inset-0 z-0 opacity-90">
         <DotGrid 
           dotSize={3.5}
           gap={24}
           baseColor="#4C1D95"
           activeColor="#A855F7"
-          proximity={160}
-          shockRadius={260}
-          shockStrength={5}
+          proximity={180}
+          shockRadius={320}
+          shockStrength={10}
           returnDuration={1.2}
         />
       </div>

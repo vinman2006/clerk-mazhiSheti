@@ -13,15 +13,15 @@ export default function AdminAuthPage() {
   const { user, isSignedIn } = useUser()
   return (
     <div className="min-h-screen bg-[#07090F] text-slate-100 flex flex-col relative overflow-hidden selection:bg-red-500/25 selection:text-red-400">
-      <div className="absolute inset-0 z-0 opacity-60 pointer-events-none">
+      <div className="absolute inset-0 z-0 opacity-90">
         <DotGrid 
           dotSize={3.5}
           gap={24}
           baseColor="#7F1D1D"
           activeColor="#EF4444"
-          proximity={160}
-          shockRadius={260}
-          shockStrength={5}
+          proximity={180}
+          shockRadius={320}
+          shockStrength={10}
           returnDuration={1.2}
         />
       </div>

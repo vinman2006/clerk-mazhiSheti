@@ -14,15 +14,15 @@ export default function FarmerAuthPage() {
   return (
     <div className="min-h-screen bg-[#0A0F1E] text-slate-100 flex flex-col relative overflow-hidden selection:bg-orange-500/25 selection:text-orange-400">
       {/* Background Dot Grid */}
-      <div className="absolute inset-0 z-0 opacity-75 pointer-events-none">
+      <div className="absolute inset-0 z-0 opacity-90">
         <DotGrid 
           dotSize={3.5}
           gap={24}
           baseColor="#2A4880"
           activeColor="#22C55E"
-          proximity={160}
-          shockRadius={260}
-          shockStrength={5}
+          proximity={180}
+          shockRadius={320}
+          shockStrength={10}
           returnDuration={1.2}
         />
       </div>
