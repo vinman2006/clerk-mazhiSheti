@@ -13,7 +13,7 @@ export function ConsentPill({ status, className = "" }: ConsentPillProps) {
     return (
       <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-mono font-bold bg-[#101420] text-portal-green border border-neutral-700 border-l-4 border-l-portal-green shadow-sm ${className}`}>
         <span className="w-1.5 h-1.5 rounded-full bg-portal-green animate-pulse"></span>
-        Active (On-Chain)
+        Active (Authorized)
       </span>
     )
   }

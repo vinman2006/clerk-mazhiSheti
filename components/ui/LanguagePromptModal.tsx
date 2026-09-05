@@ -21,7 +21,7 @@ export function LanguagePromptModal() {
               भाषा निवडा / भाषा चुनें (Language)
             </h4>
             <p className="text-xs font-sans text-neutral-300 mt-0.5">
-              Switch Nexora interface to Hindi (हिन्दी) or Marathi (मराठी)?
+              Switch Mazhi Sheti interface to Hindi (हिन्दी) or Marathi (मराठी)?
             </p>
           </div>
         </div>
