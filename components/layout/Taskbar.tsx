@@ -25,6 +25,8 @@ import {
 } from 'lucide-react'
 import { MazhiShetiLogo } from '@/components/ui/MazhiShetiLogo'
 import { SignInButton, SignUpButton, Show, UserButton } from '@clerk/nextjs'
+import { useLanguage } from '@/lib/languageContext'
+import { LanguageSwitcher } from '@/components/ui/LanguageSwitcher'
 import dynamic from 'next/dynamic'
 
 const NotificationInbox = dynamic(() => import('@/components/ui/NotificationInbox'), { ssr: false })
@@ -41,7 +43,7 @@ export function Taskbar({ onSettingsClick }: TaskbarProps) {
 
   // Active Interactive Modal State
   const [activeModal, setActiveModal] = useState<'crop-advisory' | 'market-rates' | 'weather' | 'schemes' | 'settings' | null>(null)
-  const [selectedLanguage, setSelectedLanguage] = useState<'mr' | 'en'>('mr')
+  const { language, setLanguage, t } = useLanguage()
   const [audioAlerts, setAudioAlerts] = useState(true)
 
   useEffect(() => {
@@ -55,28 +57,28 @@ export function Taskbar({ onSettingsClick }: TaskbarProps) {
   const navLinks = [
     {
       id: 'overview',
-      label: 'Overview',
+      label: t('nav_overview'),
       icon: Sprout,
       badge: 'Live',
     },
     {
       id: 'crop-advisory',
-      label: 'Crop Advisory',
+      label: t('nav_crop_advisory'),
       icon: Sprout,
     },
     {
       id: 'market-rates',
-      label: 'Mandi Rates',
+      label: t('nav_market_rates'),
       icon: TrendingUp,
     },
     {
       id: 'weather',
-      label: 'Weather & Soil',
+      label: t('nav_weather'),
       icon: CloudSun,
     },
     {
       id: 'schemes',
-      label: 'Govt Schemes',
+      label: t('nav_schemes'),
       icon: ShieldCheck,
     },
   ]
@@ -97,14 +99,14 @@ export function Taskbar({ onSettingsClick }: TaskbarProps) {
 
   return (
     <>
-      <header
-        className={`fixed top-0 left-0 right-0 z-50 w-full transition-all duration-300 ${
-          scrolled
-            ? 'bg-[#070B16]/95 border-b border-white/10 shadow-2xl py-3.5 px-6 sm:px-12 backdrop-blur-xl'
-            : 'bg-[#070B16]/80 border-b border-white/5 py-4 sm:py-5 px-6 sm:px-12 backdrop-blur-lg'
-        }`}
-      >
-        <div className="max-w-7xl mx-auto flex items-center justify-between">
+      <header className="fixed top-2.5 sm:top-4 left-0 right-0 z-50 px-3 sm:px-8 pointer-events-none transition-all duration-300">
+        <div
+          className={`max-w-7xl mx-auto rounded-2xl sm:rounded-full border transition-all duration-300 pointer-events-auto px-4 sm:px-8 py-2.5 sm:py-3 flex items-center justify-between shadow-2xl backdrop-blur-2xl ${
+            scrolled
+              ? 'bg-[#070B16]/95 border-white/15 shadow-black/80 ring-1 ring-white/10'
+              : 'bg-[#0B142A]/85 border-white/10 shadow-black/40'
+          }`}
+        >
           {/* Master Mazhi Sheti Brand Logo */}
           <Link href="/" className="group shrink-0 relative z-10 flex items-center" aria-label="Mazhi Sheti Home">
             <MazhiShetiLogo size={34} showText={true} showBadge={false} />
@@ -135,18 +137,21 @@ export function Taskbar({ onSettingsClick }: TaskbarProps) {
           </nav>
 
           {/* Right Actions: Clean, Spacious Controls */}
-          <div className="flex items-center gap-4 sm:gap-6">
+          <div className="flex items-center gap-2.5 sm:gap-4">
+            {/* Quick Language Switcher Button directly in Navbar */}
+            <LanguageSwitcher compact={true} />
+
             {/* Novu Notification Inbox */}
             <NotificationInbox />
 
             {/* Role Portals Link */}
             <Link
               href="/auth/select"
-              className="hidden sm:inline-flex items-center gap-2 text-sm font-medium text-emerald-400 hover:text-emerald-300 transition-colors"
+              className="hidden lg:inline-flex items-center gap-1.5 text-xs font-semibold text-emerald-400 hover:text-emerald-300 transition-colors"
               title="Select Role Portal"
             >
-              <ShieldCheck className="w-4 h-4" />
-              <span>Role Portals</span>
+              <ShieldCheck className="w-3.5 h-3.5" />
+              <span>{t('nav_role_portals')}</span>
             </Link>
 
             {/* Settings Status */}
@@ -156,46 +161,46 @@ export function Taskbar({ onSettingsClick }: TaskbarProps) {
                 setActiveModal('settings')
               }}
               type="button"
-              className="hidden lg:inline-flex items-center gap-2 text-sm font-medium text-slate-300 hover:text-white transition-colors"
+              className="hidden sm:inline-flex items-center gap-1.5 text-xs font-semibold text-slate-300 hover:text-white transition-colors"
             >
-              <Settings className="w-4 h-4 text-slate-400" />
-              <span>Settings</span>
+              <Settings className="w-3.5 h-3.5 text-slate-400" />
+              <span>{t('nav_settings')}</span>
             </button>
 
             {/* Clerk Authentication Controls */}
             <Show when="signed-out">
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-2">
                 <Link
                   href="/auth/select"
-                  className="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl text-xs font-sans font-bold uppercase tracking-wider bg-[#F5820D] hover:bg-[#ff9326] text-white shadow-lg shadow-orange-950/40 transition-all duration-200 active:scale-[0.98]"
+                  className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-sans font-bold uppercase tracking-wider bg-[#F5820D] hover:bg-[#ff9326] text-white shadow-lg shadow-orange-950/40 transition-all duration-200 active:scale-[0.98]"
                 >
                   <LogIn className="w-3.5 h-3.5" />
-                  <span>SIGN IN</span>
+                  <span>{t('nav_sign_in')}</span>
                 </Link>
 
                 <Link
                   href="/auth/select"
-                  className="hidden sm:inline-flex items-center px-5 py-2.5 rounded-xl border border-white/20 hover:border-white/40 text-white text-xs font-sans font-bold uppercase tracking-wider transition-all duration-200"
+                  className="hidden sm:inline-flex items-center px-3.5 py-2 rounded-xl border border-white/20 hover:border-white/40 text-white text-xs font-sans font-bold uppercase tracking-wider transition-all duration-200"
                 >
-                  <span>REGISTER</span>
+                  <span>{t('nav_register')}</span>
                 </Link>
               </div>
             </Show>
 
             <Show when="signed-in">
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-2">
                 <Link
                   href="/farmer/dashboard"
-                  className="hidden sm:inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-emerald-500/15 hover:bg-emerald-500/25 border border-emerald-500/30 text-emerald-400 text-xs font-mono font-bold transition-all shadow-sm"
+                  className="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-emerald-500/15 hover:bg-emerald-500/25 border border-emerald-500/30 text-emerald-400 text-xs font-mono font-bold transition-all shadow-sm"
                 >
                   <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-                  <span>Farm OS</span>
+                  <span>{t('nav_farm_os')}</span>
                 </Link>
 
                 <UserButton 
                   appearance={{
                     elements: {
-                      userButtonAvatarBox: 'w-9 h-9 rounded-xl border border-orange-500/40 shadow-md',
+                      userButtonAvatarBox: 'w-8 h-8 rounded-xl border border-orange-500/40 shadow-md',
                     }
                   }}
                 />
@@ -594,28 +599,44 @@ export function Taskbar({ onSettingsClick }: TaskbarProps) {
               <div className="p-4 rounded-2xl bg-white/[0.03] border border-white/5 space-y-2.5">
                 <span className="text-slate-300 font-bold block flex items-center gap-2">
                   <Globe className="w-4 h-4 text-orange-400" />
-                  <span>Platform Regional Language (भाषा)</span>
+                  <span>{t('settings_lang_label')}</span>
                 </span>
-                <div className="grid grid-cols-2 gap-2">
+                <p className="text-[11px] font-sans text-slate-400">
+                  {t('settings_lang_sub')}
+                </p>
+                <div className="grid grid-cols-3 gap-2">
                   <button
-                    onClick={() => setSelectedLanguage('mr')}
-                    className={`py-2 px-3 rounded-xl border text-center transition-all ${
-                      selectedLanguage === 'mr'
-                        ? 'bg-orange-500/20 border-orange-500 text-orange-300 font-bold'
+                    type="button"
+                    onClick={() => setLanguage('hi')}
+                    className={`py-2 px-2 rounded-xl border text-center font-sans transition-all text-xs ${
+                      language === 'hi'
+                        ? 'bg-orange-500/20 border-orange-500 text-orange-300 font-bold shadow-md'
                         : 'bg-white/[0.02] border-white/10 text-slate-400 hover:text-white'
                     }`}
                   >
-                    मराठी (महाराष्ट्र)
+                    🇮🇳 हिन्दी (Hindi)
                   </button>
                   <button
-                    onClick={() => setSelectedLanguage('en')}
-                    className={`py-2 px-3 rounded-xl border text-center transition-all ${
-                      selectedLanguage === 'en'
-                        ? 'bg-orange-500/20 border-orange-500 text-orange-300 font-bold'
+                    type="button"
+                    onClick={() => setLanguage('mr')}
+                    className={`py-2 px-2 rounded-xl border text-center font-sans transition-all text-xs ${
+                      language === 'mr'
+                        ? 'bg-orange-500/20 border-orange-500 text-orange-300 font-bold shadow-md'
                         : 'bg-white/[0.02] border-white/10 text-slate-400 hover:text-white'
                     }`}
                   >
-                    English (Standard)
+                    🚩 मराठी (Marathi)
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setLanguage('en')}
+                    className={`py-2 px-2 rounded-xl border text-center font-sans transition-all text-xs ${
+                      language === 'en'
+                        ? 'bg-orange-500/20 border-orange-500 text-orange-300 font-bold shadow-md'
+                        : 'bg-white/[0.02] border-white/10 text-slate-400 hover:text-white'
+                    }`}
+                  >
+                    🌐 English (Standard)
                   </button>
                 </div>
               </div>

@@ -25,11 +25,13 @@ import { Taskbar } from '@/components/layout/Taskbar'
 import { MazhiShetiLogo } from '@/components/ui/MazhiShetiLogo'
 import { HeroTelemetryCard } from '@/components/landing/HeroTelemetryCard'
 import { SmoothScroll } from '@/components/ui/SmoothScroll'
+import { useLanguage } from '@/lib/languageContext'
 
 // Dynamically import DotGrid to ensure canvas runs purely on client
 const DotGrid = dynamic(() => import('@/components/ui/DotGrid'), { ssr: false })
 
 export default function HomePage() {
+  const { language, t } = useLanguage()
   const [dotColor, setDotColor] = useState<'orange' | 'emerald' | 'cyan'>('orange')
   const heroRef = useRef<HTMLElement>(null)
 
@@ -40,78 +42,98 @@ export default function HomePage() {
   const roles = [
     {
       id: 'farmer',
-      title: 'Farmer Portal',
+      title: language === 'hi' ? 'किसान पोर्टल' : language === 'mr' ? 'शेतकरी पोर्टल' : 'Farmer Portal',
       marathi: 'शेतकरी प्रवेश',
-      subtitle: 'Individual Cultivator & Farm Owner',
-      description: 'Mobile OTP authentication, real-time soil telemetry, micro-irrigation controls, 6-stage organic transition, and APMC mandi benchmarks.',
+      subtitle: language === 'hi' ? 'व्यक्तिगत किसान एवं खेत मालिक' : language === 'mr' ? 'वैयक्तिक शेतकरी आणि जमीन मालक' : 'Individual Cultivator & Farm Owner',
+      description: language === 'hi'
+        ? 'मोबाइल प्रमाणीकरण, रीयल-टाइम मृदा टेलीमेट्री, सूक्ष्म सिंचाई नियंत्रण, 6-चरणीय जैविक परिवर्तन और मंडी भाव।'
+        : language === 'mr'
+        ? 'मोबाइल प्रमाणीकरण, रिअल-टाइम माती टेलीमेट्री, सूक्ष्म सिंचन नियंत्रण, ६-टप्प्यांचे सेंद्रिय परिवर्तन आणि बाजार भाव.'
+        : 'Mobile OTP authentication, real-time soil telemetry, micro-irrigation controls, 6-stage organic transition, and APMC mandi benchmarks.',
       icon: Sprout,
       color: 'text-emerald-400',
       bgColor: 'bg-emerald-500/10',
       borderColor: 'border-emerald-500/30 hover:border-emerald-400 hover:shadow-emerald-950/30 hover:bg-[#0C1A38]',
       badgeColor: 'bg-emerald-500/15 text-emerald-400 border-emerald-500/30',
-      badge: 'Primary Account',
+      badge: language === 'hi' ? 'प्राथमिक खाता' : language === 'mr' ? 'मुख्य खाते' : 'Primary Account',
       href: '/auth/farmer',
-      ctaText: 'Access Farmer Portal',
+      ctaText: language === 'hi' ? 'किसान पोर्टल खोलें' : language === 'mr' ? 'शेतकरी पोर्टल उघडा' : 'Access Farmer Portal',
     },
     {
       id: 'bank',
-      title: 'Bank & Financial Portal',
+      title: language === 'hi' ? 'बैंक एवं वित्तीय पोर्टल' : language === 'mr' ? 'बँक व संस्था दालन' : 'Bank & Financial Portal',
       marathi: 'बँक व संस्था',
-      subtitle: 'Credit Officers & Institutional Lenders',
-      description: 'Review Kisan Credit Card (KCC) applications, inspect consent-verified farm land records, and monitor loan disbursements.',
+      subtitle: language === 'hi' ? 'क्रेडिट अधिकारी एवं संस्थागत ऋणदाता' : language === 'mr' ? 'पत अधिकारी आणि संस्थात्मक सावकार' : 'Credit Officers & Institutional Lenders',
+      description: language === 'hi'
+        ? 'किसान क्रेडिट कार्ड (KCC) आवेदनों की समीक्षा, सहमति-सत्यापित भूमि रिकॉर्ड और ऋण वितरण की निगरानी।'
+        : language === 'mr'
+        ? 'किसान क्रेडिट कार्ड (KCC) अर्जांचे पुनरावलोकन, संमती-सत्यापित शेतजमीन नोंदी आणि कर्ज वितरणाचे निरीक्षण.'
+        : 'Review Kisan Credit Card (KCC) applications, inspect consent-verified farm land records, and monitor loan disbursements.',
       icon: Landmark,
       color: 'text-blue-400',
       bgColor: 'bg-blue-500/10',
       borderColor: 'border-blue-500/30 hover:border-blue-400 hover:shadow-blue-950/30 hover:bg-[#0C1A38]',
       badgeColor: 'bg-blue-500/15 text-blue-400 border-blue-500/30',
-      badge: 'Institutional Portal',
+      badge: language === 'hi' ? 'संस्थागत पोर्टल' : language === 'mr' ? 'संस्थात्मक दालन' : 'Institutional Portal',
       href: '/auth/bank',
-      ctaText: 'Institutional Sign In',
+      ctaText: language === 'hi' ? 'बैंक साइन इन' : language === 'mr' ? 'बँक लॉगिन' : 'Institutional Sign In',
     },
     {
       id: 'provider',
-      title: 'Machinery Fleet Provider',
+      title: language === 'hi' ? 'कृषि मशीनरी फ्लीट प्रदाता' : language === 'mr' ? 'यंत्रसामग्री पुरवठादार' : 'Machinery Fleet Provider',
       marathi: 'यंत्रसामग्री पुरवठादार',
-      subtitle: 'Tractor Fleet Owners & Custom Hiring Hubs',
-      description: 'Manage tractors, rotavators, and laser levelers. Set hourly and acreage rates, dispatch equipment, and manage farmer bookings.',
+      subtitle: language === 'hi' ? 'ट्रैक्टर फ्लीट मालिक एवं कस्टम हायरिंग केंद्र' : language === 'mr' ? 'ट्रॅक्टर फ्लीट मालक आणि कस्टम हायरिंग हब' : 'Tractor Fleet Owners & Custom Hiring Hubs',
+      description: language === 'hi'
+        ? 'ट्रैक्टर, रोटावेटर और लेजर लेवलर प्रबंधित करें। प्रति घंटा दर निर्धारित करें और किसानों की बुकिंग प्रबंधित करें।'
+        : language === 'mr'
+        ? 'ट्रॅक्टर, रोटाव्हेटर आणि लेझर लेव्हलर व्यवस्थापित करा. तासाचे दर ठरवा आणि शेतकऱ्यांचे बुकिंग सांभाळा.'
+        : 'Manage tractors, rotavators, and laser levelers. Set hourly and acreage rates, dispatch equipment, and manage farmer bookings.',
       icon: Tractor,
       color: 'text-orange-400',
       bgColor: 'bg-orange-500/10',
       borderColor: 'border-orange-500/30 hover:border-orange-400 hover:shadow-orange-950/30 hover:bg-[#0C1A38]',
       badgeColor: 'bg-orange-500/15 text-orange-400 border-orange-500/30',
-      badge: 'Business Fleet',
+      badge: language === 'hi' ? 'व्यापारिक फ्लीट' : language === 'mr' ? 'व्यवसाय फ्लीट' : 'Business Fleet',
       href: '/auth/provider',
-      ctaText: 'Provider Sign In',
+      ctaText: language === 'hi' ? 'प्रदाता साइन इन' : language === 'mr' ? 'पुरवठादार लॉगिन' : 'Provider Sign In',
     },
     {
       id: 'expert',
-      title: 'Agronomist & Expert Network',
+      title: language === 'hi' ? 'कृषि विशेषज्ञ नेटवर्क' : language === 'mr' ? 'कृषी तज्ञ नेटवर्क' : 'Agronomist & Expert Network',
       marathi: 'कृषी तज्ञ',
-      subtitle: 'Soil Scientists & Crop Advisors',
-      description: 'Provide certified soil test interpretations, pest diagnostic guidance, and scientifically backed biological transition roadmaps.',
+      subtitle: language === 'hi' ? 'मृदा वैज्ञानिक एवं फसल सलाहकार' : language === 'mr' ? 'मृदा शास्त्रज्ञ आणि पीक सल्लागार' : 'Soil Scientists & Crop Advisors',
+      description: language === 'hi'
+        ? 'प्रमाणित मृदा परीक्षण विश्लेषण, कीट निदान मार्गदर्शन और वैज्ञानिक जैविक परिवर्तन रोडमैप प्रदान करें।'
+        : language === 'mr'
+        ? 'प्रमाणित माती चाचणी विश्लेषण, कीड निदान मार्गदर्शन आणि शास्त्रीय सेंद्रिय संक्रमण आराखडे प्रदान करा.'
+        : 'Provide certified soil test interpretations, pest diagnostic guidance, and scientifically backed biological transition roadmaps.',
       icon: Microscope,
       color: 'text-purple-400',
       bgColor: 'bg-purple-500/10',
       borderColor: 'border-purple-500/30 hover:border-purple-400 hover:shadow-purple-950/30 hover:bg-[#0C1A38]',
       badgeColor: 'bg-purple-500/15 text-purple-400 border-purple-500/30',
-      badge: 'Certified Advisory',
+      badge: language === 'hi' ? 'प्रमाणित परामर्श' : language === 'mr' ? 'प्रमाणित सल्ला' : 'Certified Advisory',
       href: '/auth/expert',
-      ctaText: 'Expert Sign In',
+      ctaText: language === 'hi' ? 'विशेषज्ञ साइन इन' : language === 'mr' ? 'तज्ञ लॉगिन' : 'Expert Sign In',
     },
     {
       id: 'admin',
-      title: 'Platform Governance & Admin',
+      title: language === 'hi' ? 'प्लेटफॉर्म गवर्नेंस एवं एडमिन' : language === 'mr' ? 'प्लॅटफॉर्म प्रशासन कक्ष' : 'Platform Governance & Admin',
       marathi: 'प्रशासन कक्ष',
-      subtitle: 'Platform Oversight & Compliance',
-      description: 'Audit log inspection, institutional partner verifications, LoRaWAN IoT gateway monitoring, and user registry administration.',
+      subtitle: language === 'hi' ? 'प्लेटफॉर्म निगरानी एवं अनुपालन' : language === 'mr' ? 'प्लॅटफॉर्म देखरेख आणि अनुपालन' : 'Platform Oversight & Compliance',
+      description: language === 'hi'
+        ? 'ऑडिट लॉग निरीक्षण, संस्थागत भागीदार सत्यापन, IoT गेटवे निगरानी और उपयोगकर्ता रजिस्ट्री प्रशासन।'
+        : language === 'mr'
+        ? 'ऑडिट लॉग तपासणी, संस्थात्मक भागीदार पडताळणी, IoT गेटवे मॉनिटरिंग आणि युझर नोंदणी प्रशासन.'
+        : 'Audit log inspection, institutional partner verifications, LoRaWAN IoT gateway monitoring, and user registry administration.',
       icon: ShieldAlert,
       color: 'text-red-400',
       bgColor: 'bg-red-500/10',
       borderColor: 'border-red-500/30 hover:border-red-400 hover:shadow-rose-950/30 hover:bg-[#0C1A38]',
       badgeColor: 'bg-red-500/15 text-red-400 border-red-500/30',
-      badge: 'Restricted Access',
+      badge: language === 'hi' ? 'रूट एक्सेस' : language === 'mr' ? 'रूट ॲक्सेस' : 'Restricted Access',
       href: '/auth/admin',
-      ctaText: 'Admin Gateway',
+      ctaText: language === 'hi' ? 'एडमिन साइन इन' : language === 'mr' ? 'प्रशासक लॉगिन' : 'Admin Gateway',
     },
   ]
 
@@ -254,7 +276,11 @@ export default function HomePage() {
             <div id="hero-eyebrow" className="mb-3">
               <p className="text-emerald-400 font-mono text-xs sm:text-sm tracking-[0.25em] uppercase font-bold flex items-center justify-center gap-2">
                 <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-                Role-Based Sovereign Agriculture Network
+                {language === 'hi' 
+                  ? 'भूमिका-आधारित संप्रभु कृषि नेटवर्क' 
+                  : language === 'mr' 
+                  ? 'भूमिका-आधारित स्वायत्त कृषी नेटवर्क' 
+                  : 'Role-Based Sovereign Agriculture Network'}
               </p>
             </div>
 
@@ -263,10 +289,28 @@ export default function HomePage() {
               id="hero-headline"
               className="font-display font-black text-5xl sm:text-7xl md:text-8xl tracking-tight text-white leading-[1.06] drop-shadow-md uppercase max-w-5xl mx-auto my-6 sm:my-8"
             >
-              Everything your farm needs, <br />
-              <span className="text-[#F5820D] drop-shadow-sm">
-                in one place.
-              </span>
+              {language === 'hi' ? (
+                <>
+                  आपकी खेती की हर ज़रूरत, <br />
+                  <span className="text-[#F5820D] drop-shadow-sm">
+                    एक ही स्थान पर।
+                  </span>
+                </>
+              ) : language === 'mr' ? (
+                <>
+                  तुमच्या शेतीची प्रत्येक गरज, <br />
+                  <span className="text-[#F5820D] drop-shadow-sm">
+                    एकाच ठिकाणी.
+                  </span>
+                </>
+              ) : (
+                <>
+                  Everything your farm needs, <br />
+                  <span className="text-[#F5820D] drop-shadow-sm">
+                    in one place.
+                  </span>
+                </>
+              )}
             </h1>
 
             {/* Sub-headline */}
@@ -274,7 +318,11 @@ export default function HomePage() {
               id="hero-description"
               className="font-sans text-lg sm:text-xl md:text-2xl text-blue-100/80 max-w-3xl mx-auto leading-relaxed font-normal mb-8"
             >
-              Sovereign agricultural infrastructure with strict role-based access for farmers, lending institutions, equipment providers, agronomists, and administrators.
+              {language === 'hi'
+                ? 'किसानों, वित्तीय संस्थानों, कृषि यंत्र प्रदाताओं, विशेषज्ञों और प्रशासकों के लिए सुरक्षित भूमिका-आधारित मंच।'
+                : language === 'mr'
+                ? 'शेतकरी, वित्तीय संस्था, यंत्रसामग्री पुरवठादार, कृषी तज्ञ आणि प्रशासकांसाठी सुरक्षित भूमिका-आधारित व्यासपीठ.'
+                : 'Sovereign agricultural infrastructure with strict role-based access for farmers, lending institutions, equipment providers, agronomists, and administrators.'}
             </p>
 
             {/* CTAs */}
@@ -286,16 +334,28 @@ export default function HomePage() {
                 href="#portals"
                 className="w-full sm:w-auto px-10 py-4 rounded-xl bg-[#22A567] hover:bg-[#1b8552] text-white font-black text-sm uppercase tracking-wider transition-all duration-200 shadow-xl hover:shadow-emerald-950/40 flex items-center justify-center gap-2.5 group hover:-translate-y-0.5 active:scale-[0.98]"
               >
-                <span>CHOOSE YOUR ROLE PORTAL</span>
+                <span>
+                  {language === 'hi' 
+                    ? 'अपना रोल पोर्टल चुनें' 
+                    : language === 'mr' 
+                    ? 'आपले भूमिका दालन निवडा' 
+                    : 'CHOOSE YOUR ROLE PORTAL'}
+                </span>
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </a>
 
               <Link
-                href="/auth/select"
+                href="/farmer/equipment"
                 className="w-full sm:w-auto px-9 py-4 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] text-orange-400 border-2 border-orange-500/70 hover:border-orange-400 text-sm font-mono font-bold transition-all duration-200 flex items-center justify-center gap-2 tracking-wide shadow-lg hover:-translate-y-0.5 active:scale-[0.98]"
               >
-                <ShieldCheck className="w-4 h-4 text-orange-400" />
-                <span>ROLE GATEWAYS</span>
+                <Tractor className="w-4 h-4 text-orange-400" />
+                <span>
+                  {language === 'hi' 
+                    ? 'ट्रैक्टर किराया (डेमो)' 
+                    : language === 'mr' 
+                    ? 'ट्रॅक्टर भाडे (डेमो)' 
+                    : 'RENT TRACTOR (DEMO)'}
+                </span>
                 <span className="text-orange-400">→</span>
               </Link>
             </div>
@@ -307,15 +367,15 @@ export default function HomePage() {
             >
               <span className="flex items-center gap-2">
                 <CheckCircle2 className="w-4 h-4 text-emerald-400" />
-                Tenant-Isolated Access
+                {language === 'hi' ? 'सुरक्षित प्रमाणीकरण' : language === 'mr' ? 'सुरक्षित प्रमाणीकरण' : 'Tenant-Isolated Access'}
               </span>
               <span className="flex items-center gap-2">
                 <CheckCircle2 className="w-4 h-4 text-emerald-400" />
-                Consent-Governed Data
+                {language === 'hi' ? 'सहमति-आधारित डेटा' : language === 'mr' ? 'संमती-आधारित डेटा' : 'Consent-Governed Data'}
               </span>
               <span className="flex items-center gap-2">
                 <CheckCircle2 className="w-4 h-4 text-emerald-400" />
-                Clerk Identity Protected
+                {language === 'hi' ? 'क्लर्क पहचान सुरक्षित' : language === 'mr' ? 'क्लर्क ओळख सुरक्षित' : 'Clerk Identity Protected'}
               </span>
             </div>
 
