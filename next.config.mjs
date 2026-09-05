@@ -22,8 +22,8 @@ const nextConfig = {
 
 const sentryWebpackPluginOptions = {
   silent: true,
-  org: process.env.SENTRY_ORG,
-  project: process.env.SENTRY_PROJECT,
+  org: process.env.SENTRY_ORG || 'vineet-ravi-mandhalkar',
+  project: process.env.SENTRY_PROJECT || 'mazhisheti',
   widenClientFileUpload: true,
   hideSourceMaps: true,
   disableLogger: true,
