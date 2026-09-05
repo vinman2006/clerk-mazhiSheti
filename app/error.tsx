@@ -4,7 +4,6 @@ import React, { useEffect } from 'react'
 import Link from 'next/link'
 import * as Sentry from '@sentry/nextjs'
 import { RotateCcw, Home, AlertTriangle } from 'lucide-react'
-import { FarmerLogo } from '@/components/ui/FarmerLogo'
 
 export default function ErrorBoundaryPage({
   error,

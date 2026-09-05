@@ -21,8 +21,6 @@ import {
   Clock,
   ExternalLink
 } from 'lucide-react'
-
-import { FarmerLogo } from '@/components/ui/FarmerLogo'
 import { useUser } from '@clerk/nextjs'
 import { X } from 'lucide-react'
 

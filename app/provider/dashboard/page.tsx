@@ -14,7 +14,7 @@ import {
   ShieldCheck,
   CheckCircle2
 } from 'lucide-react'
-import { FarmerLogo } from '@/components/ui/FarmerLogo'
+import { MazhiShetiLogo } from '@/components/ui/MazhiShetiLogo'
 import { UserButton, useUser } from '@clerk/nextjs'
 import { Wrench, Tag } from 'lucide-react'
 
@@ -134,7 +134,7 @@ export default function ProviderDashboardPage() {
       <header className="sticky top-0 z-40 bg-[#0B152E]/90 backdrop-blur-xl border-b border-white/10 px-6 sm:px-10 py-3.5 flex items-center justify-between shadow-xl">
         <div className="flex items-center gap-6">
           <Link href="/provider/dashboard" className="flex items-center gap-3">
-            <FarmerLogo size={32} showText={true} showBadge={false} subtitle="EQUIPMENT & MACHINERY FLEET" />
+            <MazhiShetiLogo size={32} showText={true} showBadge={true} roleLabel="Equipment Provider" subtitle="SOVEREIGN AGRI PLATFORM" />
           </Link>
           <div className="hidden lg:flex items-center gap-2 px-3 py-1 rounded-xl bg-orange-500/10 border border-orange-500/20 text-xs font-mono">
             <Tractor className="w-3.5 h-3.5 text-orange-400" />

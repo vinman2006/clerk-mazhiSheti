@@ -4,7 +4,17 @@ import './globals.css'
 
 export const metadata: Metadata = {
   title: 'Mazhi Sheti — Smart Agriculture Platform',
-  description: 'Intelligent farming advisory, mandi price trends, and farmer network with modern interactive technology.',
+  description: 'Sovereign agricultural infrastructure with role-based access for farmers, lending institutions, equipment providers, agronomists, and administrators.',
+  applicationName: 'Mazhi Sheti',
+  icons: {
+    icon: '/favicon.svg',
+    apple: '/app-icon.svg',
+  },
+  openGraph: {
+    title: 'Mazhi Sheti — Sovereign Agriculture Platform',
+    description: 'Intelligent farming advisory, mandi price benchmarks, and secure role-based portals for Indian agriculture.',
+    siteName: 'Mazhi Sheti',
+  },
 }
 
 export default function RootLayout({
@@ -15,7 +25,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <body className="bg-[#0B0E17] text-[#F4F6FB] min-h-screen antialiased selection:bg-orange-500/25 selection:text-orange-400 overflow-x-hidden">
-        <ClerkProvider>
+        <ClerkProvider publishableKey={process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY}>
           {children}
         </ClerkProvider>
       </body>

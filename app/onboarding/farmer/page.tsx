@@ -15,7 +15,7 @@ import {
   Sparkles,
   ShieldCheck
 } from 'lucide-react'
-import { FarmerLogo } from '@/components/ui/FarmerLogo'
+import { MazhiShetiLogo } from '@/components/ui/MazhiShetiLogo'
 import dynamic from 'next/dynamic'
 
 const DotGrid = dynamic(() => import('@/components/ui/DotGrid'), { ssr: false })
@@ -101,7 +101,7 @@ export default function FarmerOnboardingPage() {
       {/* Top Header */}
       <header className="relative z-10 py-5 px-6 sm:px-12 border-b border-white/10 bg-[#0B1736]/70 backdrop-blur-xl flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <FarmerLogo size={36} showText={true} showBadge={true} subtitle="FARM PROFILE SETUP" />
+          <MazhiShetiLogo size={36} showText={true} showBadge={true} roleLabel="Farmer" subtitle="FARM PROFILE SETUP" />
         </div>
 
         {/* Step Indicator Badges */}

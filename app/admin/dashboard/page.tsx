@@ -25,7 +25,7 @@ import {
   ShieldCheck,
   Server
 } from 'lucide-react'
-import { FarmerLogo } from '@/components/ui/FarmerLogo'
+import { MazhiShetiLogo } from '@/components/ui/MazhiShetiLogo'
 import { UserButton, useUser } from '@clerk/nextjs'
 
 interface OrganizationItem {
@@ -233,17 +233,8 @@ export default function AdminDashboardPage() {
       {/* Top Admin Navigation Header */}
       <header className="sticky top-0 z-40 bg-[#0B152E]/95 backdrop-blur-xl border-b border-rose-500/20 px-6 sm:px-10 py-3.5 flex items-center justify-between shadow-xl">
         <div className="flex items-center gap-6">
-          <Link href="/" className="flex items-center gap-3 group">
-            <FarmerLogo className="w-8 h-8 group-hover:scale-105 transition-transform" />
-            <div className="flex flex-col">
-              <div className="flex items-center gap-2">
-                <span className="font-display font-black text-sm text-white tracking-wider uppercase">Mazhi Sheti</span>
-                <span className="px-2 py-0.5 rounded bg-rose-950/80 border border-rose-500/40 text-rose-400 text-[10px] font-mono font-bold tracking-widest uppercase">
-                  ROOT ADMIN
-                </span>
-              </div>
-              <span className="text-[10px] font-mono text-slate-400">Unified Agricultural Security & Governance Console</span>
-            </div>
+          <Link href="/admin/dashboard" className="flex items-center gap-3 group">
+            <MazhiShetiLogo size={34} showText={true} showBadge={true} roleLabel="Admin" subtitle="SOVEREIGN AGRI PLATFORM" />
           </Link>
         </div>
 

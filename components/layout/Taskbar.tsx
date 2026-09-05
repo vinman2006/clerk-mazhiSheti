@@ -23,7 +23,7 @@ import {
   Tag,
   Landmark
 } from 'lucide-react'
-import { FarmerLogo } from '@/components/ui/FarmerLogo'
+import { MazhiShetiLogo } from '@/components/ui/MazhiShetiLogo'
 import { SignInButton, SignUpButton, Show, UserButton } from '@clerk/nextjs'
 import dynamic from 'next/dynamic'
 
@@ -107,9 +107,9 @@ export function Taskbar({ onSettingsClick }: TaskbarProps) {
           }`}
         >
           <div className="flex items-center justify-between">
-            {/* Logo with agricultural emblem */}
+            {/* Master Mazhi Sheti Brand Logo */}
             <Link href="/" className="group shrink-0 relative z-10 flex items-center">
-              <FarmerLogo size={34} showText={true} showBadge={true} subtitle="SMART AGRI-TECH PLATFORM" />
+              <MazhiShetiLogo size={34} showText={true} showBadge={true} subtitle="SOVEREIGN AGRI PLATFORM" />
             </Link>
 
             {/* Desktop Navigation Links with Smooth Animated Pill */}

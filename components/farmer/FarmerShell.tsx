@@ -17,7 +17,7 @@ import {
   ArrowLeft,
   Wind
 } from 'lucide-react'
-import { FarmerLogo } from '@/components/ui/FarmerLogo'
+import { MazhiShetiLogo } from '@/components/ui/MazhiShetiLogo'
 import { UserButton, useUser } from '@clerk/nextjs'
 import dynamic from 'next/dynamic'
 
@@ -53,7 +53,7 @@ export default function FarmerShell({ children, userRole }: FarmerShellProps) {
       <header className="sticky top-0 z-40 bg-[#0B142A]/90 backdrop-blur-xl border-b border-white/10 px-4 sm:px-8 py-3 flex items-center justify-between shadow-lg">
         <div className="flex items-center gap-6">
           <Link href="/farmer/dashboard" className="flex items-center gap-2">
-            <FarmerLogo size={32} showText={true} showBadge={true} subtitle="FARM OPERATING PLATFORM" />
+            <MazhiShetiLogo size={32} showText={true} showBadge={true} roleLabel="Farmer" subtitle="SOVEREIGN AGRI PLATFORM" />
           </Link>
 
           {/* Farm Switcher / Badge */}
