@@ -23,8 +23,6 @@ import {
 import { FarmerLogo } from '@/components/ui/FarmerLogo'
 import { UserButton, useUser } from '@clerk/nextjs'
 import dynamic from 'next/dynamic'
-import PitchRoleSwitcher from '@/components/ui/PitchRoleSwitcher'
-
 const NotificationInbox = dynamic(() => import('@/components/ui/NotificationInbox'), { ssr: false })
 
 interface FarmerLayoutProps {
@@ -88,8 +86,11 @@ export default function FarmerLayout({ children }: FarmerLayoutProps) {
           {/* Novu Notification Inbox */}
           <NotificationInbox />
 
-          {/* Pitch Role Switcher */}
-          <PitchRoleSwitcher currentRole="farmer" />
+          {/* Verified Role Indicator */}
+          <div className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-xs font-mono text-emerald-300">
+            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+            <span className="font-bold">Farmer Role</span>
+          </div>
 
           <UserButton 
             appearance={{

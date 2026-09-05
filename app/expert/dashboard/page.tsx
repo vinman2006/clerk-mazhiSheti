@@ -14,7 +14,6 @@ import {
 } from 'lucide-react'
 import { FarmerLogo } from '@/components/ui/FarmerLogo'
 import { UserButton, useUser } from '@clerk/nextjs'
-import PitchRoleSwitcher from '@/components/ui/PitchRoleSwitcher'
 
 export default function ExpertDashboardPage() {
   const { user } = useUser()
@@ -71,8 +70,11 @@ export default function ExpertDashboardPage() {
             ← Home
           </Link>
 
-          {/* Pitch Role Switcher */}
-          <PitchRoleSwitcher currentRole="expert" />
+          {/* Verified Role Indicator */}
+          <div className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-purple-500/10 border border-purple-500/30 text-xs font-mono text-purple-300">
+            <span className="w-2 h-2 rounded-full bg-purple-400 animate-pulse" />
+            <span className="font-bold">Expert Advisory</span>
+          </div>
 
           <UserButton 
             appearance={{

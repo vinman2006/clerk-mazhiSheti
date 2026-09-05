@@ -9,7 +9,6 @@ import { SignInButton, SignUpButton, Show, UserButton } from '@clerk/nextjs'
 import dynamic from 'next/dynamic'
 
 const NotificationInbox = dynamic(() => import('@/components/ui/NotificationInbox'), { ssr: false })
-import PitchRoleSwitcher from '@/components/ui/PitchRoleSwitcher'
 
 interface TaskbarProps {
   onSettingsClick?: () => void
@@ -146,7 +145,15 @@ export function Taskbar({ onSettingsClick }: TaskbarProps) {
             {/* Novu Notification Inbox */}
             <NotificationInbox />
 
-            <PitchRoleSwitcher currentRole="portal" />
+            {/* Proper Role-Based Access Link */}
+            <Link
+              href="/auth/select"
+              className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white/[0.06] hover:bg-white/[0.1] border border-white/15 text-xs font-mono font-semibold text-blue-100 hover:text-white transition-all shadow-sm group"
+              title="Select Role Portal"
+            >
+              <ShieldCheck className="w-3.5 h-3.5 text-emerald-400 group-hover:scale-110 transition-transform" />
+              <span>Role Portals</span>
+            </Link>
 
             {/* Clerk Authentication Controls */}
             <Show when="signed-out">

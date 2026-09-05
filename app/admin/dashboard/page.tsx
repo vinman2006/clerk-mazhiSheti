@@ -27,7 +27,6 @@ import {
 } from 'lucide-react'
 import { FarmerLogo } from '@/components/ui/FarmerLogo'
 import { UserButton, useUser } from '@clerk/nextjs'
-import PitchRoleSwitcher from '@/components/ui/PitchRoleSwitcher'
 
 interface OrganizationItem {
   id: string
@@ -201,8 +200,11 @@ export default function AdminDashboardPage() {
             <span>Portal Home</span>
           </Link>
 
-          {/* Pitch Role Switcher */}
-          <PitchRoleSwitcher currentRole="admin" />
+          {/* Verified Role Indicator */}
+          <div className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-red-500/10 border border-red-500/30 text-xs font-mono text-red-300">
+            <span className="w-2 h-2 rounded-full bg-red-400 animate-pulse" />
+            <span className="font-bold">Super Admin</span>
+          </div>
 
           <UserButton 
             appearance={{

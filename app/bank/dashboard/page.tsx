@@ -18,7 +18,6 @@ import {
 } from 'lucide-react'
 import { FarmerLogo } from '@/components/ui/FarmerLogo'
 import { UserButton, useUser } from '@clerk/nextjs'
-import PitchRoleSwitcher from '@/components/ui/PitchRoleSwitcher'
 
 export default function BankDashboardPage() {
   const { user } = useUser()
@@ -94,8 +93,11 @@ export default function BankDashboardPage() {
             ← Home
           </Link>
 
-          {/* Pitch Role Switcher */}
-          <PitchRoleSwitcher currentRole="bank" />
+          {/* Verified Role Indicator */}
+          <div className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-blue-500/10 border border-blue-500/30 text-xs font-mono text-blue-300">
+            <span className="w-2 h-2 rounded-full bg-blue-400 animate-pulse" />
+            <span className="font-bold">Bank Portal</span>
+          </div>
 
           <UserButton 
             appearance={{
